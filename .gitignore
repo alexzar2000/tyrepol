@@ -3,3 +3,8 @@ wp-content/uploads/
 wp-content/cache/
 .htaccess
 *.log
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+.vscode/
