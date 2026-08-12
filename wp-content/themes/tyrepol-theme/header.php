@@ -23,7 +23,7 @@
       <nav class="header__nav" id="header-nav">
         <ul class="header__list">
           <li class="header__item">
-            <a class="header__link <?php echo is_front_page() ? 'header__link--active' : ''; ?>" href="<?php echo esc_url(home_url('/')); ?>">Główna</a>
+            <a class="header__link <?php echo is_front_page() ? 'header__link--active' : ''; ?>" href="<?php echo esc_url(home_url('/')); ?>">Główna 1</a>
           </li>
           <li class="header__item">
             <a class="header__link" href="<?php echo esc_url(home_url('/opony/')); ?>">Opony / Marki</a>
