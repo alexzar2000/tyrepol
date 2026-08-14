@@ -48,6 +48,12 @@ add_action('admin_init', 'tyrepol_maybe_create_settings_page');
 /**
  * Skrót w menu panelu prowadzący prosto do edycji strony „Ustawienia motywu” — żeby nie trzeba
  * było jej szukać na liście Stron (ma status „prywatna”, więc normalnie jest mniej widoczna).
+ *
+ * Uwaga: samo przekierowanie NIE może się odbywać w funkcji-callbacku podpiętej pod
+ * add_menu_page() — WordPress w tym momencie ma już wysłane nagłówki (wyrenderował górny pasek
+ * i menu boczne), więc wp_safe_redirect() po cichu nie zadziała i zostaje pusta strona (dokładnie
+ * ten błąd, który był widoczny w panelu). Dlatego przekierowanie wykonuje się wcześniej, w hooku
+ * admin_init — zanim WordPress zacznie cokolwiek wypisywać.
  */
 add_action('admin_menu', function () {
     $id = (int) get_option('tyrepol_settings_page_id');
@@ -58,13 +64,21 @@ add_action('admin_menu', function () {
         __('Ustawienia motywu', 'tyrepol'),
         'edit_theme_options',
         'tyrepol-ustawienia',
-        function () use ($id) {
-            wp_safe_redirect(admin_url('post.php?post=' . $id . '&action=edit'));
-            exit;
-        },
+        '__return_null',
         'dashicons-admin-generic',
         61
     );
+});
+
+add_action('admin_init', function () {
+    if (!isset($_GET['page']) || $_GET['page'] !== 'tyrepol-ustawienia') return;
+    if (!current_user_can('edit_theme_options')) return;
+
+    $id = tyrepol_settings_page_id();
+    if ($id) {
+        wp_safe_redirect(admin_url('post.php?post=' . $id . '&action=edit'));
+        exit;
+    }
 });
 
 /** ID strony „Ustawienia motywu” — używane przez tyrepol_opt() i pola ACF z location „ta strona”. */
