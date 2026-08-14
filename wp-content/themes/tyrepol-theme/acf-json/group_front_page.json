@@ -2,55 +2,107 @@
     "key": "group_tyrepol_front_page",
     "title": "Strona główna",
     "fields": [
+        {"key": "field_fp_tab_hero", "label": "Slajder hero", "name": "tab_hero", "type": "tab"},
         {
-            "key": "field_fp_hero_slajdy",
-            "label": "Slajder główny (hero)",
-            "name": "hero_slajdy",
-            "type": "repeater",
-            "layout": "block",
-            "button_label": "Dodaj slajd",
-            "min": 1,
+            "key": "field_fp_hero_1", "label": "Slajd 1", "name": "hero_slajd_1", "type": "group",
             "sub_fields": [
-                {"key": "field_fp_hero_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id", "required": 1},
-                {"key": "field_fp_hero_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text", "required": 1},
-                {"key": "field_fp_hero_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
-                {"key": "field_fp_hero_link_tekst", "label": "Tekst przycisku", "name": "link_tekst", "type": "text"},
-                {"key": "field_fp_hero_link_url", "label": "Adres przycisku", "name": "link_url", "type": "url"}
+                {"key": "field_fp_h1_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                {"key": "field_fp_h1_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text"},
+                {"key": "field_fp_h1_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_fp_h1_link_tekst", "label": "Tekst przycisku", "name": "link_tekst", "type": "text"},
+                {"key": "field_fp_h1_link_url", "label": "Adres przycisku", "name": "link_url", "type": "url"}
             ]
         },
-        {"key": "field_fp_marki_naglowek", "label": "Sekcja marek — nagłówek", "name": "marki_naglowek", "type": "text"},
-        {"key": "field_fp_marki_opis", "label": "Sekcja marek — opis", "name": "marki_opis", "type": "textarea", "rows": 2},
-        {"key": "field_fp_cta_tekst", "label": "Tekst przycisku CTA (otwiera popup wyceny)", "name": "cta_miedzysekcyjne_tekst", "type": "text", "default_value": "Darmowa wycena"},
-        {"key": "field_fp_liczniki_tytul", "label": "Liczniki — nagłówek", "name": "liczniki_tytul", "type": "text"},
-        {"key": "field_fp_liczniki_opis", "label": "Liczniki — opis", "name": "liczniki_opis", "type": "textarea", "rows": 2},
         {
-            "key": "field_fp_liczniki_pozycje",
-            "label": "Liczniki — pozycje",
-            "name": "liczniki_pozycje",
-            "type": "repeater",
-            "layout": "table",
-            "button_label": "Dodaj licznik",
+            "key": "field_fp_hero_2", "label": "Slajd 2", "name": "hero_slajd_2", "type": "group",
             "sub_fields": [
-                {"key": "field_fp_licznik_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
-                {"key": "field_fp_licznik_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number", "required": 1},
-                {"key": "field_fp_licznik_etykieta", "label": "Podpis", "name": "etykieta", "type": "text", "required": 1},
-                {"key": "field_fp_licznik_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                {"key": "field_fp_h2_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                {"key": "field_fp_h2_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text"},
+                {"key": "field_fp_h2_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_fp_h2_link_tekst", "label": "Tekst przycisku", "name": "link_tekst", "type": "text"},
+                {"key": "field_fp_h2_link_url", "label": "Adres przycisku", "name": "link_url", "type": "url"}
             ]
         },
-        {"key": "field_fp_faq_tytul", "label": "FAQ — nagłówek", "name": "faq_tytul", "type": "text", "default_value": "FAQ"},
-        {"key": "field_fp_faq_opis", "label": "FAQ — opis", "name": "faq_opis", "type": "textarea", "rows": 2},
         {
-            "key": "field_fp_faq_pytania",
-            "label": "FAQ — pytania",
-            "name": "faq_pytania",
-            "type": "repeater",
-            "layout": "block",
-            "button_label": "Dodaj pytanie",
+            "key": "field_fp_hero_3", "label": "Slajd 3", "name": "hero_slajd_3", "type": "group",
             "sub_fields": [
-                {"key": "field_fp_faq_pytanie", "label": "Pytanie", "name": "pytanie", "type": "text"},
-                {"key": "field_fp_faq_odpowiedz", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}
+                {"key": "field_fp_h3_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                {"key": "field_fp_h3_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text"},
+                {"key": "field_fp_h3_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_fp_h3_link_tekst", "label": "Tekst przycisku", "name": "link_tekst", "type": "text"},
+                {"key": "field_fp_h3_link_url", "label": "Adres przycisku", "name": "link_url", "type": "url"}
             ]
-        }
+        },
+        {
+            "key": "field_fp_hero_4", "label": "Slajd 4 (opcjonalnie)", "name": "hero_slajd_4", "type": "group",
+            "sub_fields": [
+                {"key": "field_fp_h4_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                {"key": "field_fp_h4_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text"},
+                {"key": "field_fp_h4_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_fp_h4_link_tekst", "label": "Tekst przycisku", "name": "link_tekst", "type": "text"},
+                {"key": "field_fp_h4_link_url", "label": "Adres przycisku", "name": "link_url", "type": "url"}
+            ]
+        },
+
+        {"key": "field_fp_tab_marki", "label": "Sekcja marek", "name": "tab_marki", "type": "tab"},
+        {"key": "field_fp_marki_naglowek", "label": "Nagłówek", "name": "marki_naglowek", "type": "text"},
+        {"key": "field_fp_marki_opis", "label": "Opis", "name": "marki_opis", "type": "textarea", "rows": 2},
+        {"key": "field_fp_cta_tekst", "label": "Tekst przycisku CTA pod sekcją marek (otwiera popup wyceny)", "name": "cta_miedzysekcyjne_tekst", "type": "text", "default_value": "Darmowa wycena"},
+
+        {"key": "field_fp_tab_liczniki", "label": "Liczniki", "name": "tab_liczniki", "type": "tab"},
+        {"key": "field_fp_liczniki_tytul", "label": "Nagłówek", "name": "liczniki_tytul", "type": "text"},
+        {"key": "field_fp_liczniki_opis", "label": "Opis", "name": "liczniki_opis", "type": "textarea", "rows": 2},
+        {
+            "key": "field_fp_licznik_1", "label": "Licznik 1", "name": "licznik_1", "type": "group",
+            "sub_fields": [
+                {"key": "field_fp_l1_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                {"key": "field_fp_l1_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                {"key": "field_fp_l1_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                {"key": "field_fp_l1_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+            ]
+        },
+        {"key": "field_fp_licznik_2", "label": "Licznik 2", "name": "licznik_2", "type": "group", "sub_fields": [
+            {"key": "field_fp_l2_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+            {"key": "field_fp_l2_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+            {"key": "field_fp_l2_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+            {"key": "field_fp_l2_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+        ]},
+        {"key": "field_fp_licznik_3", "label": "Licznik 3", "name": "licznik_3", "type": "group", "sub_fields": [
+            {"key": "field_fp_l3_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+            {"key": "field_fp_l3_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+            {"key": "field_fp_l3_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+            {"key": "field_fp_l3_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+        ]},
+        {"key": "field_fp_licznik_4", "label": "Licznik 4", "name": "licznik_4", "type": "group", "sub_fields": [
+            {"key": "field_fp_l4_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+            {"key": "field_fp_l4_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+            {"key": "field_fp_l4_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+            {"key": "field_fp_l4_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+        ]},
+        {"key": "field_fp_licznik_5", "label": "Licznik 5 (opcjonalnie)", "name": "licznik_5", "type": "group", "sub_fields": [
+            {"key": "field_fp_l5_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+            {"key": "field_fp_l5_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+            {"key": "field_fp_l5_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+            {"key": "field_fp_l5_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+        ]},
+        {"key": "field_fp_licznik_6", "label": "Licznik 6 (opcjonalnie)", "name": "licznik_6", "type": "group", "sub_fields": [
+            {"key": "field_fp_l6_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+            {"key": "field_fp_l6_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+            {"key": "field_fp_l6_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+            {"key": "field_fp_l6_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+        ]},
+
+        {"key": "field_fp_tab_faq", "label": "FAQ", "name": "tab_faq", "type": "tab"},
+        {"key": "field_fp_faq_tytul", "label": "Nagłówek", "name": "faq_tytul", "type": "text", "default_value": "FAQ"},
+        {"key": "field_fp_faq_opis", "label": "Opis", "name": "faq_opis", "type": "textarea", "rows": 2},
+        {"key": "field_fp_pytanie_1", "label": "Pytanie 1", "name": "pytanie_1", "type": "group", "sub_fields": [{"key": "field_fp_p1_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p1_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_2", "label": "Pytanie 2", "name": "pytanie_2", "type": "group", "sub_fields": [{"key": "field_fp_p2_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p2_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_3", "label": "Pytanie 3", "name": "pytanie_3", "type": "group", "sub_fields": [{"key": "field_fp_p3_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p3_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_4", "label": "Pytanie 4", "name": "pytanie_4", "type": "group", "sub_fields": [{"key": "field_fp_p4_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p4_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_5", "label": "Pytanie 5", "name": "pytanie_5", "type": "group", "sub_fields": [{"key": "field_fp_p5_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p5_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_6", "label": "Pytanie 6 (opcjonalnie)", "name": "pytanie_6", "type": "group", "sub_fields": [{"key": "field_fp_p6_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p6_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_7", "label": "Pytanie 7 (opcjonalnie)", "name": "pytanie_7", "type": "group", "sub_fields": [{"key": "field_fp_p7_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p7_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_fp_pytanie_8", "label": "Pytanie 8 (opcjonalnie)", "name": "pytanie_8", "type": "group", "sub_fields": [{"key": "field_fp_p8_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_fp_p8_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]}
     ],
     "location": [
         [{"param": "page_type", "operator": "==", "value": "front_page"}]
@@ -62,5 +114,5 @@
     "instruction_placement": "label",
     "hide_on_screen": ["the_content", "excerpt", "discussion", "comments"],
     "active": true,
-    "description": "Marki w karuzeli pobierają się automatycznie z Opony → Marki (i loga ustawionego przy danej marce) — nie trzeba ich dodawać tutaj osobno."
+    "description": "Marki w karuzeli pobierają się automatycznie z Opony → Marki (i loga ustawionego przy danej marce) — nie trzeba ich dodawać tutaj osobno. Puste sloty (licznik/pytanie bez treści) po prostu się nie wyświetlają."
 }

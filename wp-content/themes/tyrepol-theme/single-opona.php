@@ -97,16 +97,6 @@ while (have_posts()) : the_post();
     </div>
   </section>
 
-  <?php
-  $faq_items = [];
-  if (have_rows('faq_pytania')) : while (have_rows('faq_pytania')) : the_row();
-    $faq_items[] = ['pytanie' => get_sub_field('pytanie'), 'odpowiedz' => get_sub_field('odpowiedz')];
-  endwhile; endif;
-  if ($faq_items) {
-      get_template_part('template-parts/faq', null, ['title' => 'FAQ', 'items' => $faq_items, 'anchor' => 'faq']);
-  }
-  ?>
-
   <?php tyrepol_contact_section(false); ?>
 
 <?php endwhile; ?>

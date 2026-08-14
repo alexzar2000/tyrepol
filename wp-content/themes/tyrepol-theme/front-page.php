@@ -13,18 +13,23 @@ get_header();
   <section class="hero" id="hero">
     <div class="hero__swiper swiper">
       <div class="swiper-wrapper">
-        <?php if (have_rows('hero_slajdy')) : while (have_rows('hero_slajdy')) : the_row();
-          $img = get_sub_field('obraz'); ?>
+        <?php
+        // WP: 4 stałe „sloty” slajdów (zamiast Repeatera z ACF PRO) — pusty slot (bez tytułu)
+        // po prostu się nie renderuje.
+        for ($i = 1; $i <= 4; $i++) :
+          $slide = get_field('hero_slajd_' . $i);
+          if (empty($slide['tytul'])) continue;
+        ?>
         <div class="hero__slide swiper-slide">
           <div class="hero__image-wrap">
-            <?php echo wp_get_attachment_image($img, 'full', false, ['class' => 'hero__image', 'loading' => 'eager']); ?>
+            <?php echo wp_get_attachment_image($slide['obraz'], 'full', false, ['class' => 'hero__image', 'loading' => 'eager']); ?>
           </div>
           <div class="hero__content">
-            <h1 class="hero__title" data-swiper-parallax-y="-120" data-swiper-parallax-duration="1200"><?php echo esc_html(get_sub_field('tytul')); ?></h1>
-            <p class="hero__desc" data-swiper-parallax-y="-160" data-swiper-parallax-duration="1400"><?php echo esc_html(get_sub_field('opis')); ?></p>
-            <?php if ($link = get_sub_field('link_url')) : ?>
+            <h1 class="hero__title" data-swiper-parallax-y="-120" data-swiper-parallax-duration="1200"><?php echo esc_html($slide['tytul']); ?></h1>
+            <p class="hero__desc" data-swiper-parallax-y="-160" data-swiper-parallax-duration="1400"><?php echo esc_html($slide['opis']); ?></p>
+            <?php if (!empty($slide['link_url'])) : ?>
             <div class="hero__link-wrap" data-swiper-parallax-y="-200" data-swiper-parallax-duration="1500">
-              <a class="hero__link" href="<?php echo esc_url($link); ?>"><?php echo esc_html(get_sub_field('link_tekst') ?: __('Sprawdź ofertę', 'tyrepol')); ?>
+              <a class="hero__link" href="<?php echo esc_url($slide['link_url']); ?>"><?php echo esc_html($slide['link_tekst'] ?: __('Sprawdź ofertę', 'tyrepol')); ?>
                 <svg class="hero__link-icon" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
                   <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                     <circle class="hero__link-circle" cx="16" cy="16" r="15.12"></circle>
@@ -36,7 +41,7 @@ get_header();
             <?php endif; ?>
           </div>
         </div>
-        <?php endwhile; endif; ?>
+        <?php endfor; ?>
       </div>
     </div>
 
@@ -106,18 +111,22 @@ get_header();
   <?php get_template_part('template-parts/section-cta-button', null, ['tekst' => get_field('cta_miedzysekcyjne_tekst') ?: __('Darmowa wycena', 'tyrepol')]); ?>
 
   <?php
+  // WP: 6 stałych slotów liczników (zamiast Repeatera) — puste (bez podpisu) się pomijają.
   $counter_items = [];
-  if (have_rows('liczniki_pozycje')) : while (have_rows('liczniki_pozycje')) : the_row();
-    $counter_items[] = ['ikona' => get_sub_field('ikona'), 'liczba' => get_sub_field('liczba'), 'etykieta' => get_sub_field('etykieta'), 'predkosc' => get_sub_field('predkosc')];
-  endwhile; endif;
+  for ($i = 1; $i <= 6; $i++) {
+      $row = get_field('licznik_' . $i);
+      if (!empty($row['etykieta'])) $counter_items[] = $row;
+  }
   get_template_part('template-parts/counters', null, ['title' => get_field('liczniki_tytul'), 'desc' => get_field('liczniki_opis'), 'items' => $counter_items]);
   ?>
 
   <?php
+  // WP: 8 stałych slotów FAQ (zamiast Repeatera) — puste (bez pytania) się pomijają.
   $faq_items = [];
-  if (have_rows('faq_pytania')) : while (have_rows('faq_pytania')) : the_row();
-    $faq_items[] = ['pytanie' => get_sub_field('pytanie'), 'odpowiedz' => get_sub_field('odpowiedz')];
-  endwhile; endif;
+  for ($i = 1; $i <= 8; $i++) {
+      $row = get_field('pytanie_' . $i);
+      if (!empty($row['pytanie'])) $faq_items[] = $row;
+  }
   get_template_part('template-parts/faq', null, ['title' => get_field('faq_tytul') ?: 'FAQ', 'desc' => get_field('faq_opis'), 'items' => $faq_items, 'anchor' => 'faq']);
   ?>
 

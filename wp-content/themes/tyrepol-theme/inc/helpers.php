@@ -9,12 +9,35 @@
 if (!defined('ABSPATH')) exit;
 
 /**
- * Bezpieczne pobranie pola ze strony opcji ACF „Ustawienia motywu”.
+ * Bezpieczne pobranie pola ze strony „Ustawienia motywu” (zwykła strona WP, nie ACF Options —
+ * patrz inc/ustawienia.php, ACF Free nie ma Options Page).
  */
 function tyrepol_opt($field, $default = '') {
     if (!function_exists('get_field')) return $default;
-    $value = get_field($field, 'option');
+    $page_id = tyrepol_settings_page_id();
+    if (!$page_id) return $default;
+    $value = get_field($field, $page_id);
     return ($value === null || $value === '') ? $default : $value;
+}
+
+/**
+ * Zamienia grupę „slotów o stałej liczbie” (np. sekcja_liczniki.licznik_1 … licznik_6) na
+ * zwykłą, „odchudzoną” tablicę — pomija sloty, w których redaktor nic nie wpisał.
+ * $group     — tablica zwrócona przez get_field() dla pola typu Group (zawiera podpola-sloty).
+ * $prefix    — prefiks nazw pól sub-grupy, np. "licznik_" -> licznik_1, licznik_2…
+ * $count     — maksymalna liczba slotów zdefiniowana w ACF (patrz acf-json).
+ * $required_key — nazwa podpola, którego brak = slot uznajemy za pusty (np. "etykieta", "tytul", "pytanie").
+ */
+function tyrepol_slots($group, $prefix, $count, $required_key) {
+    $items = [];
+    if (!is_array($group)) return $items;
+    for ($i = 1; $i <= $count; $i++) {
+        $row = $group[$prefix . $i] ?? null;
+        if (is_array($row) && !empty($row[$required_key])) {
+            $items[] = $row;
+        }
+    }
+    return $items;
 }
 
 /**

@@ -1,7 +1,14 @@
 <?php
 /**
  * TyrePol — funkcje motywu.
- * Konwersja statycznej wersji HTML na motyw WordPress (ACF + Polylang).
+ * Konwersja statycznej wersji HTML na motyw WordPress (ACF Free — bez PRO — + Polylang).
+ *
+ * Uwaga architektoniczna: ACF Free nie ma pól Repeater / Flexible Content / Options Page
+ * (to funkcje płatnej wersji PRO), dlatego zamiast nich motyw używa wyłącznie darmowych typów
+ * pól ACF (Group, Tab, Message, Image, Text, WYSIWYG, True/False, Number, Select…) w postaci
+ * ustalonej liczby „slotów” (np. do 6 liczników, do 8 pytań FAQ) z przełącznikiem „pokaż” przy
+ * każdym — pusty slot po prostu się nie wyświetla. Patrz pliki w /acf-json oraz komentarze
+ * w template-elastyczna.php i front-page.php.
  */
 
 if (!defined('ABSPATH')) exit;
@@ -70,13 +77,14 @@ require TYREPOL_DIR . '/inc/cpt-opona.php';
 require TYREPOL_DIR . '/inc/nav-walker.php';
 
 /**
- * Strona opcji ACF (dane firmy, kontakt, social media, stopka) — widoczna w panelu tylko,
- * gdy wtyczka Advanced Custom Fields jest aktywna.
+ * „Ustawienia motywu” — działa na ACF Free (bez Options Page z ACF PRO): dane firmy/kontakt
+ * trzymane są na zwykłej, ukrytej stronie WordPress, którą motyw tworzy sam przy aktywacji.
  */
-require TYREPOL_DIR . '/inc/acf-options.php';
+require TYREPOL_DIR . '/inc/ustawienia.php';
 
 /**
- * Funkcje pomocnicze (m.in. bezpieczne pobieranie pól ACF Options, cząstka kontaktu).
+ * Funkcje pomocnicze (m.in. bezpieczne pobieranie ustawień, cząstka kontaktu, zbieranie
+ * „slotów” z pól Group zamiast Repeatera — patrz komentarz w pliku).
  */
 require TYREPOL_DIR . '/inc/helpers.php';
 

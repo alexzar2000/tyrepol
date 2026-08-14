@@ -37,19 +37,22 @@ $socials = [
         <div class="contact__info-block">
           <h3 class="contact__info-title"><?php echo esc_html(tyrepol_opt('firma_nazwa', 'TyrePol')); ?></h3>
           <ul class="contact__info-list">
-            <?php if (have_rows('firma_adres_linie', 'option')) : while (have_rows('firma_adres_linie', 'option')) : the_row(); ?>
-              <li class="contact__info-item"><?php echo esc_html(get_sub_field('linia')); ?></li>
-            <?php endwhile; endif; ?>
+            <?php for ($i = 1; $i <= 4; $i++) : $linia = tyrepol_opt('firma_adres_linia_' . $i); if (!$linia) continue; ?>
+              <li class="contact__info-item"><?php echo esc_html($linia); ?></li>
+            <?php endfor; ?>
           </ul>
         </div>
 
-        <?php if (tyrepol_opt('biuro_naglowek') || have_rows('biuro_adres_linie', 'option')) : ?>
+        <?php
+        $biuro_linie = [];
+        for ($i = 1; $i <= 3; $i++) { $l = tyrepol_opt('biuro_adres_linia_' . $i); if ($l) $biuro_linie[] = $l; }
+        if (tyrepol_opt('biuro_naglowek') || $biuro_linie) : ?>
         <div class="contact__info-block">
           <h3 class="contact__info-title"><?php echo esc_html(tyrepol_opt('biuro_naglowek', __('Biuro / Magazyn', 'tyrepol'))); ?></h3>
           <ul class="contact__info-list">
-            <?php if (have_rows('biuro_adres_linie', 'option')) : while (have_rows('biuro_adres_linie', 'option')) : the_row(); ?>
-              <li class="contact__info-item"><?php echo esc_html(get_sub_field('linia')); ?></li>
-            <?php endwhile; endif; ?>
+            <?php foreach ($biuro_linie as $linia) : ?>
+              <li class="contact__info-item"><?php echo esc_html($linia); ?></li>
+            <?php endforeach; ?>
             <?php if ($tel = tyrepol_opt('telefon')) : ?>
             <li class="contact__info-item contact__info-item--icon">
               <span class="contact__info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>

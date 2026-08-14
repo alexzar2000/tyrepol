@@ -2,169 +2,234 @@
     "key": "group_tyrepol_elastyczna",
     "title": "Elastyczna strona — sekcje",
     "fields": [
+        {"key": "field_el_tab_hero", "label": "Baner (hero)", "name": "tab_hero", "type": "tab"},
         {
-            "key": "field_el_sekcje",
-            "label": "Sekcje strony",
-            "name": "sekcje_strony",
-            "type": "flexible_content",
-            "button_label": "Dodaj sekcję",
-            "layouts": {
-                "layout_hero": {
-                    "key": "layout_hero",
-                    "name": "hero",
-                    "label": "Baner strony (hero)",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_hero_eyebrow", "label": "Nadtytuł (mały tekst nad tytułem)", "name": "eyebrow", "type": "text"},
-                        {"key": "field_el_hero_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text", "required": 1},
-                        {"key": "field_el_hero_lead", "label": "Lead / opis", "name": "lead", "type": "textarea", "rows": 3},
-                        {"key": "field_el_hero_odznaki", "label": "Odznaki (certyfikaty itp.)", "name": "odznaki", "type": "repeater", "layout": "table", "button_label": "Dodaj odznakę", "sub_fields": [{"key": "field_el_hero_odznaka_tekst", "label": "Tekst", "name": "tekst", "type": "text"}]},
-                        {"key": "field_el_hero_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
-                        {"key": "field_el_hero_dopasowanie", "label": "Dopasowanie zdjęcia", "name": "dopasowanie_obrazu", "type": "select", "choices": {"cover": "Wypełnij kadr (cover)", "contain": "Zmieść całe zdjęcie (contain) — np. zdjęcie produktu na białym tle"}, "default_value": "cover", "ui": 1}
-                    ]
-                },
-                "layout_tekst": {
-                    "key": "layout_tekst",
-                    "name": "tekst",
-                    "label": "Tekst + zdjęcie",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_tekst_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
-                        {"key": "field_el_tekst_tytul", "label": "Tytuł (H2)", "name": "tytul", "type": "text", "required": 1},
-                        {"key": "field_el_tekst_tresc", "label": "Treść", "name": "tresc", "type": "wysiwyg", "media_upload": 0, "toolbar": "basic"},
-                        {"key": "field_el_tekst_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}
-                    ]
-                },
-                "layout_liczniki": {
-                    "key": "layout_liczniki",
-                    "name": "liczniki",
-                    "label": "Liczniki",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_licz_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
-                        {"key": "field_el_licz_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
-                        {
-                            "key": "field_el_licz_pozycje", "label": "Pozycje", "name": "pozycje", "type": "repeater", "layout": "table", "button_label": "Dodaj licznik",
-                            "sub_fields": [
-                                {"key": "field_el_licznik_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
-                                {"key": "field_el_licznik_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number", "required": 1},
-                                {"key": "field_el_licznik_etykieta", "label": "Podpis", "name": "etykieta", "type": "text", "required": 1},
-                                {"key": "field_el_licznik_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
-                            ]
-                        }
-                    ]
-                },
-                "layout_karty": {
-                    "key": "layout_karty",
-                    "name": "karty",
-                    "label": "Karty cech",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_karty_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
-                        {"key": "field_el_karty_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
-                        {
-                            "key": "field_el_karty_lista", "label": "Karty", "name": "karty", "type": "repeater", "layout": "block", "button_label": "Dodaj kartę",
-                            "sub_fields": [
-                                {"key": "field_el_karta_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
-                                {"key": "field_el_karta_tytul", "label": "Tytuł", "name": "tytul", "type": "text", "required": 1},
-                                {"key": "field_el_karta_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
-                            ]
-                        }
-                    ]
-                },
-                "layout_split": {
-                    "key": "layout_split",
-                    "name": "split_lista",
-                    "label": "Naprzemienne bloki (tekst + zdjęcie)",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_el_split_pozycje", "label": "Bloki", "name": "pozycje", "type": "repeater", "layout": "block", "button_label": "Dodaj blok",
-                            "sub_fields": [
-                                {"key": "field_el_split_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
-                                {"key": "field_el_split_tytul", "label": "Tytuł", "name": "tytul", "type": "text", "required": 1},
-                                {"key": "field_el_split_tekst", "label": "Tekst", "name": "tekst", "type": "textarea", "rows": 3},
-                                {"key": "field_el_split_rozmiary", "label": "Lista rozmiarów (opcjonalnie)", "name": "rozmiary", "type": "repeater", "layout": "table", "button_label": "Dodaj rozmiar", "sub_fields": [{"key": "field_el_split_rozmiar", "label": "Rozmiar", "name": "rozmiar", "type": "text"}]},
-                                {"key": "field_el_split_link_tekst", "label": "Tekst linku", "name": "link_tekst", "type": "text"},
-                                {"key": "field_el_split_link_url", "label": "Adres linku", "name": "link_url", "type": "url"},
-                                {"key": "field_el_split_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
-                                {"key": "field_el_split_odwrocony", "label": "Odwróć układ (zdjęcie po prawej)", "name": "odwrocony", "type": "true_false", "ui": 1}
-                            ]
-                        }
-                    ]
-                },
-                "layout_galeria": {
-                    "key": "layout_galeria",
-                    "name": "galeria",
-                    "label": "Galeria zdjęć",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_gal_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
-                        {"key": "field_el_gal_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
-                        {
-                            "key": "field_el_gal_zdjecia", "label": "Zdjęcia", "name": "zdjecia", "type": "repeater", "layout": "table", "button_label": "Dodaj zdjęcie",
-                            "sub_fields": [
-                                {"key": "field_el_gal_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id", "required": 1},
-                                {"key": "field_el_gal_podpis", "label": "Podpis", "name": "podpis", "type": "text"}
-                            ]
-                        }
-                    ]
-                },
-                "layout_cta": {
-                    "key": "layout_cta",
-                    "name": "cta",
-                    "label": "CTA (nagłówek + przyciski)",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_cta_tytul", "label": "Nagłówek", "name": "tytul", "type": "text", "required": 1},
-                        {"key": "field_el_cta_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
-                        {
-                            "key": "field_el_cta_przyciski", "label": "Przyciski", "name": "przyciski", "type": "repeater", "layout": "table", "button_label": "Dodaj przycisk", "max": 2,
-                            "sub_fields": [
-                                {"key": "field_el_cta_btn_tekst", "label": "Tekst", "name": "tekst", "type": "text"},
-                                {"key": "field_el_cta_btn_url", "label": "Adres", "name": "url", "type": "url"},
-                                {"key": "field_el_cta_btn_styl", "label": "Styl", "name": "styl", "type": "select", "choices": {"primary": "Wypełniony (primary)", "outline": "Obrys (outline)"}, "default_value": "primary", "ui": 1}
-                            ]
-                        }
-                    ]
-                },
-                "layout_faq": {
-                    "key": "layout_faq",
-                    "name": "faq",
-                    "label": "FAQ",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_faq_tytul", "label": "Nagłówek", "name": "tytul", "type": "text", "default_value": "FAQ"},
-                        {"key": "field_el_faq_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
-                        {
-                            "key": "field_el_faq_pytania", "label": "Pytania", "name": "pytania", "type": "repeater", "layout": "block", "button_label": "Dodaj pytanie",
-                            "sub_fields": [
-                                {"key": "field_el_faq_pytanie", "label": "Pytanie", "name": "pytanie", "type": "text"},
-                                {"key": "field_el_faq_odpowiedz", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}
-                            ]
-                        }
-                    ]
-                },
-                "layout_przycisk_cta": {
-                    "key": "layout_przycisk_cta",
-                    "name": "przycisk_cta",
-                    "label": "Przycisk CTA między sekcjami (otwiera popup wyceny)",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_pcta_tekst", "label": "Tekst przycisku", "name": "tekst", "type": "text", "default_value": "Darmowa wycena"}
-                    ]
-                },
-                "layout_kontakt": {
-                    "key": "layout_kontakt",
-                    "name": "kontakt",
-                    "label": "Sekcja kontakt (dane z Ustawień motywu)",
-                    "display": "block",
-                    "sub_fields": [
-                        {"key": "field_el_kontakt_info", "label": "", "name": "info", "type": "message", "message": "Ta sekcja renderuje się automatycznie na podstawie Ustawienia motywu → Kontakt i social media. Nic tu nie trzeba wypełniać."}
-                    ]
-                }
-            }
-        }
+            "key": "field_el_sekcja_hero", "label": "", "name": "sekcja_hero", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_h_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 1},
+                {"key": "field_el_h_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
+                {"key": "field_el_h_tytul", "label": "Tytuł (H1)", "name": "tytul", "type": "text"},
+                {"key": "field_el_h_lead", "label": "Lead / opis", "name": "lead", "type": "textarea", "rows": 3},
+                {"key": "field_el_h_odznaki", "label": "Odznaki (oddziel przecinkami, np. DOT, E-MARK, ISO/TS16949)", "name": "odznaki_tekst", "type": "text"},
+                {"key": "field_el_h_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                {"key": "field_el_h_dopasowanie", "label": "Dopasowanie zdjęcia", "name": "dopasowanie_obrazu", "type": "select", "choices": {"cover": "Wypełnij kadr (cover)", "contain": "Zmieść całe zdjęcie (contain)"}, "default_value": "cover", "ui": 1}
+            ]
+        },
+
+        {"key": "field_el_tab_tekst", "label": "Tekst + zdjęcie", "name": "tab_tekst", "type": "tab"},
+        {
+            "key": "field_el_sekcja_tekst", "label": "", "name": "sekcja_tekst", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_t_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 1},
+                {"key": "field_el_t_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
+                {"key": "field_el_t_tytul", "label": "Tytuł (H2)", "name": "tytul", "type": "text"},
+                {"key": "field_el_t_tresc", "label": "Treść", "name": "tresc", "type": "wysiwyg", "media_upload": 0, "toolbar": "basic"},
+                {"key": "field_el_t_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}
+            ]
+        },
+
+        {"key": "field_el_tab_liczniki", "label": "Liczniki", "name": "tab_liczniki", "type": "tab"},
+        {
+            "key": "field_el_sekcja_liczniki", "label": "", "name": "sekcja_liczniki", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_li_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 1},
+                {"key": "field_el_li_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
+                {"key": "field_el_li_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_el_li_1", "label": "Licznik 1", "name": "licznik_1", "type": "group", "sub_fields": [
+                    {"key": "field_el_li1_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_li1_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                    {"key": "field_el_li1_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                    {"key": "field_el_li1_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                ]},
+                {"key": "field_el_li_2", "label": "Licznik 2", "name": "licznik_2", "type": "group", "sub_fields": [
+                    {"key": "field_el_li2_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_li2_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                    {"key": "field_el_li2_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                    {"key": "field_el_li2_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                ]},
+                {"key": "field_el_li_3", "label": "Licznik 3", "name": "licznik_3", "type": "group", "sub_fields": [
+                    {"key": "field_el_li3_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_li3_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                    {"key": "field_el_li3_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                    {"key": "field_el_li3_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                ]},
+                {"key": "field_el_li_4", "label": "Licznik 4", "name": "licznik_4", "type": "group", "sub_fields": [
+                    {"key": "field_el_li4_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_li4_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                    {"key": "field_el_li4_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                    {"key": "field_el_li4_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                ]},
+                {"key": "field_el_li_5", "label": "Licznik 5 (opcjonalnie)", "name": "licznik_5", "type": "group", "sub_fields": [
+                    {"key": "field_el_li5_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_li5_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                    {"key": "field_el_li5_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                    {"key": "field_el_li5_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                ]},
+                {"key": "field_el_li_6", "label": "Licznik 6 (opcjonalnie)", "name": "licznik_6", "type": "group", "sub_fields": [
+                    {"key": "field_el_li6_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_li6_liczba", "label": "Docelowa liczba", "name": "liczba", "type": "number"},
+                    {"key": "field_el_li6_etykieta", "label": "Podpis", "name": "etykieta", "type": "text"},
+                    {"key": "field_el_li6_predkosc", "label": "Szybkość animacji (ms)", "name": "predkosc", "type": "number", "default_value": 1500}
+                ]}
+            ]
+        },
+
+        {"key": "field_el_tab_cta1", "label": "Przycisk CTA #1 (między sekcjami)", "name": "tab_cta1", "type": "tab"},
+        {"key": "field_el_cta_miedzy_1", "label": "", "name": "cta_miedzysekcyjny_1", "type": "group", "sub_fields": [
+            {"key": "field_el_cm1_pokaz", "label": "Pokaż ten przycisk", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+            {"key": "field_el_cm1_tekst", "label": "Tekst przycisku (otwiera popup wyceny)", "name": "tekst", "type": "text", "default_value": "Darmowa wycena"}
+        ]},
+
+        {"key": "field_el_tab_karty", "label": "Karty cech", "name": "tab_karty", "type": "tab"},
+        {
+            "key": "field_el_sekcja_karty", "label": "", "name": "sekcja_karty", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_ka_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+                {"key": "field_el_ka_kolejnosc", "label": "Kolejność względem sekcji „Naprzemienne bloki” (mniejsza liczba = wyżej)", "name": "kolejnosc", "type": "number", "default_value": 10},
+                {"key": "field_el_ka_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
+                {"key": "field_el_ka_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_el_ka_1", "label": "Karta 1", "name": "karta_1", "type": "group", "sub_fields": [
+                    {"key": "field_el_ka1_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_ka1_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_ka1_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
+                ]},
+                {"key": "field_el_ka_2", "label": "Karta 2", "name": "karta_2", "type": "group", "sub_fields": [
+                    {"key": "field_el_ka2_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_ka2_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_ka2_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
+                ]},
+                {"key": "field_el_ka_3", "label": "Karta 3", "name": "karta_3", "type": "group", "sub_fields": [
+                    {"key": "field_el_ka3_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_ka3_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_ka3_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
+                ]},
+                {"key": "field_el_ka_4", "label": "Karta 4", "name": "karta_4", "type": "group", "sub_fields": [
+                    {"key": "field_el_ka4_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_ka4_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_ka4_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
+                ]},
+                {"key": "field_el_ka_5", "label": "Karta 5 (opcjonalnie)", "name": "karta_5", "type": "group", "sub_fields": [
+                    {"key": "field_el_ka5_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_ka5_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_ka5_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
+                ]},
+                {"key": "field_el_ka_6", "label": "Karta 6 (opcjonalnie)", "name": "karta_6", "type": "group", "sub_fields": [
+                    {"key": "field_el_ka6_ikona", "label": "Ikona", "name": "ikona", "type": "select", "ui": 1, "choices": {"drogi": "Drogi / trasa", "magazyn": "Magazyn", "rozmiar": "Rozmiar / linijka", "blokady": "Blokada / bezpieczeństwo", "osie": "Osie / warstwy", "naczepa": "Naczepa / ciężarówka", "rozmiary": "Warianty rozmiarowe", "certyfikat": "Certyfikat", "cel": "Cel / precyzja", "zima": "Zima / śnieg", "dostepnosc": "Dostępność", "cena": "Cena", "zegar": "Czas", "domyslna": "Domyślna (kółko)"}},
+                    {"key": "field_el_ka6_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_ka6_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2}
+                ]}
+            ]
+        },
+
+        {"key": "field_el_tab_split", "label": "Naprzemienne bloki", "name": "tab_split", "type": "tab"},
+        {
+            "key": "field_el_sekcja_split", "label": "", "name": "sekcja_split", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_sp_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+                {"key": "field_el_sp_kolejnosc", "label": "Kolejność względem sekcji „Karty cech” (mniejsza liczba = wyżej)", "name": "kolejnosc", "type": "number", "default_value": 20},
+                {"key": "field_el_sp_1", "label": "Blok 1", "name": "blok_1", "type": "group", "sub_fields": [
+                    {"key": "field_el_sp1_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
+                    {"key": "field_el_sp1_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_sp1_tekst", "label": "Tekst", "name": "tekst", "type": "textarea", "rows": 3},
+                    {"key": "field_el_sp1_rozmiary", "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)", "name": "rozmiary_tekst", "type": "text"},
+                    {"key": "field_el_sp1_link_tekst", "label": "Tekst linku", "name": "link_tekst", "type": "text"},
+                    {"key": "field_el_sp1_link_url", "label": "Adres linku", "name": "link_url", "type": "url"},
+                    {"key": "field_el_sp1_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                    {"key": "field_el_sp1_odwrocony", "label": "Odwróć układ (zdjęcie po prawej)", "name": "odwrocony", "type": "true_false", "ui": 1}
+                ]},
+                {"key": "field_el_sp_2", "label": "Blok 2", "name": "blok_2", "type": "group", "sub_fields": [
+                    {"key": "field_el_sp2_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
+                    {"key": "field_el_sp2_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_sp2_tekst", "label": "Tekst", "name": "tekst", "type": "textarea", "rows": 3},
+                    {"key": "field_el_sp2_rozmiary", "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)", "name": "rozmiary_tekst", "type": "text"},
+                    {"key": "field_el_sp2_link_tekst", "label": "Tekst linku", "name": "link_tekst", "type": "text"},
+                    {"key": "field_el_sp2_link_url", "label": "Adres linku", "name": "link_url", "type": "url"},
+                    {"key": "field_el_sp2_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                    {"key": "field_el_sp2_odwrocony", "label": "Odwróć układ (zdjęcie po prawej)", "name": "odwrocony", "type": "true_false", "ui": 1, "default_value": 1}
+                ]},
+                {"key": "field_el_sp_3", "label": "Blok 3", "name": "blok_3", "type": "group", "sub_fields": [
+                    {"key": "field_el_sp3_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
+                    {"key": "field_el_sp3_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_sp3_tekst", "label": "Tekst", "name": "tekst", "type": "textarea", "rows": 3},
+                    {"key": "field_el_sp3_rozmiary", "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)", "name": "rozmiary_tekst", "type": "text"},
+                    {"key": "field_el_sp3_link_tekst", "label": "Tekst linku", "name": "link_tekst", "type": "text"},
+                    {"key": "field_el_sp3_link_url", "label": "Adres linku", "name": "link_url", "type": "url"},
+                    {"key": "field_el_sp3_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                    {"key": "field_el_sp3_odwrocony", "label": "Odwróć układ (zdjęcie po prawej)", "name": "odwrocony", "type": "true_false", "ui": 1}
+                ]},
+                {"key": "field_el_sp_4", "label": "Blok 4 (opcjonalnie)", "name": "blok_4", "type": "group", "sub_fields": [
+                    {"key": "field_el_sp4_eyebrow", "label": "Nadtytuł", "name": "eyebrow", "type": "text"},
+                    {"key": "field_el_sp4_tytul", "label": "Tytuł", "name": "tytul", "type": "text"},
+                    {"key": "field_el_sp4_tekst", "label": "Tekst", "name": "tekst", "type": "textarea", "rows": 3},
+                    {"key": "field_el_sp4_rozmiary", "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)", "name": "rozmiary_tekst", "type": "text"},
+                    {"key": "field_el_sp4_link_tekst", "label": "Tekst linku", "name": "link_tekst", "type": "text"},
+                    {"key": "field_el_sp4_link_url", "label": "Adres linku", "name": "link_url", "type": "url"},
+                    {"key": "field_el_sp4_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"},
+                    {"key": "field_el_sp4_odwrocony", "label": "Odwróć układ (zdjęcie po prawej)", "name": "odwrocony", "type": "true_false", "ui": 1, "default_value": 1}
+                ]}
+            ]
+        },
+
+        {"key": "field_el_tab_cta2", "label": "Przycisk CTA #2 (między sekcjami)", "name": "tab_cta2", "type": "tab"},
+        {"key": "field_el_cta_miedzy_2", "label": "", "name": "cta_miedzysekcyjny_2", "type": "group", "sub_fields": [
+            {"key": "field_el_cm2_pokaz", "label": "Pokaż ten przycisk", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+            {"key": "field_el_cm2_tekst", "label": "Tekst przycisku (otwiera popup wyceny)", "name": "tekst", "type": "text", "default_value": "Darmowa wycena"}
+        ]},
+
+        {"key": "field_el_tab_galeria", "label": "Galeria", "name": "tab_galeria", "type": "tab"},
+        {
+            "key": "field_el_sekcja_galeria", "label": "", "name": "sekcja_galeria", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_ga_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+                {"key": "field_el_ga_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
+                {"key": "field_el_ga_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_el_ga_1", "label": "Zdjęcie 1", "name": "zdjecie_1", "type": "group", "sub_fields": [{"key": "field_el_ga1_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga1_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_2", "label": "Zdjęcie 2", "name": "zdjecie_2", "type": "group", "sub_fields": [{"key": "field_el_ga2_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga2_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_3", "label": "Zdjęcie 3", "name": "zdjecie_3", "type": "group", "sub_fields": [{"key": "field_el_ga3_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga3_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_4", "label": "Zdjęcie 4", "name": "zdjecie_4", "type": "group", "sub_fields": [{"key": "field_el_ga4_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga4_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_5", "label": "Zdjęcie 5", "name": "zdjecie_5", "type": "group", "sub_fields": [{"key": "field_el_ga5_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga5_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_6", "label": "Zdjęcie 6", "name": "zdjecie_6", "type": "group", "sub_fields": [{"key": "field_el_ga6_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga6_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_7", "label": "Zdjęcie 7 (opcjonalnie)", "name": "zdjecie_7", "type": "group", "sub_fields": [{"key": "field_el_ga7_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga7_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]},
+                {"key": "field_el_ga_8", "label": "Zdjęcie 8 (opcjonalnie)", "name": "zdjecie_8", "type": "group", "sub_fields": [{"key": "field_el_ga8_obraz", "label": "Zdjęcie", "name": "obraz", "type": "image", "return_format": "id"}, {"key": "field_el_ga8_podpis", "label": "Podpis", "name": "podpis", "type": "text"}]}
+            ]
+        },
+
+        {"key": "field_el_tab_cta", "label": "CTA końcowe", "name": "tab_cta", "type": "tab"},
+        {
+            "key": "field_el_sekcja_cta", "label": "", "name": "sekcja_cta", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_c_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+                {"key": "field_el_c_tytul", "label": "Nagłówek", "name": "tytul", "type": "text"},
+                {"key": "field_el_c_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_el_c_b1_tekst", "label": "Przycisk 1 — tekst", "name": "przycisk_1_tekst", "type": "text"},
+                {"key": "field_el_c_b1_url", "label": "Przycisk 1 — adres", "name": "przycisk_1_url", "type": "url"},
+                {"key": "field_el_c_b2_tekst", "label": "Przycisk 2 — tekst (opcjonalnie)", "name": "przycisk_2_tekst", "type": "text"},
+                {"key": "field_el_c_b2_url", "label": "Przycisk 2 — adres", "name": "przycisk_2_url", "type": "url"}
+            ]
+        },
+
+        {"key": "field_el_tab_faq", "label": "FAQ", "name": "tab_faq", "type": "tab"},
+        {
+            "key": "field_el_sekcja_faq", "label": "", "name": "sekcja_faq", "type": "group",
+            "sub_fields": [
+                {"key": "field_el_f_pokaz", "label": "Pokaż tę sekcję", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 0},
+                {"key": "field_el_f_tytul", "label": "Nagłówek", "name": "tytul", "type": "text", "default_value": "FAQ"},
+                {"key": "field_el_f_opis", "label": "Opis", "name": "opis", "type": "textarea", "rows": 2},
+                {"key": "field_el_f_1", "label": "Pytanie 1", "name": "pytanie_1", "type": "group", "sub_fields": [{"key": "field_el_f1_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f1_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_2", "label": "Pytanie 2", "name": "pytanie_2", "type": "group", "sub_fields": [{"key": "field_el_f2_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f2_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_3", "label": "Pytanie 3", "name": "pytanie_3", "type": "group", "sub_fields": [{"key": "field_el_f3_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f3_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_4", "label": "Pytanie 4", "name": "pytanie_4", "type": "group", "sub_fields": [{"key": "field_el_f4_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f4_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_5", "label": "Pytanie 5", "name": "pytanie_5", "type": "group", "sub_fields": [{"key": "field_el_f5_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f5_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_6", "label": "Pytanie 6 (opcjonalnie)", "name": "pytanie_6", "type": "group", "sub_fields": [{"key": "field_el_f6_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f6_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_7", "label": "Pytanie 7 (opcjonalnie)", "name": "pytanie_7", "type": "group", "sub_fields": [{"key": "field_el_f7_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f7_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+                {"key": "field_el_f_8", "label": "Pytanie 8 (opcjonalnie)", "name": "pytanie_8", "type": "group", "sub_fields": [{"key": "field_el_f8_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_el_f8_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]}
+            ]
+        },
+
+        {"key": "field_el_tab_kontakt", "label": "Kontakt", "name": "tab_kontakt", "type": "tab"},
+        {"key": "field_el_sekcja_kontakt", "label": "", "name": "sekcja_kontakt", "type": "group", "sub_fields": [
+            {"key": "field_el_k_pokaz", "label": "Pokaż sekcję kontakt na dole strony", "name": "pokaz", "type": "true_false", "ui": 1, "default_value": 1, "instructions": "Dane pociągają się automatycznie z Ustawienia motywu — nic więcej nie trzeba wypełniać."}
+        ]}
     ],
     "location": [
         [{"param": "page_template", "operator": "==", "value": "template-elastyczna.php"}]
@@ -176,5 +241,5 @@
     "instruction_placement": "label",
     "hide_on_screen": ["the_content", "excerpt", "discussion", "comments"],
     "active": true,
-    "description": "Przeciągając sekcje możesz ustawić dowolną kolejność — tak zbudowano zarówno stronę „O firmie”, jak i strony marek (np. Saucerman)."
+    "description": "Kolejność sekcji na stronie jest stała (Baner → Tekst → Liczniki → Karty/Bloki → Galeria → CTA → FAQ → Kontakt) — jedyne dwie sekcje, które można zamienić miejscami, to „Karty cech” i „Naprzemienne bloki” (pole „Kolejność”). Sekcję, której nie potrzebujesz na danej stronie, po prostu zostaw wyłączoną (\"Pokaż tę sekcję\" = nie)."
 }

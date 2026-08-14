@@ -161,10 +161,12 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
   </section>
 
   <?php
+  // WP: 8 stałych slotów FAQ (zamiast Repeatera z ACF PRO) — puste (bez pytania) się pomijają.
   $faq_items = [];
-  if (have_rows('faq_pytania')) : while (have_rows('faq_pytania')) : the_row();
-    $faq_items[] = ['pytanie' => get_sub_field('pytanie'), 'odpowiedz' => get_sub_field('odpowiedz')];
-  endwhile; endif;
+  for ($i = 1; $i <= 8; $i++) {
+      $row = get_field('pytanie_' . $i);
+      if (!empty($row['pytanie'])) $faq_items[] = $row;
+  }
   get_template_part('template-parts/faq', null, ['title' => get_field('faq_tytul') ?: 'FAQ', 'desc' => get_field('faq_opis'), 'items' => $faq_items, 'anchor' => 'faq']);
   ?>
 

@@ -6,13 +6,14 @@
         {"key": "field_op_opis", "label": "Opis", "name": "katalog_opis", "type": "textarea", "rows": 2},
         {"key": "field_op_faq_tytul", "label": "FAQ — nagłówek", "name": "faq_tytul", "type": "text", "default_value": "FAQ"},
         {"key": "field_op_faq_opis", "label": "FAQ — opis", "name": "faq_opis", "type": "textarea", "rows": 2},
-        {
-            "key": "field_op_faq_pytania", "label": "FAQ — pytania", "name": "faq_pytania", "type": "repeater", "layout": "block", "button_label": "Dodaj pytanie",
-            "sub_fields": [
-                {"key": "field_op_faq_pytanie", "label": "Pytanie", "name": "pytanie", "type": "text"},
-                {"key": "field_op_faq_odpowiedz", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}
-            ]
-        }
+        {"key": "field_op_faq_1", "label": "Pytanie 1", "name": "pytanie_1", "type": "group", "sub_fields": [{"key": "field_op_f1_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f1_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_2", "label": "Pytanie 2", "name": "pytanie_2", "type": "group", "sub_fields": [{"key": "field_op_f2_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f2_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_3", "label": "Pytanie 3", "name": "pytanie_3", "type": "group", "sub_fields": [{"key": "field_op_f3_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f3_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_4", "label": "Pytanie 4", "name": "pytanie_4", "type": "group", "sub_fields": [{"key": "field_op_f4_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f4_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_5", "label": "Pytanie 5 (opcjonalnie)", "name": "pytanie_5", "type": "group", "sub_fields": [{"key": "field_op_f5_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f5_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_6", "label": "Pytanie 6 (opcjonalnie)", "name": "pytanie_6", "type": "group", "sub_fields": [{"key": "field_op_f6_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f6_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_7", "label": "Pytanie 7 (opcjonalnie)", "name": "pytanie_7", "type": "group", "sub_fields": [{"key": "field_op_f7_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f7_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_op_faq_8", "label": "Pytanie 8 (opcjonalnie)", "name": "pytanie_8", "type": "group", "sub_fields": [{"key": "field_op_f8_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_op_f8_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]}
     ],
     "location": [
         [{"param": "page_template", "operator": "==", "value": "page-opony.php"}]
@@ -24,5 +25,5 @@
     "instruction_placement": "label",
     "hide_on_screen": ["the_content"],
     "active": true,
-    "description": "Marki, filtry i siatka opon budują się automatycznie z CPT „Opona” i jego taksonomii — tu ustawia się tylko nagłówek strony i sekcję FAQ."
+    "description": "Marki, filtry i siatka opon budują się automatycznie z CPT „Opona” i jego taksonomii — tu ustawia się tylko nagłówek strony i sekcję FAQ (do 8 stałych pytań — puste pytanie po prostu się nie wyświetli)."
 }
