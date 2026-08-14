@@ -47,10 +47,11 @@ get_header();
   if (!empty($sec['pokaz']) && !empty($sec['tytul'])) :
     $ma_sekcje = true;
     get_template_part('template-parts/text-block', null, [
-        'eyebrow' => $sec['eyebrow'] ?? '',
-        'title'   => $sec['tytul'] ?? '',
-        'body'    => $sec['tresc'] ?? '',
-        'image'   => $sec['obraz'] ?? null,
+        'eyebrow'   => $sec['eyebrow'] ?? '',
+        'title'     => $sec['tytul'] ?? '',
+        'body'      => $sec['tresc'] ?? '',
+        'image'     => $sec['obraz'] ?? null,
+        'image_fit' => $sec['dopasowanie_obrazu'] ?? 'cover',
     ]);
   endif;
 
@@ -112,6 +113,7 @@ get_header();
               'link_tekst' => $blok['link_tekst'] ?? '',
               'link_url'   => $blok['link_url'] ?? '',
               'image'      => $blok['obraz'] ?? null,
+              'image_fit'  => $blok['dopasowanie_obrazu'] ?? 'cover',
               'reverse'    => !empty($blok['odwrocony']),
           ];
       }
@@ -145,7 +147,12 @@ get_header();
     $items = [];
     for ($i = 1; $i <= 8; $i++) {
         $row = $sec['zdjecie_' . $i] ?? null;
-        if (!empty($row['obraz'])) $items[] = $row;
+        if (empty($row['obraz'])) continue;
+        $items[] = [
+            'image'     => $row['obraz'],
+            'podpis'    => $row['podpis'] ?? '',
+            'image_fit' => $row['dopasowanie_obrazu'] ?? 'cover',
+        ];
     }
     if (!empty($items)) :
       $ma_sekcje = true;

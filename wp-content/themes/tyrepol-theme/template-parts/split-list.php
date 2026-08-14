@@ -1,7 +1,7 @@
 <?php
 /**
  * Cząstka „Naprzemienne bloki tekst + zdjęcie” (about-split) — np. zakres produktowy wg osi montażu.
- * $args: rows (array: eyebrow, tytul, tekst, rozmiary[], link_tekst, link_url, image, reverse)
+ * $args: rows (array: eyebrow, tytul, tekst, rozmiary[], link_tekst, link_url, image, image_fit, reverse)
  */
 if (!defined('ABSPATH')) exit;
 $rows = $args['rows'] ?? [];
@@ -10,11 +10,12 @@ $rows = $args['rows'] ?? [];
   <div class="about-split__inner">
     <?php foreach ($rows as $row) :
       $row_class = 'about-split__row reveal' . (!empty($row['reverse']) ? ' about-split__row--reverse' : '');
+      $fit = (($row['image_fit'] ?? 'cover') === 'contain') ? ' about-split__img--contain' : '';
     ?>
     <div class="<?php echo esc_attr($row_class); ?>">
       <?php if (!empty($row['image'])) : ?>
       <div class="about-split__media">
-        <?php echo wp_get_attachment_image($row['image'], 'large', false, ['class' => 'about-split__img']); ?>
+        <?php echo wp_get_attachment_image($row['image'], 'large', false, ['class' => 'about-split__img' . $fit]); ?>
       </div>
       <?php endif; ?>
       <div class="about-split__content">
