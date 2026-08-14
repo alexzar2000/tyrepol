@@ -98,7 +98,7 @@ if (!defined('ABSPATH')) exit;
 
         <div class="form__group form__group--checkbox">
           <input class="form__checkbox" type="checkbox" id="inquiry-rodo" name="rodo" required>
-          <label class="form__checkbox-label" for="inquiry-rodo"><?php echo wp_kses_post(tyrepol_opt('tekst_zgody_rodo', __('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'tyrepol'))); ?> *</label>
+          <label class="form__checkbox-label" for="inquiry-rodo"><?php echo wp_kses_post(tyrepol_strip_wrapping_p(tyrepol_opt('tekst_zgody_rodo', __('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'tyrepol')))); ?> *</label>
         </div>
 
         <button class="form__submit" type="submit"><?php esc_html_e('Wyślij zapytanie', 'tyrepol'); ?></button>

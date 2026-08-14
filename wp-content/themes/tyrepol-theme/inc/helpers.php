@@ -21,6 +21,20 @@ function tyrepol_opt($field, $default = '') {
 }
 
 /**
+ * Zdejmuje pojedynczy, otaczający cały tekst znacznik <p>...</p> — pole WYSIWYG (np.
+ * „Tekst zgody RODO”) zawsze zapisuje treść owiniętą w <p>, więc doklejenie czegokolwiek PO
+ * takim HTML-u (np. gwiazdki „*” przy checkboxie) ląduje POZA akapitem i łamie się do nowej
+ * linijki. Używane tam, gdzie tekst z WYSIWYG ma się znaleźć wewnątrz jednej linijki/etykiety.
+ */
+function tyrepol_strip_wrapping_p($html) {
+    $html = trim((string) $html);
+    if (preg_match('/^<p[^>]*>(.*)<\/p>$/is', $html, $m)) {
+        return trim($m[1]);
+    }
+    return $html;
+}
+
+/**
  * Zamienia grupę „slotów o stałej liczbie” (np. sekcja_liczniki.licznik_1 … licznik_6) na
  * zwykłą, „odchudzoną” tablicę — pomija sloty, w których redaktor nic nie wpisał.
  * $group     — tablica zwrócona przez get_field() dla pola typu Group (zawiera podpola-sloty).
@@ -81,6 +95,30 @@ function tyrepol_icon_choices() {
  */
 function tyrepol_contact_section($top = false) {
     get_template_part('template-parts/contact', null, ['top' => $top]);
+}
+
+/**
+ * Cząstka „FAQ” — WSPÓLNA dla wszystkich stron (Strona główna, Opony, każda „Elastyczna strona”):
+ * treść pytań edytuje się raz w Ustawienia motywu → FAQ, a nie osobno na każdej podstronie —
+ * dzięki temu ta sama lista pytań pokazuje się wszędzie automatycznie, bez kopiowania treści.
+ * Zwraca true/false — czy sekcja faktycznie się wyrenderowała (przydatne np. do licznika sekcji
+ * w template-elastyczna.php).
+ */
+function tyrepol_faq_section($anchor = 'faq') {
+    $items = [];
+    for ($i = 1; $i <= 8; $i++) {
+        $row = tyrepol_opt('pytanie_' . $i);
+        if (!empty($row['pytanie'])) $items[] = $row;
+    }
+    if (empty($items)) return false;
+
+    get_template_part('template-parts/faq', null, [
+        'title'  => tyrepol_opt('faq_tytul', 'FAQ'),
+        'desc'   => tyrepol_opt('faq_opis'),
+        'items'  => $items,
+        'anchor' => $anchor,
+    ]);
+    return true;
 }
 
 /**

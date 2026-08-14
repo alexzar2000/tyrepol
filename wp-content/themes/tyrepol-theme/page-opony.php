@@ -161,13 +161,8 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
   </section>
 
   <?php
-  // WP: 8 stałych slotów FAQ (zamiast Repeatera z ACF PRO) — puste (bez pytania) się pomijają.
-  $faq_items = [];
-  for ($i = 1; $i <= 8; $i++) {
-      $row = get_field('pytanie_' . $i);
-      if (!empty($row['pytanie'])) $faq_items[] = $row;
-  }
-  get_template_part('template-parts/faq', null, ['title' => get_field('faq_tytul') ?: 'FAQ', 'desc' => get_field('faq_opis'), 'items' => $faq_items, 'anchor' => 'faq']);
+  // FAQ jest teraz WSPÓLNE dla wszystkich stron — edytuje się raz w Ustawienia motywu → FAQ.
+  tyrepol_faq_section('faq');
   ?>
 
   <?php tyrepol_contact_section(false); ?>

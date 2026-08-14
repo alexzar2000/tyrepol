@@ -70,6 +70,12 @@ add_action('wp_enqueue_scripts', 'tyrepol_assets');
 require TYREPOL_DIR . '/inc/cpt-opona.php';
 
 /**
+ * Rejestracja CPT „Slajd hero” — nieograniczona liczba slajdów w karuzeli Strony głównej
+ * (zamiast stałej liczby pól ACF — patrz komentarz w pliku).
+ */
+require TYREPOL_DIR . '/inc/cpt-slajd-hero.php';
+
+/**
  * Niestandardowy Walker menu — mapuje standardowe menu WP (Wygląd → Menu) na klasy BEM
  * użyte w oryginalnej wersji HTML (header__item, header__dropdown-menu itd.), żeby wygląd
  * menu pozostał identyczny jak w statycznej wersji.

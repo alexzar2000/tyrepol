@@ -1,6 +1,6 @@
 {
     "key": "group_tyrepol_kontakt_options",
-    "title": "Ustawienia motywu — Kontakt i social media",
+    "title": "Ustawienia motywu — Kontakt, social media i FAQ",
     "fields": [
         {"key": "field_opt_tab_firma", "label": "Firma", "name": "tab_firma", "type": "tab"},
         {"key": "field_opt_firma_nazwa", "label": "Nazwa firmy", "name": "firma_nazwa", "type": "text", "default_value": "TyrePol Sp. z o.o."},
@@ -27,7 +27,19 @@
         {"key": "field_opt_tab_kontakt_sekcja", "label": "Teksty sekcji „Kontakt”", "name": "tab_kontakt_sekcja", "type": "tab"},
         {"key": "field_opt_kontakt_naglowek", "label": "Nagłówek", "name": "kontakt_naglowek", "type": "text", "default_value": "Kontakt"},
         {"key": "field_opt_kontakt_opis", "label": "Opis pod nagłówkiem", "name": "kontakt_opis", "type": "textarea", "rows": 2},
-        {"key": "field_opt_kontakt_lead", "label": "Tekst nad danymi firmy", "name": "kontakt_lead", "type": "textarea", "rows": 2}
+        {"key": "field_opt_kontakt_lead", "label": "Tekst nad danymi firmy", "name": "kontakt_lead", "type": "textarea", "rows": 2},
+
+        {"key": "field_opt_tab_faq", "label": "FAQ (wspólne dla wszystkich stron)", "name": "tab_faq_wspolne", "type": "tab"},
+        {"key": "field_opt_faq_tytul", "label": "Nagłówek", "name": "faq_tytul", "type": "text", "default_value": "FAQ"},
+        {"key": "field_opt_faq_opis", "label": "Opis", "name": "faq_opis", "type": "textarea", "rows": 2, "instructions": "Ta lista pytań pokazuje się automatycznie na dole każdej strony (Strona główna, Opony, każda „Elastyczna strona” — O firmie, Saucerman itd.) — edytujesz ją raz, tutaj, zamiast osobno na każdej podstronie."},
+        {"key": "field_opt_pytanie_1", "label": "Pytanie 1", "name": "pytanie_1", "type": "group", "sub_fields": [{"key": "field_opt_p1_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p1_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_2", "label": "Pytanie 2", "name": "pytanie_2", "type": "group", "sub_fields": [{"key": "field_opt_p2_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p2_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_3", "label": "Pytanie 3", "name": "pytanie_3", "type": "group", "sub_fields": [{"key": "field_opt_p3_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p3_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_4", "label": "Pytanie 4", "name": "pytanie_4", "type": "group", "sub_fields": [{"key": "field_opt_p4_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p4_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_5", "label": "Pytanie 5", "name": "pytanie_5", "type": "group", "sub_fields": [{"key": "field_opt_p5_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p5_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_6", "label": "Pytanie 6 (opcjonalnie)", "name": "pytanie_6", "type": "group", "sub_fields": [{"key": "field_opt_p6_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p6_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_7", "label": "Pytanie 7 (opcjonalnie)", "name": "pytanie_7", "type": "group", "sub_fields": [{"key": "field_opt_p7_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p7_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]},
+        {"key": "field_opt_pytanie_8", "label": "Pytanie 8 (opcjonalnie)", "name": "pytanie_8", "type": "group", "sub_fields": [{"key": "field_opt_p8_p", "label": "Pytanie", "name": "pytanie", "type": "text"}, {"key": "field_opt_p8_o", "label": "Odpowiedź", "name": "odpowiedz", "type": "textarea", "rows": 3}]}
     ],
     "location": [
         [{"param": "page_template", "operator": "==", "value": "template-ustawienia.php"}]

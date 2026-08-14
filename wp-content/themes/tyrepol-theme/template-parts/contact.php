@@ -104,7 +104,7 @@ $socials = [
 
         <div class="form__group form__group--checkbox">
           <input class="form__checkbox" type="checkbox" id="contact-rodo" name="rodo" required>
-          <label class="form__checkbox-label" for="contact-rodo"><?php echo wp_kses_post(tyrepol_opt('tekst_zgody_rodo', __('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'tyrepol'))); ?> *</label>
+          <label class="form__checkbox-label" for="contact-rodo"><?php echo wp_kses_post(tyrepol_strip_wrapping_p(tyrepol_opt('tekst_zgody_rodo', __('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'tyrepol')))); ?> *</label>
         </div>
 
         <p class="form__status" id="contact-form-status" role="status" aria-live="polite" hidden></p>

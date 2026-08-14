@@ -14,22 +14,33 @@ get_header();
     <div class="hero__swiper swiper">
       <div class="swiper-wrapper">
         <?php
-        // WP: 4 stałe „sloty” slajdów (zamiast Repeatera z ACF PRO) — pusty slot (bez tytułu)
-        // po prostu się nie renderuje.
-        for ($i = 1; $i <= 4; $i++) :
-          $slide = get_field('hero_slajd_' . $i);
-          if (empty($slide['tytul'])) continue;
+        // WP: nieograniczona liczba slajdów — osobny typ wpisu „Slajd hero” (Slajdy hero w menu
+        // panelu) zamiast stałej liczby pól ACF, żeby można było dodać ich dowolnie dużo.
+        // Kolejność ustala pole „Kolejność” (page-attributes, wbudowane w WordPressa).
+        $hero_slides = get_posts([
+            'post_type'      => 'slajd_hero',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+        ]);
+        foreach ($hero_slides as $slide) :
+          $tytul = get_the_title($slide);
+          if ($tytul === '') continue;
+          $opis      = get_field('opis', $slide->ID);
+          $link_tekst = get_field('link_tekst', $slide->ID);
+          $link_url   = get_field('link_url', $slide->ID);
         ?>
         <div class="hero__slide swiper-slide">
           <div class="hero__image-wrap">
-            <?php echo wp_get_attachment_image($slide['obraz'], 'full', false, ['class' => 'hero__image', 'loading' => 'eager']); ?>
+            <?php echo get_the_post_thumbnail($slide->ID, 'full', ['class' => 'hero__image', 'loading' => 'eager']); ?>
           </div>
           <div class="hero__content">
-            <h1 class="hero__title" data-swiper-parallax-y="-120" data-swiper-parallax-duration="1200"><?php echo esc_html($slide['tytul']); ?></h1>
-            <p class="hero__desc" data-swiper-parallax-y="-160" data-swiper-parallax-duration="1400"><?php echo esc_html($slide['opis']); ?></p>
-            <?php if (!empty($slide['link_url'])) : ?>
+            <h1 class="hero__title" data-swiper-parallax-y="-120" data-swiper-parallax-duration="1200"><?php echo esc_html($tytul); ?></h1>
+            <p class="hero__desc" data-swiper-parallax-y="-160" data-swiper-parallax-duration="1400"><?php echo esc_html($opis); ?></p>
+            <?php if (!empty($link_url)) : ?>
             <div class="hero__link-wrap" data-swiper-parallax-y="-200" data-swiper-parallax-duration="1500">
-              <a class="hero__link" href="<?php echo esc_url($slide['link_url']); ?>"><?php echo esc_html($slide['link_tekst'] ?: __('Sprawdź ofertę', 'tyrepol')); ?>
+              <a class="hero__link" href="<?php echo esc_url($link_url); ?>"><?php echo esc_html($link_tekst ?: __('Sprawdź ofertę', 'tyrepol')); ?>
                 <svg class="hero__link-icon" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
                   <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                     <circle class="hero__link-circle" cx="16" cy="16" r="15.12"></circle>
@@ -41,7 +52,7 @@ get_header();
             <?php endif; ?>
           </div>
         </div>
-        <?php endfor; ?>
+        <?php endforeach; ?>
       </div>
     </div>
 
@@ -121,13 +132,9 @@ get_header();
   ?>
 
   <?php
-  // WP: 8 stałych slotów FAQ (zamiast Repeatera) — puste (bez pytania) się pomijają.
-  $faq_items = [];
-  for ($i = 1; $i <= 8; $i++) {
-      $row = get_field('pytanie_' . $i);
-      if (!empty($row['pytanie'])) $faq_items[] = $row;
-  }
-  get_template_part('template-parts/faq', null, ['title' => get_field('faq_tytul') ?: 'FAQ', 'desc' => get_field('faq_opis'), 'items' => $faq_items, 'anchor' => 'faq']);
+  // FAQ jest teraz WSPÓLNE dla wszystkich stron — edytuje się raz w Ustawienia motywu → FAQ,
+  // a treść pociąga się automatycznie tutaj i na każdej innej stronie (patrz tyrepol_faq_section()).
+  tyrepol_faq_section('faq');
   ?>
 
   <?php tyrepol_contact_section(false); ?>

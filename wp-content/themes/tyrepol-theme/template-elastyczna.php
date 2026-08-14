@@ -165,19 +165,9 @@ get_header();
     endif;
   endif;
 
-  // 9) FAQ (do 8 stałych slotów zamiast Repeatera)
-  $sec = get_field('sekcja_faq');
-  if (!empty($sec['pokaz'])) :
-    $items = [];
-    for ($i = 1; $i <= 8; $i++) {
-        $row = $sec['pytanie_' . $i] ?? null;
-        if (!empty($row['pytanie'])) $items[] = $row;
-    }
-    if (!empty($items)) :
-      $ma_sekcje = true;
-      get_template_part('template-parts/faq', null, ['title' => $sec['tytul'] ?: 'FAQ', 'desc' => $sec['opis'] ?? '', 'items' => $items, 'anchor' => 'faq']);
-    endif;
-  endif;
+  // 9) FAQ — WSPÓLNE dla wszystkich stron (edytowane raz w Ustawienia motywu → FAQ), pokazuje się
+  // automatycznie tu i na każdej innej stronie — bez osobnego pola „Pokaż tę sekcję” na tej stronie.
+  if (tyrepol_faq_section('faq')) $ma_sekcje = true;
 
   // 10) Kontakt (dane z „Ustawienia motywu”)
   $sec = get_field('sekcja_kontakt');

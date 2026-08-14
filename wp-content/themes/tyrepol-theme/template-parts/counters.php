@@ -2,7 +2,9 @@
 /**
  * Cząstka „Liczniki” (counters) — animacja odliczania obsługiwana przez istniejący assets/script.js
  * (funkcja initCounters, bez zmian).
- * $args: title, desc, items (array: ikona, liczba, etykieta, predkosc)
+ * $args: title, desc, items (array: ikona_obraz [ID załącznika], liczba, etykieta, predkosc)
+ * Ikonka to małe zdjęcie wgrywane przez redaktora — wyświetla się w stałym kwadracie i skaluje
+ * (object-fit: contain), więc dowolny rozmiar wgranego pliku wygląda poprawnie.
  */
 if (!defined('ABSPATH')) exit;
 $title = $args['title'] ?? '';
@@ -23,7 +25,13 @@ $items = $args['items'] ?? [];
         $speed = intval($item['predkosc'] ?? 1500) ?: 1500;
       ?>
       <div class="counters__item reveal">
-        <?php echo tyrepol_icon($item['ikona'] ?? 'domyslna'); ?>
+        <span class="counters__icon">
+          <?php if (!empty($item['ikona_obraz'])) : ?>
+            <?php echo wp_get_attachment_image($item['ikona_obraz'], 'thumbnail', false, ['class' => 'counters__icon-img', 'alt' => '', 'loading' => 'lazy']); ?>
+          <?php else : ?>
+            <?php echo tyrepol_icon('domyslna'); ?>
+          <?php endif; ?>
+        </span>
         <h3 class="counters__number" data-to="<?php echo esc_attr($to); ?>" data-speed="<?php echo esc_attr($speed); ?>">0</h3>
         <p class="counters__label"><?php echo esc_html($item['etykieta'] ?? ''); ?></p>
       </div>

@@ -976,9 +976,22 @@ body.loader-active {
 }
 
 .counters__icon {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
   margin: 0 auto 16px;
   color: var(--color-accent);
+}
+
+.counters__icon-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .counters__number {
