@@ -1,0 +1,35 @@
+{
+    "key": "group_tyrepol_kontakt_options",
+    "title": "Kontakt i social media",
+    "fields": [
+        {"key": "field_opt_firma_nazwa", "label": "Nazwa firmy", "name": "firma_nazwa", "type": "text", "default_value": "TyrePol Sp. z o.o."},
+        {
+            "key": "field_opt_firma_adres", "label": "Adres siedziby (linie)", "name": "firma_adres_linie", "type": "repeater", "layout": "table", "button_label": "Dodaj linię",
+            "sub_fields": [{"key": "field_opt_firma_adres_linia", "label": "Linia", "name": "linia", "type": "text"}]
+        },
+        {"key": "field_opt_biuro_naglowek", "label": "Nagłówek bloku biuro/magazyn", "name": "biuro_naglowek", "type": "text", "default_value": "Biuro / Magazyn"},
+        {
+            "key": "field_opt_biuro_adres", "label": "Adres biura/magazynu (linie)", "name": "biuro_adres_linie", "type": "repeater", "layout": "table", "button_label": "Dodaj linię",
+            "sub_fields": [{"key": "field_opt_biuro_adres_linia", "label": "Linia", "name": "linia", "type": "text"}]
+        },
+        {"key": "field_opt_telefon", "label": "Telefon", "name": "telefon", "type": "text", "placeholder": "+48 000 000 000"},
+        {"key": "field_opt_email", "label": "E-mail", "name": "email", "type": "email"},
+        {"key": "field_opt_mapa", "label": "Adres osadzonej mapy Google (URL z pola „src” z Google Maps → Udostępnij → Umieść mapę)", "name": "mapa_embed_url", "type": "url"},
+        {"key": "field_opt_social_fb", "label": "Facebook — URL", "name": "social_facebook", "type": "url"},
+        {"key": "field_opt_social_ig", "label": "Instagram — URL", "name": "social_instagram", "type": "url"},
+        {"key": "field_opt_social_li", "label": "LinkedIn — URL", "name": "social_linkedin", "type": "url"},
+        {"key": "field_opt_social_yt", "label": "YouTube — URL", "name": "social_youtube", "type": "url"},
+        {"key": "field_opt_kontakt_naglowek", "label": "Sekcja „Kontakt” — nagłówek", "name": "kontakt_naglowek", "type": "text", "default_value": "Kontakt"},
+        {"key": "field_opt_kontakt_opis", "label": "Sekcja „Kontakt” — opis pod nagłówkiem", "name": "kontakt_opis", "type": "textarea", "rows": 2},
+        {"key": "field_opt_kontakt_lead", "label": "Sekcja „Kontakt” — tekst nad danymi firmy", "name": "kontakt_lead", "type": "textarea", "rows": 2}
+    ],
+    "location": [
+        [{"param": "options_page", "operator": "==", "value": "tyrepol-kontakt"}]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true
+}

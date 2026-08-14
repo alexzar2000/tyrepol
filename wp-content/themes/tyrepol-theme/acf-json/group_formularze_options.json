@@ -1,0 +1,17 @@
+{
+    "key": "group_tyrepol_formularze_options",
+    "title": "Formularze",
+    "fields": [
+        {"key": "field_opt_form_email", "label": "Adres e-mail odbierający zapytania z formularzy", "name": "formularz_odbiorca_email", "type": "email", "instructions": "Jeśli puste, wiadomości trafiają na e-mail administratora WordPressa."},
+        {"key": "field_opt_form_rodo", "label": "Tekst zgody RODO (checkbox pod formularzami)", "name": "tekst_zgody_rodo", "type": "wysiwyg", "media_upload": 0, "toolbar": "basic", "default_value": "Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z <a href=\"/polityka-prywatnosci/\">Polityką prywatności</a>."}
+    ],
+    "location": [
+        [{"param": "options_page", "operator": "==", "value": "tyrepol-formularze"}]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true
+}

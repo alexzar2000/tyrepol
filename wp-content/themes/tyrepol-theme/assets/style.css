@@ -479,8 +479,8 @@ body.loader-active {
 .hero {
   position: relative;
   margin-top: var(--header-height);
-  height: calc(100vh - var(--header-height));
-  min-height: 480px;
+  height: calc(100vh - var(--header-height) - 200px); /* niższy slider - widać kolejny blok bez przewijania */
+  min-height: 420px;
   overflow: hidden;
   background: var(--color-white);
 }
@@ -816,17 +816,36 @@ body.loader-active {
 }
 
 .brands__slide {
+  display: block;
   height: auto;
 }
 
-/* Element: placeholder zdjęcia - do podmiany na realne obrazy marek */
-.brands__placeholder {
+/* Element: kafelek z logo marki - domyślnie logo wygaszone na czarno, po najechaniu tło ciemnieje i logo robi się białe */
+.brands__logo-box {
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 4 / 3;
-  background: #dcdcdc;
-  color: #b0b0b0;
+  background: #f2f2f2;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.brands__logo {
+  max-width: 65%;
+  max-height: 45%;
+  filter: brightness(0);
+  opacity: 0.7;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.brands__slide:hover .brands__logo-box {
+  background: var(--color-black);
+}
+
+.brands__slide:hover .brands__logo {
+  filter: brightness(0) invert(1);
+  opacity: 1;
 }
 
 /* Element: strzałki nawigacji */
@@ -876,6 +895,16 @@ body.loader-active {
 
 .brands__pagination .swiper-pagination-bullet-active {
   background: var(--color-black);
+}
+
+/* Stan "zablokowanej" karuzeli (za mało slajdów, żeby było co przewijać) - ukrywamy strzałki i kropki, logo wyśrodkowane */
+.brands--static .brands__nav,
+.brands--static .brands__pagination {
+  display: none;
+}
+
+.brands--static .brands__swiper .swiper-wrapper {
+  justify-content: center;
 }
 
 @media (max-width: 767px) {
@@ -1161,6 +1190,362 @@ body.loader-active {
   margin-top: var(--header-height);
 }
 
+/* Modyfikator: odstęp od stałego hedera, gdy FAQ jest pierwszym blokiem na stronie (bez slidera) */
+.faq--top {
+  margin-top: var(--header-height);
+}
+
+/* ===== Blok: szczegóły produktu (zdjęcie opony + tabela specyfikacji) ===== */
+
+.tire-detail {
+  padding: 64px 0;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez slidera) */
+.tire-detail--top {
+  margin-top: var(--header-height);
+}
+
+/* Blok: okruszki nawigacyjne (breadcrumbs) na podstronie produktu */
+.breadcrumb {
+  margin-top: var(--header-height);
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.breadcrumb__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.breadcrumb__item {
+  color: #666;
+}
+
+.breadcrumb__link {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb__link:hover,
+.breadcrumb__link:focus-visible {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.breadcrumb__sep {
+  color: #b3b3b3;
+}
+
+.breadcrumb__item--current {
+  color: var(--color-black);
+  font-weight: 600;
+}
+
+.tire-detail__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.tire-detail__layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+/* Element: zdjęcie opony - przykleja się pod hederem podczas przewijania, aż do końca panelu z tabelą */
+.tire-detail__media {
+  flex: 0 0 340px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  align-self: flex-start;
+}
+
+.tire-detail__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.tire-detail__panel {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Element: wstążka z kodem bieżnika, np. SSL122 */
+.tire-detail__badge {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 12px 40px 12px 24px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+}
+
+.tire-detail__table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.tire-detail__table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tire-detail__table thead th {
+  background: #333;
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: center;
+  padding: 14px 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tire-detail__table thead th:first-child,
+.tire-detail__table thead th:nth-child(2) {
+  text-align: left;
+}
+
+.tire-detail__table thead th:last-child {
+  border-right: none;
+}
+
+.tire-detail__table tbody td {
+  padding: 12px 10px;
+  text-align: center;
+  color: #333;
+  border-top: 1px solid #ececec;
+}
+
+.tire-detail__table tbody td:first-child,
+.tire-detail__table tbody td:nth-child(2) {
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.tire-detail__table tbody tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+.tire-detail__icon {
+  display: inline-flex;
+}
+
+.tire-detail__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.tire-detail__ms-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-white);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tire-detail__check {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* Element: przycisk "Zapytaj o cenę" pod tabelą */
+.tire-detail__cta-wrap {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 24px;
+}
+
+.tire-detail__cta {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 36px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tire-detail__cta:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+/* Element: globalny mobilny stały pasek "Darmowa wycena" - widoczny na każdej podstronie */
+.mobile-quote-cta {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .tire-detail__layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tire-detail__media {
+    position: static;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .tire-detail__panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .tire-detail__media {
+    max-width: 260px;
+  }
+
+  .tire-detail__badge {
+    font-size: 20px;
+    padding: 10px 32px 10px 18px;
+  }
+
+  .tire-detail__cta-wrap {
+    justify-content: stretch;
+  }
+
+  .tire-detail__cta {
+    width: 100%;
+  }
+
+  /* Chowamy zwykły przycisk pod tabelą na mobile - zastępuje go stały pasek na dole ekranu */
+  .tire-detail__cta-wrap {
+    display: none;
+  }
+
+  /* Zafiksowany na dole, na całą szerokość ekranu - widoczny od razu, bez przewijania */
+  .mobile-quote-cta {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 950;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background: var(--color-accent);
+    color: var(--color-white);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  .mobile-quote-cta:active {
+    background: #7f1729;
+  }
+
+  /* Odsunięcie innych stałych elementów, żeby nie chowały się pod paskiem wyceny */
+  .scrolltop {
+    bottom: 88px;
+  }
+
+  .toast {
+    bottom: 88px;
+  }
+
+  /* Tabela zamienia się w listę kart - łatwiejsza do przewijania i czytania na telefonie */
+  .tire-detail__table-wrap {
+    overflow-x: visible;
+    border: none;
+  }
+
+  .tire-detail__table {
+    display: block;
+    min-width: 0;
+  }
+
+  .tire-detail__table thead {
+    display: none;
+  }
+
+  .tire-detail__table tbody {
+    display: block;
+  }
+
+  .tire-detail__table tbody tr {
+    display: block;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-white) !important;
+  }
+
+  .tire-detail__table tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    text-align: right;
+    border-top: 1px solid #ececec;
+  }
+
+  .tire-detail__table tbody td::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-align: left;
+  }
+
+  .tire-detail__table tbody td:first-child {
+    background: #333;
+    color: var(--color-white);
+    border-top: none;
+    font-size: 15px;
+  }
+
+  .tire-detail__table tbody td:first-child::before {
+    display: none;
+  }
+
+  .tire-detail__table tbody td:nth-child(2) {
+    font-size: 15px;
+  }
+}
+
 .contact__inner {
   max-width: 1280px;
   margin: 0 auto;
@@ -1367,6 +1752,10 @@ body.loader-active {
   resize: vertical;
 }
 
+.form__textarea--small {
+  min-height: 90px;
+}
+
 /* Element: zgoda RODO */
 .form__group--checkbox {
   flex-direction: row;
@@ -1497,4 +1886,1733 @@ body.loader-active {
   .contact__map iframe {
     height: 320px;
   }
+}
+
+/* Blok: katalog opon (filtry + siatka produktów) */
+.catalog {
+  padding: 64px 0;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez slidera) */
+.catalog--top {
+  margin-top: var(--header-height);
+}
+
+.catalog__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.catalog__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.catalog__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.catalog__desc {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Blok: kafelki marek nad filtrami - klik filtruje siatkę poniżej; ponad 5 marek = karuzela (Swiper.js) */
+.catalog__brand-carousel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.catalog__brand-swiper {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+/* Element: strzałki nawigacji karuzeli - wygląd jak w karuzeli marek na stronie głównej */
+.catalog__brand-nav {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-black);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.catalog__brand-nav:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.catalog__brand-nav.swiper-button-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Element: kropki paginacji karuzeli */
+.catalog__brand-pagination.swiper-pagination {
+  position: static;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.catalog__brand-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0 !important;
+  background: #d9d9d9;
+  opacity: 1;
+}
+
+.catalog__brand-pagination .swiper-pagination-bullet-active {
+  background: var(--color-black);
+}
+
+/* Stan "zablokowanej" karuzeli (kafelki mieszczą się w jednym rzędzie) - ukrywamy strzałki i kropki, kafelki wyśrodkowane */
+.catalog__header--brand-static .catalog__brand-nav,
+.catalog__header--brand-static .catalog__brand-pagination {
+  display: none;
+}
+
+.catalog__header--brand-static .catalog__brand-swiper .swiper-wrapper {
+  justify-content: center;
+}
+
+.catalog__brand-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: none;
+  background: transparent;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.catalog__brand-tile-logo {
+  max-width: 75%;
+  max-height: 55%;
+  filter: brightness(0);
+  transition: filter 0.2s ease;
+}
+
+.catalog__brand-tile--active {
+  background: var(--color-accent);
+  border-radius: 8px;
+}
+
+.catalog__brand-tile--active .catalog__brand-tile-logo {
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 767px) {
+  .catalog__brand-nav {
+    display: none; /* bez strzałek na mobile, przewijanie dotykiem */
+  }
+}
+
+.catalog__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Element: panel filtrów - przykleja się pod hederem podczas przewijania, aż do końca siatki produktów */
+.catalog__filters {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 24px;
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  max-height: calc(100vh - var(--header-height) - 48px);
+  overflow-y: auto;
+  scroll-margin-top: calc(var(--header-height) + 64px);
+}
+
+/* Blok: mobilny skrót "Wróć do filtrów" - stały pasek pod hederem, widoczny tylko po zjechaniu poza filtry (≤1100px) */
+.catalog__filter-jump {
+  display: none;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.catalog__filter-jump--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (max-width: 1100px) {
+  .catalog__filter-jump {
+    display: flex;
+  }
+}
+
+.filter__group {
+  margin-bottom: 24px;
+}
+
+.filter__group:last-of-type {
+  margin-bottom: 20px;
+}
+
+.filter__title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.filter__select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-black);
+  background: var(--color-white);
+}
+
+.filter__select:last-child {
+  margin-bottom: 0;
+}
+
+.filter__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.filter__option:last-child {
+  margin-bottom: 0;
+}
+
+.filter__checkbox,
+.filter__radio {
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.filter__submit {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.filter__submit:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+/* Element: wyniki katalogu - odsunięcie od góry, żeby przewijanie po kliknięciu marki nie chowało się pod hederem */
+.catalog__results {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
+/* Element: siatka kart produktów */
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.tire-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 24px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease;
+}
+
+.tire-card:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Stan startowy nowo dokładanej karty (JS zdejmuje tę klasę na kolejnej klatce, żeby uruchomić przejście) */
+.tire-card--enter {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tire-card {
+    transition: none;
+  }
+}
+
+.tire-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  margin: -24px -24px 4px;
+  border-radius: 8px 8px 0 0;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+.tire-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+/* Element: neutralna ikona dla marek bez własnego zdjęcia produktu */
+.tire-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b0b0;
+}
+
+.tire-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  border-radius: 20px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 12px;
+}
+
+.tire-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tire-card__brand {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.tire-card__model {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.tire-card__row--specs {
+  font-size: 14px;
+  color: #555;
+}
+
+.tire-card__row--specs strong {
+  color: var(--color-black);
+}
+
+/* Element: pusty stan katalogu - brak wyników po zastosowaniu filtrów */
+.catalog__empty {
+  margin: 0;
+  padding: 48px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Element: przycisk doładowania kolejnych opon */
+.catalog__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.catalog__load-more {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.catalog__load-more:hover {
+  background: var(--color-white);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.catalog__load-more[hidden] {
+  display: none;
+}
+
+.tire-card__link {
+  display: inline-block;
+  margin-top: auto;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 10px 18px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.tire-card__link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+@media (max-width: 1100px) {
+  .catalog__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog__filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .filter__group {
+    flex: 1 1 200px;
+    margin-bottom: 0;
+  }
+
+  .filter__submit {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 767px) {
+  .catalog__title {
+    font-size: 32px;
+  }
+
+  .catalog__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog__filters {
+    flex-direction: column;
+  }
+
+  .filter__group {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter__title {
+    flex: 1 0 100%;
+    font-size: 17px;
+  }
+
+  .filter__option {
+    display: inline-flex;
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 15px;
+  }
+
+  .filter__checkbox,
+  .filter__radio {
+    width: 18px;
+    height: 18px;
+  }
+
+  .filter__select {
+    padding: 14px 14px;
+    font-size: 15px;
+  }
+
+  .filter__submit {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .catalog__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Blok: aktualności (siatka newsów) ===== */
+.news {
+  padding: 64px 0;
+}
+
+.news--top {
+  margin-top: var(--header-height);
+}
+
+.news__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.news__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.news__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.news__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Element: siatka kart newsów */
+.news__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 24px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Stan startowy nowo dokładanej karty (JS zdejmuje tę klasę na kolejnej klatce) */
+.news-card--enter {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-card {
+    transition: none;
+  }
+}
+
+.news-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  margin: -24px -24px 4px;
+  border-radius: 8px 8px 0 0;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+.news-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Element: neutralna ikona dla newsów bez własnego zdjęcia */
+.news-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b0b0;
+}
+
+/* Element: "kalendarzowa" plakietka z datą publikacji na zdjęciu */
+.news-card__date {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  background: var(--color-white);
+  border-radius: 8px;
+  padding: 8px 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.news-card__date-month {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-accent);
+}
+
+.news-card__date-day {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 3px 0;
+}
+
+.news-card__date-year {
+  font-size: 11px;
+  color: #777;
+}
+
+.news-card__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.news-card__excerpt {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.news-card__link {
+  display: inline-block;
+  margin-top: auto;
+  align-self: flex-start;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 10px 18px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.news-card__link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Element: pusty stan (brak wpisów) */
+.news__empty {
+  margin: 0;
+  padding: 48px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Element: przycisk doładowania kolejnych newsów */
+.news__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.news__load-more {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.news__load-more:hover {
+  background: var(--color-white);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.news__load-more[hidden] {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .news__title {
+    font-size: 32px;
+  }
+
+  .news__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .news__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Blok: pojedynczy artykuł aktualności ===== */
+.article {
+  padding: 64px 0 96px;
+}
+
+.article--top {
+  margin-top: var(--header-height);
+}
+
+.article__inner {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.article__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.article__back:hover {
+  text-decoration: underline;
+}
+
+.article__back svg {
+  width: 16px;
+  height: 16px;
+}
+
+.article__date {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-accent);
+}
+
+.article__title {
+  margin: 0 0 24px;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.article__cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  background: #f2f2f2;
+  color: #b0b0b0;
+}
+
+.article__body p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.article__body h2 {
+  margin: 32px 0 16px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.article__body ul {
+  margin: 0 0 20px;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.article__share {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd;
+}
+
+.article__share-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.article__share-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  color: var(--color-black);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.article__share-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.article__share-link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Element: sekcja powiązanych artykułów pod treścią */
+.article__related {
+  max-width: 1280px;
+  margin: 72px auto 0;
+  padding: 0 32px;
+}
+
+.article__related-title {
+  margin: 0 0 24px;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.article__related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 767px) {
+  .article__title {
+    font-size: 28px;
+  }
+
+  .article__related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .article__related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Blok: strona prawna (polityka prywatności / polityka cookies) */
+.legal {
+  padding: 64px 0 96px;
+}
+
+.legal--top {
+  margin-top: var(--header-height);
+}
+
+.legal__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.legal__title {
+  margin: 0 0 8px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.legal__updated {
+  margin: 0 0 40px;
+  font-size: 14px;
+  color: #666;
+}
+
+.legal__section {
+  margin-bottom: 32px;
+}
+
+.legal__section-title {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.legal__section p,
+.legal__section li {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.legal__section ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.legal__section a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* ===== Blok: strona "O firmie" ===== */
+
+/* Element: baner strony - hasło, lead i zdjęcie */
+.about-hero {
+  padding: 64px 0 96px;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez okruszków) */
+.about-hero--top {
+  margin-top: var(--header-height);
+}
+
+.about-hero__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.about-hero__eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about-hero__title {
+  margin: 0 0 20px;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.about-hero__lead {
+  margin: 0 0 28px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.about-hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-hero__badge {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.about-hero__media {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.about-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Modyfikator: zdjęcie produktowe (np. opona na przezroczystym tle) - bez kadrowania */
+.about-hero__media--product {
+  background: #f2f2f2;
+}
+
+.about-hero__img--contain {
+  object-fit: contain;
+  padding: 32px;
+}
+
+/* Blok: sekcja "Kim jesteśmy" - tekst + zdjęcie */
+.about {
+  padding: 32px 0 96px;
+}
+
+.about__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.about__img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.about__eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about__title {
+  margin: 0 0 20px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.about__body p {
+  margin: 0 0 18px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.about__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Blok: naprzemienne wiersze tekst + zdjęcie (oferta, odbiorcy, wartości) */
+.about-split {
+  padding: 0 0 96px;
+}
+
+.about-split__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-split__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 56px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.about-split__row:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.about-split__row--reverse .about-split__media {
+  order: 2;
+}
+
+.about-split__row--reverse .about-split__content {
+  order: 1;
+}
+
+.about-split__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.about-split__title {
+  margin: 0 0 16px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.about-split__text {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.about-split__text:last-child {
+  margin-bottom: 0;
+}
+
+/* Element: chipy z rozmiarami opon w wierszu zakresu produktowego */
+.about-split__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.about-split__size {
+  padding: 6px 12px;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Element: link "Zobacz opony..." pod opisem wiersza */
+.about-split__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.about-split__link:hover {
+  text-decoration: underline;
+}
+
+.about-split__link svg {
+  flex: 0 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.about-split__link:hover svg {
+  transform: translateX(3px);
+}
+
+/* Blok: karty wartości - "dlaczego TyrePol" */
+.about-values {
+  padding: 96px 0;
+  background: #f7f7f7;
+}
+
+.about-values__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-values__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.about-values__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.about-values__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.about-values__card {
+  padding: 32px 28px;
+  background: var(--color-white);
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.about-values__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.about-values__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: rgba(159, 29, 53, 0.1);
+  color: var(--color-accent);
+}
+
+.about-values__card-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.about-values__card-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #555;
+}
+
+.about-values__grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+.about-values__grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+.about-values__grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+.about-values__grid .reveal:nth-child(5) { transition-delay: 0.32s; }
+.about-values__grid .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+/* Blok: galeria zdjęć - zza kulis firmy */
+.about-gallery {
+  padding: 96px 0;
+}
+
+.about-gallery__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-gallery__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.about-gallery__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.about-gallery__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.about-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.about-gallery__item {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.about-gallery__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.about-gallery__item:hover .about-gallery__img {
+  transform: scale(1.06);
+}
+
+.about-gallery__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 14px 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.about-gallery__grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+.about-gallery__grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+.about-gallery__grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+.about-gallery__grid .reveal:nth-child(5) { transition-delay: 0.32s; }
+.about-gallery__grid .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+/* Blok: CTA - zaproszenie do kontaktu */
+.about-cta {
+  padding: 80px 0;
+  background: var(--color-black);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.about-cta__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-cta__title {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.about-cta__desc {
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.about-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.about-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.about-cta__btn--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.about-cta__btn--primary:hover {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.about-cta__btn--outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--color-white);
+}
+
+.about-cta__btn--outline:hover {
+  border-color: var(--color-white);
+}
+
+/* Blok: samodzielny przycisk CTA między sekcjami (czerwone tło, biały tekst) */
+.section-cta {
+  display: flex;
+  justify-content: center;
+  padding: 40px 32px;
+}
+
+.section-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 16px 48px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.section-cta__btn:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+@media (max-width: 767px) {
+  .section-cta {
+    padding: 28px 20px;
+  }
+
+  .section-cta__btn {
+    padding: 14px 32px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .about-values__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .about-hero__inner,
+  .about__inner,
+  .about-split__row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-split__row--reverse .about-split__media,
+  .about-split__row--reverse .about-split__content {
+    order: 0;
+  }
+
+  .about-hero__title {
+    font-size: 32px;
+  }
+
+  .about-values__title,
+  .about-gallery__title {
+    font-size: 30px;
+  }
+
+  .about-values__grid,
+  .about-gallery__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-cta__title {
+    font-size: 26px;
+  }
+}
+
+/* ===== Blok: popup z formularzem (np. zapytanie o cenę opony) ===== */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal--open {
+  display: flex;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 40px 32px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modal__close:hover {
+  background: #f2f2f2;
+}
+
+.modal__title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.modal__desc {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media (max-width: 767px) {
+  .modal {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal__dialog {
+    max-width: none;
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
+    padding: 32px 20px 24px;
+  }
+}
+
+/* ===== Blok: komunikat potwierdzający (toast) ===== */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 32px);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.toast svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #4ade80;
+}
+
+.toast--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* ===== Mobile: mniejsze odstępy między blokami/sekcjami ===== */
+@media (max-width: 767px) {
+  .brands,
+  .faq,
+  .contact,
+  .catalog,
+  .news,
+  .tire-detail {
+    padding: 40px 0;
+  }
+
+  .counters,
+  .about-gallery,
+  .about-values {
+    padding: 56px 0;
+  }
+
+  .about-cta {
+    padding: 48px 0;
+  }
+
+  .article,
+  .legal,
+  .about-hero {
+    padding: 40px 0 56px;
+  }
+
+  .about {
+    padding: 24px 0 56px;
+  }
+
+  .about-split {
+    padding: 0 0 56px;
+  }
+
+  .brands__header,
+  .counters__header,
+  .faq__header,
+  .contact__header,
+  .catalog__header,
+  .news__header,
+  .about-values__header,
+  .about-gallery__header {
+    margin-bottom: 28px;
+  }
+
+  .contact__map {
+    margin-bottom: 32px;
+  }
+
+  .catalog__layout {
+    gap: 24px;
+  }
+
+  .tire-detail__layout {
+    gap: 28px;
+  }
+
+  .contact__grid {
+    gap: 32px;
+  }
+
+  .counters__grid,
+  .about-values__grid,
+  .about-gallery__grid,
+  .catalog__grid {
+    gap: 16px;
+  }
+
+  .filter__group {
+    margin-bottom: 16px;
+  }
+}
+
+
+/* WP: komunikat statusu formularza kontaktowego (sukces/błąd wysyłki AJAX) */
+.form__status {
+  margin: -8px 0 4px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form__status--ok {
+  background: rgba(38, 138, 76, 0.12);
+  color: #1e7a43;
+}
+
+.form__status--error {
+  background: rgba(159, 29, 53, 0.1);
+  color: var(--color-accent);
+}
+
+.toast--error {
+  background: var(--color-accent);
 }

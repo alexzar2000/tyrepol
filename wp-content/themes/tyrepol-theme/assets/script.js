@@ -1,77 +1,20 @@
-// ===== Ładowanie hedera i logika interakcji (BEM) =====
+// ===== Logika interakcji (BEM) — wersja WordPress =====
+// Zmiany względem wersji statycznej są oznaczone komentarzem "WP:".
+// Reszta pliku (Swiper, liczniki, FAQ, modal, scrolltop, reveal) jest bez zmian.
 
 document.addEventListener('DOMContentLoaded', () => {
-  // initLoader(); // loader wyłączony
-
-  const placeholder = document.getElementById('header-placeholder');
-
-  // Strony z komponentem hedera ładowanym dynamicznie
-  if (placeholder) {
-    fetch('components/header.html')
-      .then((res) => res.text())
-      .then((html) => {
-        placeholder.innerHTML = html;
-        initHeader();
-      })
-      .catch((err) => console.error('Nie udało się załadować hedera:', err));
-    return;
-  }
-
-  // Strony z hederem wpisanym bezpośrednio w HTML (np. index.html)
   initHeader();
-
   initHero();
   initBrandsCarousel();
   initCounters();
+  initCatalog();
+  initCatalogFilterJump();
   initReveal();
   initContactForm();
   initScrollTop();
   initFaq();
+  initModal();
 });
-
-// Loader startowy - kręcące się koło i licznik procentów do momentu pełnego załadowania strony
-function initLoader() {
-  const loader = document.getElementById('loader');
-  const countEl = loader ? loader.querySelector('.loader__count') : null;
-  if (!loader || !countEl) return;
-
-  document.body.classList.add('loader-active');
-
-  let current = 0;
-  let target = 0;
-
-  // Symulowany postęp, dopóki strona faktycznie się nie załaduje
-  const simInterval = setInterval(() => {
-    if (target < 90) {
-      target = Math.min(90, target + Math.random() * 10);
-    }
-  }, 250);
-
-  function finishLoader() {
-    document.body.classList.remove('loader-active');
-    loader.classList.add('loader--done');
-    setTimeout(() => loader.remove(), 650);
-  }
-
-  function tick() {
-    current += (target - current) * 0.1 + 0.15;
-    if (current >= 100) current = 100;
-    countEl.textContent = Math.floor(current) + '%';
-
-    if (current < 100) {
-      requestAnimationFrame(tick);
-    } else {
-      finishLoader();
-    }
-  }
-
-  window.addEventListener('load', () => {
-    clearInterval(simInterval);
-    target = 100;
-  });
-
-  requestAnimationFrame(tick);
-}
 
 // Przycisk "do góry" - pierścień pokazuje postęp przewijania, przycisk pojawia się stopniowo
 function initScrollTop() {
@@ -101,8 +44,6 @@ function initScrollTop() {
 
   btn.addEventListener('click', scrollToTop);
 
-  // Na mobile pierwsze dotknięcie podczas bezwładnego przewijania samo je zatrzymuje
-  // i "click" nie zawsze wystrzeliwuje - obsługa "touchstart" naprawia przewijanie za pierwszym razem
   btn.addEventListener('touchstart', (e) => {
     e.preventDefault();
     scrollToTop();
@@ -114,15 +55,13 @@ function initHero() {
   const heroEl = document.querySelector('.hero__swiper');
   if (!heroEl || typeof Swiper === 'undefined') return;
 
-  // Swiper nie umożliwia zmiany "effect" przez breakpoints w locie, więc na mobile/desktop
-  // tworzymy osobne instancje: mobile - fade (przenikanie), desktop - slide pionowy z paralaksą
   const mobileQuery = window.matchMedia('(max-width: 767px)');
   let heroSwiper = null;
 
   const commonOptions = {
     speed: 1200,
     loop: true,
-    allowTouchMove: false, // blokada swipe'a palcem - nie koliduje ze scrollem strony
+    allowTouchMove: false,
     autoplay: {
       delay: 10000,
       disableOnInteraction: false,
@@ -167,7 +106,6 @@ function initHero() {
   buildHeroSwiper();
   mobileQuery.addEventListener('change', buildHeroSwiper);
 
-  // Strzałka "przewiń niżej" - płynne przewinięcie do sekcji FAQ
   const scrollBtn = document.querySelector('.hero__scroll-btn');
   if (scrollBtn) {
     scrollBtn.addEventListener('click', (e) => {
@@ -179,35 +117,17 @@ function initHero() {
   }
 }
 
-// Dopełnia karuzelę duplikatami slajdów od początku, żeby ostatnia grupa
-// zawsze była pełna (3 na mobile, 5 na desktop) i nie było pustej "dziury" na końcu
-function padSlidesToFillGroups(wrapper, viewsList) {
-  const slides = Array.from(wrapper.children);
-  const total = slides.length;
-  if (!total) return;
-
-  const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
-  const lcm = viewsList.reduce((a, b) => (a * b) / gcd(a, b), 1);
-  const needed = Math.ceil(total / lcm) * lcm - total;
-
-  for (let i = 0; i < needed; i++) {
-    wrapper.appendChild(slides[i % total].cloneNode(true));
-  }
-}
-
-// Karuzela marek (Swiper.js) - zdjęcia zmieniają się automatycznie co 5 sekund
+// Karuzela marek (Swiper.js)
 function initBrandsCarousel() {
+  const section = document.querySelector('.brands');
   const el = document.querySelector('.brands__swiper');
-  if (!el || typeof Swiper === 'undefined') return;
-
-  const wrapper = el.querySelector('.swiper-wrapper');
-  if (wrapper) padSlidesToFillGroups(wrapper, [3, 5]); // 3 slidesPerView na mobile, 5 na desktop
+  if (!section || !el || typeof Swiper === 'undefined') return;
 
   new Swiper(el, {
     slidesPerView: 3,
-    slidesPerGroup: 3,
     spaceBetween: 12,
-    loop: true,
+    loop: false,
+    watchOverflow: true,
     autoplay: {
       delay: 5000,
       disableOnInteraction: false,
@@ -221,16 +141,19 @@ function initBrandsCarousel() {
       clickable: true,
     },
     breakpoints: {
-      992: { slidesPerView: 5, slidesPerGroup: 2, spaceBetween: 24 },
+      992: { slidesPerView: 5, spaceBetween: 24 },
+    },
+    on: {
+      lock: (swiper) => { section.classList.add('brands--static'); swiper.autoplay.stop(); },
+      unlock: (swiper) => { section.classList.remove('brands--static'); swiper.autoplay.start(); },
     },
   });
 }
 
 // Liczniki - odliczanie do wartości docelowej, uruchamiane po wejściu sekcji w widok
 function initCounters() {
-  const section = document.querySelector('.counters');
-  const items = document.querySelectorAll('.counters__number');
-  if (!section || !items.length) return;
+  const sections = document.querySelectorAll('.counters');
+  if (!sections.length) return;
 
   const animate = (el) => {
     const to = parseInt(el.dataset.to, 10) || 0;
@@ -252,16 +175,287 @@ function initCounters() {
     requestAnimationFrame(tick);
   };
 
-  // Start dopiero, gdy blok jest naprawdę w widoku (nie tuż po dotarciu do jego krawędzi)
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      items.forEach((item) => animate(item));
-      obs.unobserve(section);
+      entry.target.querySelectorAll('.counters__number').forEach((item) => animate(item));
+      obs.unobserve(entry.target);
     });
   }, { threshold: 0.4, rootMargin: '0px 0px -15% 0px' });
 
-  observer.observe(section);
+  sections.forEach((section) => observer.observe(section));
+}
+
+// WP: dane katalogu opon wstrzykiwane z page-opony.php (wp_add_inline_script) zamiast tablicy
+// zaszytej na sztywno w JS — treść pochodzi teraz z CPT „Opona” w panelu WordPress.
+const TIRES = (window.tyrepolCatalog && window.tyrepolCatalog.tires) || [];
+const BRAND_LABELS = (window.tyrepolCatalog && window.tyrepolCatalog.brandLabels) || {};
+const AXLE_LABELS = (window.tyrepolCatalog && window.tyrepolCatalog.axleLabels) || {};
+const VEHICLE_LABELS = (window.tyrepolCatalog && window.tyrepolCatalog.vehicleLabels) || {};
+const SEASON_LABELS = (window.tyrepolCatalog && window.tyrepolCatalog.seasonLabels) || {};
+const I18N = window.tyrepolI18n || {};
+
+function initBrandTilesCarousel(el) {
+  const header = el ? el.closest('.catalog__header') : null;
+  if (!el || !header || typeof Swiper === 'undefined') return;
+
+  new Swiper(el, {
+    slidesPerView: 2,
+    spaceBetween: 16,
+    watchOverflow: true,
+    navigation: {
+      nextEl: '.catalog__brand-nav--next',
+      prevEl: '.catalog__brand-nav--prev',
+    },
+    pagination: {
+      el: '.catalog__brand-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      576: { slidesPerView: 3, spaceBetween: 16 },
+      992: { slidesPerView: 5, spaceBetween: 24 },
+    },
+    on: {
+      lock: () => header.classList.add('catalog__header--brand-static'),
+      unlock: () => header.classList.remove('catalog__header--brand-static'),
+    },
+  });
+}
+
+// Katalog opon - filtrowanie (marka, typ pojazdu, oś, sezon, rozmiar) + doładowywanie kart po 6 sztuk
+function initCatalog() {
+  const grid = document.getElementById('catalog-grid');
+  const form = document.querySelector('.catalog__filters');
+  const loadMoreBtn = document.getElementById('catalog-load-more');
+  const emptyState = document.getElementById('catalog-empty');
+  if (!grid || !form || !loadMoreBtn) return;
+
+  const PAGE_SIZE = 6;
+  let visibleCount = PAGE_SIZE;
+
+  const getChecked = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((el) => el.value);
+
+  const matchesFilters = (tire, filters) => {
+    if (filters.brands.length && !filters.brands.includes(tire.brand)) return false;
+    if (filters.vehicle !== 'all' && tire.vehicle !== filters.vehicle) return false;
+    if (filters.axles.length && !filters.axles.includes(tire.axle)) return false;
+    if (filters.seasons.length && !filters.seasons.includes(tire.season)) return false;
+    if (filters.size && tire.size !== filters.size) return false;
+    return true;
+  };
+
+  const cardTemplate = (tire) => {
+    const brandLabel = BRAND_LABELS[tire.brand] || tire.brand;
+    const axleLabel = AXLE_LABELS[tire.axle] || tire.axle;
+    const vehicleLabel = VEHICLE_LABELS[tire.vehicle] || tire.vehicle;
+    const seasonLabel = SEASON_LABELS[tire.season] || tire.season;
+
+    // WP: zdjęcie pochodzi z obrazka wyróżniającego danego wpisu CPT „Opona” (tire.image).
+    const mediaMarkup = tire.image
+      ? `<img class="tire-card__img" src="${tire.image}" alt="Opona ${brandLabel} ${tire.pattern}" loading="lazy">`
+      : `<div class="tire-card__placeholder" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.5"></circle></svg>
+        </div>`;
+
+    return `
+      <article class="tire-card">
+        <div class="tire-card__media">
+          <span class="tire-card__badge">${seasonLabel}</span>
+          ${mediaMarkup}
+        </div>
+        <div class="tire-card__row">
+          <span class="tire-card__brand">${brandLabel}</span>
+          <span class="tire-card__model">${tire.pattern || ''}</span>
+        </div>
+        <div class="tire-card__row tire-card__row--specs">
+          <span>Oś: <strong>${axleLabel}</strong></span>
+          <span>Typ pojazdu: <strong>${vehicleLabel}</strong></span>
+        </div>
+        <a class="tire-card__link" href="${tire.link || '#'}">${I18N.detailsLink || 'Zobacz szczegóły'}</a>
+      </article>`;
+  };
+
+  let currentFiltered = [];
+
+  const computeFiltered = () => {
+    const vehicleInput = form.querySelector('input[name="vehicle"]:checked');
+    const filters = {
+      brands: getChecked('brand'),
+      vehicle: vehicleInput ? vehicleInput.value : 'all',
+      axles: getChecked('axle'),
+      seasons: getChecked('season'),
+      size: form.querySelector('select[name="size"]').value,
+    };
+
+    return TIRES.filter((tire) => matchesFilters(tire, filters));
+  };
+
+  const buildCardEl = (tire) => {
+    const template = document.createElement('template');
+    template.innerHTML = cardTemplate(tire).trim();
+    return template.content.firstElementChild;
+  };
+
+  const appendCards = (tires) => {
+    const newCards = tires.map((tire) => {
+      const el = buildCardEl(tire);
+      el.classList.add('tire-card--enter');
+      grid.appendChild(el);
+      return el;
+    });
+
+    newCards.forEach((el, i) => {
+      el.style.transitionDelay = `${Math.min(i, 8) * 0.06}s`;
+    });
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        newCards.forEach((el) => {
+          el.classList.remove('tire-card--enter');
+          el.addEventListener('transitionend', () => { el.style.transitionDelay = ''; }, { once: true });
+        });
+      });
+    });
+  };
+
+  const renderFiltered = () => {
+    visibleCount = PAGE_SIZE;
+    currentFiltered = computeFiltered();
+
+    grid.innerHTML = '';
+    appendCards(currentFiltered.slice(0, visibleCount));
+
+    emptyState.hidden = currentFiltered.length > 0;
+    loadMoreBtn.hidden = visibleCount >= currentFiltered.length;
+  };
+
+  const appendMore = () => {
+    const previousCount = visibleCount;
+    visibleCount += PAGE_SIZE;
+
+    appendCards(currentFiltered.slice(previousCount, visibleCount));
+
+    loadMoreBtn.hidden = visibleCount >= currentFiltered.length;
+  };
+
+  form.addEventListener('change', renderFiltered);
+
+  form.addEventListener('reset', () => {
+    setTimeout(renderFiltered, 0);
+  });
+
+  loadMoreBtn.addEventListener('click', appendMore);
+
+  const brandTiles = document.getElementById('catalog-brand-tiles');
+  const results = document.querySelector('.catalog__results');
+
+  initBrandTilesCarousel(brandTiles);
+
+  if (brandTiles) {
+    const tiles = Array.from(brandTiles.querySelectorAll('.catalog__brand-tile'));
+    const brandCheckboxes = Array.from(form.querySelectorAll('input[name="brand"]'));
+
+    tiles.forEach((tile) => {
+      tile.addEventListener('click', () => {
+        const alreadyActive = tile.classList.contains('catalog__brand-tile--active');
+        const brand = alreadyActive ? '' : tile.dataset.brand;
+
+        brandCheckboxes.forEach((checkbox) => {
+          checkbox.checked = checkbox.value === brand;
+        });
+
+        tiles.forEach((t) => t.classList.toggle('catalog__brand-tile--active', t === tile && !alreadyActive));
+
+        renderFiltered();
+
+        if (results) results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    form.addEventListener('change', () => {
+      const checkedBrands = getChecked('brand');
+      const activeBrand = checkedBrands.length === 1 ? checkedBrands[0] : '';
+      tiles.forEach((t) => t.classList.toggle('catalog__brand-tile--active', t.dataset.brand === activeBrand));
+    });
+
+    form.addEventListener('reset', () => {
+      tiles.forEach((t) => t.classList.remove('catalog__brand-tile--active'));
+    });
+  }
+
+  const applyFiltersFromURL = () => {
+    const params = new URLSearchParams(window.location.search);
+
+    const vehicleParam = params.get('vehicle');
+    if (vehicleParam) {
+      const vehicleInput = form.querySelector(`input[name="vehicle"][value="${vehicleParam}"]`);
+      if (vehicleInput) vehicleInput.checked = true;
+    }
+
+    // WP: obsługa również parametru "marka" (używanego przez karuzelę marek na Stronie głównej).
+    const brandParam = params.get('brand') || params.get('marka');
+    if (brandParam) {
+      brandParam.split(',').forEach((v) => {
+        const input = form.querySelector(`input[name="brand"][value="${v}"]`);
+        if (input) input.checked = true;
+      });
+    }
+
+    ['axle', 'season'].forEach((name) => {
+      const value = params.get(name);
+      if (!value) return;
+      value.split(',').forEach((v) => {
+        const input = form.querySelector(`input[name="${name}"][value="${v}"]`);
+        if (input) input.checked = true;
+      });
+    });
+
+    const sizeParam = params.get('size');
+    if (sizeParam) {
+      const select = form.querySelector('select[name="size"]');
+      if (select && Array.from(select.options).some((o) => o.value === sizeParam)) {
+        select.value = sizeParam;
+      }
+    }
+
+    if (brandTiles) {
+      const checkedBrands = getChecked('brand');
+      const activeBrand = checkedBrands.length === 1 ? checkedBrands[0] : '';
+      Array.from(brandTiles.querySelectorAll('.catalog__brand-tile')).forEach((t) => {
+        t.classList.toggle('catalog__brand-tile--active', t.dataset.brand === activeBrand);
+      });
+    }
+  };
+
+  applyFiltersFromURL();
+  renderFiltered();
+}
+
+// Mobilny skrót "Wróć do filtrów"
+function initCatalogFilterJump() {
+  const btn = document.getElementById('catalog-filter-jump');
+  const filters = document.querySelector('.catalog__filters');
+  if (!btn || !filters) return;
+
+  const mobileQuery = window.matchMedia('(max-width: 1100px)');
+
+  const updateVisibility = () => {
+    if (!mobileQuery.matches) {
+      btn.classList.remove('catalog__filter-jump--visible');
+      return;
+    }
+
+    const isFiltersAboveViewport = filters.getBoundingClientRect().bottom < 0;
+    btn.classList.toggle('catalog__filter-jump--visible', isFiltersAboveViewport);
+  };
+
+  window.addEventListener('scroll', updateVisibility, { passive: true });
+  window.addEventListener('resize', updateVisibility);
+  updateVisibility();
+
+  btn.addEventListener('click', () => {
+    filters.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 }
 
 // Pojawianie się bloków przy przewijaniu do nich (fade + przesunięcie w górę)
@@ -280,22 +474,55 @@ function initReveal() {
   items.forEach((item) => observer.observe(item));
 }
 
-// Ochrona formularza kontaktowego przed spamem (honeypot)
+// WP: wysyłka formularzy przez admin-ajax.php (tyrepolForms.ajaxUrl/nonce, patrz inc/helpers.php)
+// zamiast tylko symulowania wysyłki — honeypot działa tak samo jak wcześniej.
+async function sendTyrepolForm(form, formType) {
+  const honeypot = form.querySelector('[name="website"]');
+  if (honeypot && honeypot.value.trim() !== '') {
+    return { ok: true, message: '' }; // zgłoszenie bota - udajemy sukces, nic nie wysyłamy
+  }
+
+  if (!window.tyrepolForms) {
+    return { ok: false, message: 'Formularz jest chwilowo niedostępny.' };
+  }
+
+  const data = new FormData(form);
+  data.set('action', 'tyrepol_send_form');
+  data.set('nonce', window.tyrepolForms.nonce);
+  data.set('form_type', formType);
+
+  try {
+    const res = await fetch(window.tyrepolForms.ajaxUrl, { method: 'POST', body: data });
+    const json = await res.json();
+    return { ok: !!json.success, message: (json.data && json.data.message) || '' };
+  } catch (err) {
+    return { ok: false, message: 'Nie udało się wysłać formularza. Sprawdź połączenie i spróbuj ponownie.' };
+  }
+}
+
+// Formularz kontaktowy (strona Kontakt / sekcja kontakt) - wysyłka AJAX + komunikat pod formularzem
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
-    const honeypot = form.querySelector('[name="website"]');
+  const status = document.getElementById('contact-form-status');
 
-    // Pole wypełnione -> zgłoszenie od bota, nie wysyłamy formularza
-    if (honeypot && honeypot.value.trim() !== '') {
-      e.preventDefault();
-      form.reset();
-      return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.form__submit');
+    if (submitBtn) submitBtn.disabled = true;
+
+    const result = await sendTyrepolForm(form, 'kontakt');
+
+    if (status) {
+      status.hidden = false;
+      status.textContent = result.message || (result.ok ? 'Wiadomość została wysłana.' : 'Wystąpił błąd.');
+      status.classList.toggle('form__status--ok', result.ok);
+      status.classList.toggle('form__status--error', !result.ok);
     }
 
-    // Pole puste -> formularz obsługiwany normalnie
+    if (submitBtn) submitBtn.disabled = false;
+    if (result.ok) form.reset();
   });
 }
 
@@ -307,8 +534,10 @@ function initFaq() {
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
       const wasOpen = button.getAttribute('aria-expanded') === 'true';
+      const group = button.closest('.faq__list');
+      const groupButtons = group ? group.querySelectorAll('.faq__question') : buttons;
 
-      buttons.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
+      groupButtons.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
 
       if (!wasOpen) {
         button.setAttribute('aria-expanded', 'true');
@@ -317,8 +546,89 @@ function initFaq() {
   });
 }
 
+// Popup z formularzem (zapytanie o cenę opony) - otwieranie/zamykanie, ESC, klik w tło,
+// wysyłka AJAX, po sukcesie popup zamyka się i pokazuje toast z komunikatem z serwera.
+function initModal() {
+  const modals = document.querySelectorAll('.modal');
+  if (!modals.length) return;
+
+  let lastTrigger = null;
+
+  const openModal = (modal) => {
+    modal.classList.add('modal--open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('no-scroll');
+    const firstField = modal.querySelector('select, input, textarea');
+    if (firstField) firstField.focus();
+  };
+
+  const closeModal = (modal) => {
+    modal.classList.remove('modal--open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('no-scroll');
+    if (lastTrigger) lastTrigger.focus();
+  };
+
+  document.querySelectorAll('[data-modal-open]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const modal = document.getElementById(trigger.dataset.modalOpen);
+      if (!modal) return;
+      lastTrigger = trigger;
+      openModal(modal);
+    });
+  });
+
+  modals.forEach((modal) => {
+    modal.querySelectorAll('[data-modal-close]').forEach((closer) => {
+      closer.addEventListener('click', () => closeModal(modal));
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const openModalEl = document.querySelector('.modal--open');
+    if (openModalEl) closeModal(openModalEl);
+  });
+
+  const inquiryForm = document.getElementById('inquiry-form');
+  const toast = document.getElementById('inquiry-toast');
+  const toastText = document.getElementById('inquiry-toast-text');
+
+  if (inquiryForm) {
+    inquiryForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = inquiryForm.querySelector('.form__submit');
+      if (submitBtn) submitBtn.disabled = true;
+
+      const result = await sendTyrepolForm(inquiryForm, 'wycena');
+
+      if (submitBtn) submitBtn.disabled = false;
+
+      if (result.ok) {
+        const modal = inquiryForm.closest('.modal');
+        if (modal) closeModal(modal);
+        inquiryForm.reset();
+
+        if (toast) {
+          if (toastText && result.message) toastText.textContent = result.message;
+          toast.classList.add('toast--visible');
+          clearTimeout(toast._hideTimeout);
+          toast._hideTimeout = setTimeout(() => toast.classList.remove('toast--visible'), 4000);
+        }
+      } else if (toast) {
+        if (toastText) toastText.textContent = result.message || 'Wystąpił błąd. Spróbuj ponownie.';
+        toast.classList.add('toast--visible', 'toast--error');
+        clearTimeout(toast._hideTimeout);
+        toast._hideTimeout = setTimeout(() => toast.classList.remove('toast--visible', 'toast--error'), 4000);
+      }
+    });
+  }
+}
+
 function initHeader() {
   const header = document.querySelector('.header');
+  const langSwitch = document.querySelector('.header__lang-switch');
   const langInput = document.getElementById('lang-toggle');
   const burger = document.querySelector('.header__burger');
   const nav = document.querySelector('.header__nav');
@@ -326,23 +636,20 @@ function initHeader() {
   const dropdownToggle = document.querySelector('.header__dropdown-toggle');
   const dropdownMenu = document.querySelector('.header__dropdown-menu');
 
-  // Podświetlenie aktywnej strony w menu
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.header__link, .header__dropdown-link').forEach((link) => {
-    const href = link.getAttribute('href');
-    if (href && href !== '#' && href === currentPage) {
-      link.classList.add(link.classList.contains('header__dropdown-link') ? 'header__dropdown-link--active' : 'header__link--active');
-    }
-  });
+  // WP: przełącznik języka PL <-> EN - jeśli wtyczka Polylang jest aktywna i strona ma tłumaczenie,
+  // suwak przenosi na prawdziwy adres wersji językowej (dane wstrzyknięte w header.php);
+  // w przeciwnym razie zachowuje się jak nieaktywny suwak (bez tłumaczenia nie ma dokąd przenieść).
+  if (langInput && langSwitch) {
+    const plUrl = langSwitch.dataset.langPl;
+    const enUrl = langSwitch.dataset.langEn;
 
-  // Przełącznik języka PL <-> EN (suwak)
-  if (langInput) {
     langInput.addEventListener('change', () => {
-      document.documentElement.lang = langInput.checked ? 'en' : 'pl';
+      if (langInput.disabled) return;
+      const target = langInput.checked ? enUrl : plUrl;
+      if (target) window.location.href = target;
     });
   }
 
-  // Menu mobilne (hamburger) - pełnoekranowy overlay
   if (burger && nav && header) {
     burger.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('header__nav--open');
@@ -353,7 +660,6 @@ function initHeader() {
     });
   }
 
-  // Rozwijane menu "Baza wiedzy" - desktop: hover, mobile: klik
   if (dropdownItem && dropdownToggle && dropdownMenu) {
     const isDesktop = () => window.innerWidth > 767;
 
@@ -366,13 +672,12 @@ function initHeader() {
     });
 
     dropdownToggle.addEventListener('click', (e) => {
-      e.preventDefault();
       if (!isDesktop()) {
+        e.preventDefault();
         dropdownMenu.classList.toggle('header__dropdown-menu--open');
       }
     });
 
-    // Zamknięcie menu po kliknięciu poza nim (mobile)
     document.addEventListener('click', (e) => {
       if (!isDesktop() && !dropdownItem.contains(e.target)) {
         dropdownMenu.classList.remove('header__dropdown-menu--open');
