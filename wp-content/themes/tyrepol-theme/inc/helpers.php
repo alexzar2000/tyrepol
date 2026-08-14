@@ -99,16 +99,30 @@ function tyrepol_contact_section($top = false) {
 
 /**
  * Cząstka „FAQ” — WSPÓLNA dla wszystkich stron (Strona główna, Opony, każda „Elastyczna strona”):
- * treść pytań edytuje się raz w Ustawienia motywu → FAQ, a nie osobno na każdej podstronie —
- * dzięki temu ta sama lista pytań pokazuje się wszędzie automatycznie, bez kopiowania treści.
+ * pytania dodaje się w osobnym miejscu panelu — menu „Pytania FAQ” (typ wpisu, dokładnie jak
+ * „Slajdy hero”) — więc można ich dodać dowolnie dużo, bez limitu, i nie trzeba ich kopiować
+ * osobno na każdą podstronę. Nagłówek/opis sekcji nadal ustawia się w Ustawienia motywu → FAQ.
  * Zwraca true/false — czy sekcja faktycznie się wyrenderowała (przydatne np. do licznika sekcji
  * w template-elastyczna.php).
  */
 function tyrepol_faq_section($anchor = 'faq') {
+    $questions = get_posts([
+        'post_type'      => 'pytanie_faq',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ]);
+
     $items = [];
-    for ($i = 1; $i <= 8; $i++) {
-        $row = tyrepol_opt('pytanie_' . $i);
-        if (!empty($row['pytanie'])) $items[] = $row;
+    foreach ($questions as $q) {
+        $pytanie = get_the_title($q);
+        if ($pytanie === '') continue;
+        // Treść odpowiedzi renderujemy przez standardowy filtr „the_content” (obsłuży zarówno
+        // edytor blokowy, jak i klasyczny), a potem zdejmujemy znaczniki HTML — odpowiedź ma być
+        // zwykłym tekstem, tak jak wcześniejsze pole tekstowe (bez pogrubień/linków).
+        $odpowiedz = wp_strip_all_tags(apply_filters('the_content', $q->post_content));
+        $items[] = ['pytanie' => $pytanie, 'odpowiedz' => trim($odpowiedz)];
     }
     if (empty($items)) return false;
 

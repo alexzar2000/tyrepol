@@ -76,6 +76,12 @@ require TYREPOL_DIR . '/inc/cpt-opona.php';
 require TYREPOL_DIR . '/inc/cpt-slajd-hero.php';
 
 /**
+ * Rejestracja CPT „Pytanie FAQ” — nieograniczona liczba pytań w sekcji FAQ, wspólnej dla
+ * wszystkich stron (zamiast stałej liczby pól ACF — patrz komentarz w pliku).
+ */
+require TYREPOL_DIR . '/inc/cpt-pytanie-faq.php';
+
+/**
  * Niestandardowy Walker menu — mapuje standardowe menu WP (Wygląd → Menu) na klasy BEM
  * użyte w oryginalnej wersji HTML (header__item, header__dropdown-menu itd.), żeby wygląd
  * menu pozostał identyczny jak w statycznej wersji.
