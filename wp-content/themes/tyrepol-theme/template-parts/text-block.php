@@ -1,19 +1,21 @@
 <?php
 /**
  * Cząstka „Tekst + zdjęcie” (about) — np. „O marce” / „Kim jesteśmy”.
- * $args: eyebrow, title, body (HTML z WYSIWYG), image (ID załącznika), image_fit (cover|contain)
+ * $args: eyebrow, title, body (HTML z WYSIWYG), image (ID załącznika), image_fit (cover|contain|auto)
  */
 if (!defined('ABSPATH')) exit;
-$eyebrow = $args['eyebrow'] ?? '';
-$title   = $args['title'] ?? '';
-$body    = $args['body'] ?? '';
-$image   = $args['image'] ?? null;
-$fit     = ($args['image_fit'] ?? 'cover') === 'contain' ? ' about__img--contain' : '';
+$eyebrow  = $args['eyebrow'] ?? '';
+$title    = $args['title'] ?? '';
+$body     = $args['body'] ?? '';
+$image    = $args['image'] ?? null;
+$fit_val  = $args['image_fit'] ?? 'cover';
+$fit      = $fit_val === 'contain' ? ' about__img--contain' : '';
+$media_cl = $fit_val === 'auto' ? ' about__media--auto' : '';
 ?>
 <section class="about">
   <div class="about__inner">
     <?php if ($image) : ?>
-    <div class="about__media reveal">
+    <div class="about__media reveal<?php echo $media_cl; ?>">
       <?php echo wp_get_attachment_image($image, 'large', false, ['class' => 'about__img' . $fit]); ?>
     </div>
     <?php endif; ?>

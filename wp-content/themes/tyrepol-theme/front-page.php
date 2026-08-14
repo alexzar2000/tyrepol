@@ -128,7 +128,7 @@ get_header();
       $row = get_field('licznik_' . $i);
       if (!empty($row['etykieta'])) $counter_items[] = $row;
   }
-  get_template_part('template-parts/counters', null, ['title' => get_field('liczniki_tytul'), 'desc' => get_field('liczniki_opis'), 'items' => $counter_items]);
+  get_template_part('template-parts/counters', null, ['title' => get_field('liczniki_tytul'), 'desc' => get_field('liczniki_opis'), 'items' => $counter_items, 'bg' => get_field('liczniki_tlo')]);
   ?>
 
   <?php

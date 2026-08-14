@@ -61,7 +61,8 @@
                     "type": "select",
                     "choices": {
                         "cover": "Wypełnij kadr (cover)",
-                        "contain": "Zmieść całe zdjęcie (contain)"
+                        "contain": "Zmieść całe zdjęcie (contain)",
+                        "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                     },
                     "default_value": "cover",
                     "ui": 1
@@ -122,7 +123,8 @@
                     "type": "select",
                     "choices": {
                         "cover": "Wypełnij kadr (cover)",
-                        "contain": "Zmieść całe zdjęcie (contain)"
+                        "contain": "Zmieść całe zdjęcie (contain)",
+                        "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                     },
                     "default_value": "cover",
                     "ui": 1
@@ -161,6 +163,14 @@
                     "name": "opis",
                     "type": "textarea",
                     "rows": 2
+                },
+                {
+                    "key": "field_el_li_tlo",
+                    "label": "Tło sekcji (zdjęcie w tle, przyciemnione)",
+                    "name": "tlo",
+                    "type": "image",
+                    "return_format": "id",
+                    "instructions": "Opcjonalnie — jeśli puste, użyte zostanie domyślne tło z motywu."
                 },
                 {
                     "key": "field_el_li_1",
@@ -787,7 +797,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -858,7 +869,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -930,7 +942,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1001,7 +1014,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1100,7 +1114,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1133,7 +1148,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1166,7 +1182,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1199,7 +1216,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1232,7 +1250,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1265,7 +1284,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1298,7 +1318,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1331,7 +1352,8 @@
                             "type": "select",
                             "choices": {
                                 "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)"
+                                "contain": "Zmieść całe zdjęcie (contain)",
+                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
                             },
                             "default_value": "cover",
                             "ui": 1
@@ -1450,5 +1472,5 @@
         "comments"
     ],
     "active": true,
-    "description": "Kolejność sekcji na stronie jest stała (Baner → Tekst → Liczniki → Karty/Bloki → Galeria → CTA → FAQ → Kontakt) — jedyne dwie sekcje, które można zamienić miejscami, to „Karty cech” i „Naprzemienne bloki” (pole „Kolejność”). Sekcję, której nie potrzebujesz na danej stronie, po prostu zostaw wyłączoną (\"Pokaż tę sekcję\" = nie). Sekcja FAQ jest WSPÓLNA dla wszystkich stron — edytuje się ją raz w Ustawienia motywu → FAQ, dlatego nie ma tu osobnych pól ani przełącznika."
+    "description": "Kolejność sekcji na stronie jest stała (Baner → Tekst → Liczniki → Karty/Bloki → Galeria → CTA → FAQ → Kontakt) — jedyne dwie sekcje, które można zamienić miejscami, to „Karty cech” i „Naprzemienne bloki” (pole „Kolejność”). Sekcję, której nie potrzebujesz na danej stronie, po prostu zostaw wyłączoną (\"Pokaż tę sekcję\" = nie). Sekcja FAQ jest WSPÓLNA dla wszystkich stron — edytuje się ją raz w Ustawienia motywu → FAQ, dlatego nie ma tu osobnych pól ani przełącznika. Pole „Dopasowanie zdjęcia” (Baner, Tekst + zdjęcie, Naprzemienne bloki, Galeria) ma teraz 3 opcje: „cover” (wypełnia kadr, może przyciąć zdjęcie), „contain” (mieści całe zdjęcie w stałym pudełku, z marginesem) i „Automatyczna wysokość” (zdjęcie bez sztywnego pudełka proporcji — wysokość dopasowuje się do własnych proporcji zdjęcia, nic się nie rozciąga ani nie kadruje). Sekcja „Liczniki” ma dodatkowo pole „Tło sekcji” — własne zdjęcie w tle zamiast domyślnego z motywu."
 }

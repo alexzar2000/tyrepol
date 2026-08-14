@@ -65,7 +65,7 @@ get_header();
     }
     if (!empty($items)) :
       $ma_sekcje = true;
-      get_template_part('template-parts/counters', null, ['title' => $sec['tytul'] ?? '', 'desc' => $sec['opis'] ?? '', 'items' => $items]);
+      get_template_part('template-parts/counters', null, ['title' => $sec['tytul'] ?? '', 'desc' => $sec['opis'] ?? '', 'items' => $items, 'bg' => $sec['tlo'] ?? null]);
     endif;
   endif;
 

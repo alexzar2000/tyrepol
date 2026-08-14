@@ -2944,6 +2944,17 @@ body.loader-active {
   padding: 32px;
 }
 
+/* Modyfikator: „Automatyczna wysokość” w polu „Dopasowanie zdjęcia” — zdjęcie bez sztywnego
+   pudełka proporcji (aspect-ratio), skaluje się do szerokości i zachowuje własne proporcje. */
+.about-hero__media--auto {
+  aspect-ratio: auto;
+}
+
+.about-hero__media--auto .about-hero__img {
+  height: auto;
+  object-fit: initial;
+}
+
 /* Blok: sekcja "Kim jesteśmy" - tekst + zdjęcie */
 .about {
   padding: 32px 0 96px;
@@ -2977,6 +2988,18 @@ body.loader-active {
 .about__img--contain {
   object-fit: contain;
   padding: 24px;
+}
+
+/* Modyfikator: „Automatyczna wysokość” w polu „Dopasowanie zdjęcia” — zdjęcie bez sztywnego
+   pudełka proporcji (aspect-ratio), skaluje się do szerokości i zachowuje własne proporcje
+   (dokładnie to, o co chodzi w „height: auto” — nic się nie rozciąga ani nie kadruje). */
+.about__media--auto {
+  aspect-ratio: auto;
+}
+
+.about__media--auto .about__img {
+  height: auto;
+  object-fit: initial;
 }
 
 .about__eyebrow {
@@ -3053,6 +3076,13 @@ body.loader-active {
 .about-split__img--contain {
   object-fit: contain;
   padding: 24px;
+}
+
+/* Modyfikator: „Automatyczna wysokość” w polu „Dopasowanie zdjęcia” — zdjęcie bez sztywnego
+   pudełka proporcji (aspect-ratio), skaluje się do szerokości i zachowuje własne proporcje. */
+.about-split__img--auto {
+  aspect-ratio: auto;
+  height: auto;
 }
 
 .about-split__title {
@@ -3255,6 +3285,16 @@ body.loader-active {
 .about-gallery__img--contain {
   object-fit: contain;
   padding: 16px;
+}
+
+/* Modyfikator: „Automatyczna wysokość” w polu „Dopasowanie zdjęcia” — zdjęcie bez sztywnego
+   pudełka proporcji (aspect-ratio), skaluje się do szerokości i zachowuje własne proporcje. */
+.about-gallery__item--auto {
+  aspect-ratio: auto;
+}
+
+.about-gallery__item--auto .about-gallery__img {
+  height: auto;
 }
 
 .about-gallery__item:hover .about-gallery__img {

@@ -1,7 +1,7 @@
 <?php
 /**
  * Cząstka „Galeria zdjęć” (about-gallery).
- * $args: title, desc, items (array: image, podpis, image_fit [cover|contain])
+ * $args: title, desc, items (array: image, podpis, image_fit [cover|contain|auto])
  */
 if (!defined('ABSPATH')) exit;
 $title = $args['title'] ?? '';
@@ -19,9 +19,11 @@ $items = $args['items'] ?? [];
     <div class="about-gallery__grid">
       <?php foreach ($items as $item) :
         if (empty($item['image'])) continue;
-        $fit = (($item['image_fit'] ?? 'cover') === 'contain') ? ' about-gallery__img--contain' : '';
+        $fit_val = $item['image_fit'] ?? 'cover';
+        $fit = $fit_val === 'contain' ? ' about-gallery__img--contain' : '';
+        $item_cl = $fit_val === 'auto' ? ' about-gallery__item--auto' : '';
       ?>
-      <figure class="about-gallery__item reveal">
+      <figure class="about-gallery__item reveal<?php echo $item_cl; ?>">
         <?php echo wp_get_attachment_image($item['image'], 'tyrepol-gallery', false, ['class' => 'about-gallery__img' . $fit]); ?>
         <?php if (!empty($item['podpis'])) : ?><figcaption class="about-gallery__caption"><?php echo esc_html($item['podpis']); ?></figcaption><?php endif; ?>
       </figure>
