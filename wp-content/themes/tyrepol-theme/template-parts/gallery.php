@@ -1,7 +1,9 @@
 <?php
 /**
  * Cząstka „Galeria zdjęć” (about-gallery).
- * $args: title, desc, items (array: image, podpis, image_fit [cover|contain|auto])
+ * $args: title, desc, items (array: image, podpis)
+ * Zdjęcia renderowane jako tło kafelka (background-image, cover, wyśrodkowane) — zawsze
+ * wypełniają cały kafelek i są wycentrowane, niezależnie od proporcji wgranego pliku.
  */
 if (!defined('ABSPATH')) exit;
 $title = $args['title'] ?? '';
@@ -19,12 +21,11 @@ $items = $args['items'] ?? [];
     <div class="about-gallery__grid">
       <?php foreach ($items as $item) :
         if (empty($item['image'])) continue;
-        $fit_val = $item['image_fit'] ?? 'cover';
-        $fit = $fit_val === 'contain' ? ' about-gallery__img--contain' : '';
-        $item_cl = $fit_val === 'auto' ? ' about-gallery__item--auto' : '';
+        $img_url = wp_get_attachment_image_url($item['image'], 'tyrepol-gallery');
+        if (!$img_url) continue;
       ?>
-      <figure class="about-gallery__item reveal<?php echo $item_cl; ?>">
-        <?php echo wp_get_attachment_image($item['image'], 'tyrepol-gallery', false, ['class' => 'about-gallery__img' . $fit]); ?>
+      <figure class="about-gallery__item reveal">
+        <span class="about-gallery__media" style="background-image: url('<?php echo esc_url($img_url); ?>');" role="img" aria-label="<?php echo esc_attr($item['podpis'] ?? ''); ?>"></span>
         <?php if (!empty($item['podpis'])) : ?><figcaption class="about-gallery__caption"><?php echo esc_html($item['podpis']); ?></figcaption><?php endif; ?>
       </figure>
       <?php endforeach; ?>

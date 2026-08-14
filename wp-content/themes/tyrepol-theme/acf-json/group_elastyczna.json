@@ -115,19 +115,6 @@
                     "name": "obraz",
                     "type": "image",
                     "return_format": "id"
-                },
-                {
-                    "key": "field_el_t_dopasowanie",
-                    "label": "Dopasowanie zdjęcia",
-                    "name": "dopasowanie_obrazu",
-                    "type": "select",
-                    "choices": {
-                        "cover": "Wypełnij kadr (cover)",
-                        "contain": "Zmieść całe zdjęcie (contain)",
-                        "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                    },
-                    "default_value": "cover",
-                    "ui": 1
                 }
             ]
         },
@@ -455,26 +442,10 @@
                     "sub_fields": [
                         {
                             "key": "field_el_ka1_ikona",
-                            "label": "Ikona",
-                            "name": "ikona",
-                            "type": "select",
-                            "ui": 1,
-                            "choices": {
-                                "drogi": "Drogi / trasa",
-                                "magazyn": "Magazyn",
-                                "rozmiar": "Rozmiar / linijka",
-                                "blokady": "Blokada / bezpieczeństwo",
-                                "osie": "Osie / warstwy",
-                                "naczepa": "Naczepa / ciężarówka",
-                                "rozmiary": "Warianty rozmiarowe",
-                                "certyfikat": "Certyfikat",
-                                "cel": "Cel / precyzja",
-                                "zima": "Zima / śnieg",
-                                "dostepnosc": "Dostępność",
-                                "cena": "Cena",
-                                "zegar": "Czas",
-                                "domyslna": "Domyślna (kółko)"
-                            }
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
                         },
                         {
                             "key": "field_el_ka1_tytul",
@@ -499,26 +470,10 @@
                     "sub_fields": [
                         {
                             "key": "field_el_ka2_ikona",
-                            "label": "Ikona",
-                            "name": "ikona",
-                            "type": "select",
-                            "ui": 1,
-                            "choices": {
-                                "drogi": "Drogi / trasa",
-                                "magazyn": "Magazyn",
-                                "rozmiar": "Rozmiar / linijka",
-                                "blokady": "Blokada / bezpieczeństwo",
-                                "osie": "Osie / warstwy",
-                                "naczepa": "Naczepa / ciężarówka",
-                                "rozmiary": "Warianty rozmiarowe",
-                                "certyfikat": "Certyfikat",
-                                "cel": "Cel / precyzja",
-                                "zima": "Zima / śnieg",
-                                "dostepnosc": "Dostępność",
-                                "cena": "Cena",
-                                "zegar": "Czas",
-                                "domyslna": "Domyślna (kółko)"
-                            }
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
                         },
                         {
                             "key": "field_el_ka2_tytul",
@@ -543,26 +498,10 @@
                     "sub_fields": [
                         {
                             "key": "field_el_ka3_ikona",
-                            "label": "Ikona",
-                            "name": "ikona",
-                            "type": "select",
-                            "ui": 1,
-                            "choices": {
-                                "drogi": "Drogi / trasa",
-                                "magazyn": "Magazyn",
-                                "rozmiar": "Rozmiar / linijka",
-                                "blokady": "Blokada / bezpieczeństwo",
-                                "osie": "Osie / warstwy",
-                                "naczepa": "Naczepa / ciężarówka",
-                                "rozmiary": "Warianty rozmiarowe",
-                                "certyfikat": "Certyfikat",
-                                "cel": "Cel / precyzja",
-                                "zima": "Zima / śnieg",
-                                "dostepnosc": "Dostępność",
-                                "cena": "Cena",
-                                "zegar": "Czas",
-                                "domyslna": "Domyślna (kółko)"
-                            }
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
                         },
                         {
                             "key": "field_el_ka3_tytul",
@@ -587,26 +526,10 @@
                     "sub_fields": [
                         {
                             "key": "field_el_ka4_ikona",
-                            "label": "Ikona",
-                            "name": "ikona",
-                            "type": "select",
-                            "ui": 1,
-                            "choices": {
-                                "drogi": "Drogi / trasa",
-                                "magazyn": "Magazyn",
-                                "rozmiar": "Rozmiar / linijka",
-                                "blokady": "Blokada / bezpieczeństwo",
-                                "osie": "Osie / warstwy",
-                                "naczepa": "Naczepa / ciężarówka",
-                                "rozmiary": "Warianty rozmiarowe",
-                                "certyfikat": "Certyfikat",
-                                "cel": "Cel / precyzja",
-                                "zima": "Zima / śnieg",
-                                "dostepnosc": "Dostępność",
-                                "cena": "Cena",
-                                "zegar": "Czas",
-                                "domyslna": "Domyślna (kółko)"
-                            }
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
                         },
                         {
                             "key": "field_el_ka4_tytul",
@@ -631,26 +554,10 @@
                     "sub_fields": [
                         {
                             "key": "field_el_ka5_ikona",
-                            "label": "Ikona",
-                            "name": "ikona",
-                            "type": "select",
-                            "ui": 1,
-                            "choices": {
-                                "drogi": "Drogi / trasa",
-                                "magazyn": "Magazyn",
-                                "rozmiar": "Rozmiar / linijka",
-                                "blokady": "Blokada / bezpieczeństwo",
-                                "osie": "Osie / warstwy",
-                                "naczepa": "Naczepa / ciężarówka",
-                                "rozmiary": "Warianty rozmiarowe",
-                                "certyfikat": "Certyfikat",
-                                "cel": "Cel / precyzja",
-                                "zima": "Zima / śnieg",
-                                "dostepnosc": "Dostępność",
-                                "cena": "Cena",
-                                "zegar": "Czas",
-                                "domyslna": "Domyślna (kółko)"
-                            }
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
                         },
                         {
                             "key": "field_el_ka5_tytul",
@@ -675,26 +582,10 @@
                     "sub_fields": [
                         {
                             "key": "field_el_ka6_ikona",
-                            "label": "Ikona",
-                            "name": "ikona",
-                            "type": "select",
-                            "ui": 1,
-                            "choices": {
-                                "drogi": "Drogi / trasa",
-                                "magazyn": "Magazyn",
-                                "rozmiar": "Rozmiar / linijka",
-                                "blokady": "Blokada / bezpieczeństwo",
-                                "osie": "Osie / warstwy",
-                                "naczepa": "Naczepa / ciężarówka",
-                                "rozmiary": "Warianty rozmiarowe",
-                                "certyfikat": "Certyfikat",
-                                "cel": "Cel / precyzja",
-                                "zima": "Zima / śnieg",
-                                "dostepnosc": "Dostępność",
-                                "cena": "Cena",
-                                "zegar": "Czas",
-                                "domyslna": "Domyślna (kółko)"
-                            }
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
                         },
                         {
                             "key": "field_el_ka6_tytul",
@@ -766,12 +657,6 @@
                             "rows": 3
                         },
                         {
-                            "key": "field_el_sp1_rozmiary",
-                            "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)",
-                            "name": "rozmiary_tekst",
-                            "type": "text"
-                        },
-                        {
                             "key": "field_el_sp1_link_tekst",
                             "label": "Tekst linku",
                             "name": "link_tekst",
@@ -789,19 +674,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_sp1_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_sp1_odwrocony",
@@ -838,12 +710,6 @@
                             "rows": 3
                         },
                         {
-                            "key": "field_el_sp2_rozmiary",
-                            "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)",
-                            "name": "rozmiary_tekst",
-                            "type": "text"
-                        },
-                        {
                             "key": "field_el_sp2_link_tekst",
                             "label": "Tekst linku",
                             "name": "link_tekst",
@@ -861,19 +727,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_sp2_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_sp2_odwrocony",
@@ -911,12 +764,6 @@
                             "rows": 3
                         },
                         {
-                            "key": "field_el_sp3_rozmiary",
-                            "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)",
-                            "name": "rozmiary_tekst",
-                            "type": "text"
-                        },
-                        {
                             "key": "field_el_sp3_link_tekst",
                             "label": "Tekst linku",
                             "name": "link_tekst",
@@ -934,19 +781,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_sp3_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_sp3_odwrocony",
@@ -983,12 +817,6 @@
                             "rows": 3
                         },
                         {
-                            "key": "field_el_sp4_rozmiary",
-                            "label": "Lista rozmiarów (oddziel przecinkami, opcjonalnie)",
-                            "name": "rozmiary_tekst",
-                            "type": "text"
-                        },
-                        {
                             "key": "field_el_sp4_link_tekst",
                             "label": "Tekst linku",
                             "name": "link_tekst",
@@ -1006,19 +834,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_sp4_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_sp4_odwrocony",
@@ -1108,19 +923,6 @@
                             "return_format": "id"
                         },
                         {
-                            "key": "field_el_ga1_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
-                        },
-                        {
                             "key": "field_el_ga1_podpis",
                             "label": "Podpis",
                             "name": "podpis",
@@ -1140,19 +942,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_ga2_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_ga2_podpis",
@@ -1176,19 +965,6 @@
                             "return_format": "id"
                         },
                         {
-                            "key": "field_el_ga3_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
-                        },
-                        {
                             "key": "field_el_ga3_podpis",
                             "label": "Podpis",
                             "name": "podpis",
@@ -1208,19 +984,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_ga4_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_ga4_podpis",
@@ -1244,19 +1007,6 @@
                             "return_format": "id"
                         },
                         {
-                            "key": "field_el_ga5_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
-                        },
-                        {
                             "key": "field_el_ga5_podpis",
                             "label": "Podpis",
                             "name": "podpis",
@@ -1276,19 +1026,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_ga6_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_ga6_podpis",
@@ -1312,19 +1049,6 @@
                             "return_format": "id"
                         },
                         {
-                            "key": "field_el_ga7_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
-                        },
-                        {
                             "key": "field_el_ga7_podpis",
                             "label": "Podpis",
                             "name": "podpis",
@@ -1344,19 +1068,6 @@
                             "name": "obraz",
                             "type": "image",
                             "return_format": "id"
-                        },
-                        {
-                            "key": "field_el_ga8_dopasowanie",
-                            "label": "Dopasowanie zdjęcia",
-                            "name": "dopasowanie_obrazu",
-                            "type": "select",
-                            "choices": {
-                                "cover": "Wypełnij kadr (cover)",
-                                "contain": "Zmieść całe zdjęcie (contain)",
-                                "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
-                            },
-                            "default_value": "cover",
-                            "ui": 1
                         },
                         {
                             "key": "field_el_ga8_podpis",
@@ -1472,5 +1183,5 @@
         "comments"
     ],
     "active": true,
-    "description": "Kolejność sekcji na stronie jest stała (Baner → Tekst → Liczniki → Karty/Bloki → Galeria → CTA → FAQ → Kontakt) — jedyne dwie sekcje, które można zamienić miejscami, to „Karty cech” i „Naprzemienne bloki” (pole „Kolejność”). Sekcję, której nie potrzebujesz na danej stronie, po prostu zostaw wyłączoną (\"Pokaż tę sekcję\" = nie). Sekcja FAQ jest WSPÓLNA dla wszystkich stron — edytuje się ją raz w Ustawienia motywu → FAQ, dlatego nie ma tu osobnych pól ani przełącznika. Pole „Dopasowanie zdjęcia” (Baner, Tekst + zdjęcie, Naprzemienne bloki, Galeria) ma teraz 3 opcje: „cover” (wypełnia kadr, może przyciąć zdjęcie), „contain” (mieści całe zdjęcie w stałym pudełku, z marginesem) i „Automatyczna wysokość” (zdjęcie bez sztywnego pudełka proporcji — wysokość dopasowuje się do własnych proporcji zdjęcia, nic się nie rozciąga ani nie kadruje). Sekcja „Liczniki” ma dodatkowo pole „Tło sekcji” — własne zdjęcie w tle zamiast domyślnego z motywu."
+    "description": "Kolejność sekcji na stronie jest stała (Baner → Tekst → Liczniki → Karty/Bloki → Galeria → CTA → FAQ → Kontakt) — jedyne dwie sekcje, które można zamienić miejscami, to „Karty cech” i „Naprzemienne bloki” (pole „Kolejność”). Sekcję, której nie potrzebujesz na danej stronie, po prostu zostaw wyłączoną (\"Pokaż tę sekcję\" = nie). Sekcja FAQ jest WSPÓLNA dla wszystkich stron — edytuje się ją raz w Ustawienia motywu → FAQ, dlatego nie ma tu osobnych pól ani przełącznika. Zdjęcia w zakładkach „Tekst + zdjęcie” i „Naprzemienne bloki” pokazują się zawsze na pełną szerokość bloku z automatyczną wysokością wg własnych proporcji (bez wyboru, bez kadrowania, bez rozciągania). Zdjęcia w „Galerii” pokazują się zawsze jako wypełniające cały kafelek i wycentrowane (jak tło strony — cover). Pole „Dopasowanie zdjęcia” (cover/contain/auto) zostało tylko w zakładce „Baner”, gdzie zdjęcie musi pasować do konkretnej kompozycji obok tekstu. Sekcja „Liczniki” ma dodatkowo pole „Tło sekcji” — własne zdjęcie w tle zamiast domyślnego z motywu."
 }

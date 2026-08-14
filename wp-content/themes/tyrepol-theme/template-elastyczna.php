@@ -47,11 +47,10 @@ get_header();
   if (!empty($sec['pokaz']) && !empty($sec['tytul'])) :
     $ma_sekcje = true;
     get_template_part('template-parts/text-block', null, [
-        'eyebrow'   => $sec['eyebrow'] ?? '',
-        'title'     => $sec['tytul'] ?? '',
-        'body'      => $sec['tresc'] ?? '',
-        'image'     => $sec['obraz'] ?? null,
-        'image_fit' => $sec['dopasowanie_obrazu'] ?? 'cover',
+        'eyebrow' => $sec['eyebrow'] ?? '',
+        'title'   => $sec['tytul'] ?? '',
+        'body'    => $sec['tresc'] ?? '',
+        'image'   => $sec['obraz'] ?? null,
     ]);
   endif;
 
@@ -98,22 +97,13 @@ get_header();
       for ($i = 1; $i <= 4; $i++) {
           $blok = $split['blok_' . $i] ?? null;
           if (empty($blok['tytul'])) continue;
-          $rozmiary = [];
-          if (!empty($blok['rozmiary_tekst'])) {
-              foreach (explode(',', $blok['rozmiary_tekst']) as $r) {
-                  $r = trim($r);
-                  if ($r !== '') $rozmiary[] = ['rozmiar' => $r];
-              }
-          }
           $rows[] = [
               'eyebrow'    => $blok['eyebrow'] ?? '',
               'tytul'      => $blok['tytul'] ?? '',
               'tekst'      => $blok['tekst'] ?? '',
-              'rozmiary'   => $rozmiary,
               'link_tekst' => $blok['link_tekst'] ?? '',
               'link_url'   => $blok['link_url'] ?? '',
               'image'      => $blok['obraz'] ?? null,
-              'image_fit'  => $blok['dopasowanie_obrazu'] ?? 'cover',
               'reverse'    => !empty($blok['odwrocony']),
           ];
       }
@@ -149,9 +139,8 @@ get_header();
         $row = $sec['zdjecie_' . $i] ?? null;
         if (empty($row['obraz'])) continue;
         $items[] = [
-            'image'     => $row['obraz'],
-            'podpis'    => $row['podpis'] ?? '',
-            'image_fit' => $row['dopasowanie_obrazu'] ?? 'cover',
+            'image'  => $row['obraz'],
+            'podpis' => $row['podpis'] ?? '',
         ];
     }
     if (!empty($items)) :
