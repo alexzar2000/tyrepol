@@ -68,8 +68,9 @@ function tyrepol_assets() {
     // Teksty używane bezpośrednio w JS (karty katalogu opon / karty aktualności) — tłumaczone przez
     // standardowy mechanizm WordPress (przełącznik Polylang zmienia język strony -> zmienia się i __()).
     wp_localize_script('tyrepol-script', 'tyrepolI18n', [
-        'detailsLink' => __('Zobacz szczegóły', 'tyrepol'),
-        'readMore'    => __('Czytaj więcej', 'tyrepol'),
+        'detailsLink'    => __('Zobacz szczegóły', 'tyrepol'),
+        'readMore'       => __('Czytaj więcej', 'tyrepol'),
+        'sizesAvailable' => __('Dostępne rozmiary', 'tyrepol'),
     ]);
 }
 add_action('wp_enqueue_scripts', 'tyrepol_assets');

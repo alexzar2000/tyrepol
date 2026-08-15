@@ -1366,6 +1366,14 @@ body.loader-active {
   background: #f7f7f7;
 }
 
+/* Modyfikator: wyróżnia wiersz odpowiadający dokładnie temu rozmiarowi, którego adres URL
+   aktualnie się przegląda (np. wejście z wyszukiwarki na konkretny rozmiar) — reszta rozmiarów
+   modelu nadal widoczna w tej samej tabeli. */
+.tire-detail__row--current {
+  background: rgba(159, 29, 53, 0.08) !important;
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
 .tire-detail__icon {
   display: inline-flex;
 }
@@ -2471,6 +2479,8 @@ body.loader-active {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  min-width: 0; /* zabezpieczenie: karta zawsze trzyma się swojej kolumny siatki (1fr),
+                   nawet gdyby zdjęcie w środku było większe niż dostępna szerokość */
   border: 1px solid #000;
   border-radius: 8px;
   padding: 24px;
@@ -2508,6 +2518,7 @@ body.loader-active {
 }
 
 .news-card__img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
