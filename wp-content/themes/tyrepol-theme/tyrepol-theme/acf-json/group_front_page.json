@@ -1,0 +1,285 @@
+{
+    "key": "group_tyrepol_front_page",
+    "title": "Strona główna",
+    "fields": [
+        {
+            "key": "field_fp_tab_marki",
+            "label": "Sekcja marek",
+            "name": "tab_marki",
+            "type": "tab"
+        },
+        {
+            "key": "field_fp_marki_naglowek",
+            "label": "Nagłówek",
+            "name": "marki_naglowek",
+            "type": "text"
+        },
+        {
+            "key": "field_fp_marki_opis",
+            "label": "Opis",
+            "name": "marki_opis",
+            "type": "textarea",
+            "rows": 2
+        },
+        {
+            "key": "field_fp_cta_tekst",
+            "label": "Tekst przycisku CTA pod sekcją marek (otwiera popup wyceny)",
+            "name": "cta_miedzysekcyjne_tekst",
+            "type": "text",
+            "default_value": "Darmowa wycena"
+        },
+        {
+            "key": "field_fp_tab_liczniki",
+            "label": "Liczniki",
+            "name": "tab_liczniki",
+            "type": "tab"
+        },
+        {
+            "key": "field_fp_liczniki_tytul",
+            "label": "Nagłówek",
+            "name": "liczniki_tytul",
+            "type": "text"
+        },
+        {
+            "key": "field_fp_liczniki_opis",
+            "label": "Opis",
+            "name": "liczniki_opis",
+            "type": "textarea",
+            "rows": 2
+        },
+        {
+            "key": "field_fp_liczniki_tlo",
+            "label": "Tło sekcji (zdjęcie w tle, przyciemnione)",
+            "name": "liczniki_tlo",
+            "type": "image",
+            "return_format": "id",
+            "instructions": "Opcjonalnie — jeśli puste, użyte zostanie domyślne tło z motywu."
+        },
+        {
+            "key": "field_fp_licznik_1",
+            "label": "Licznik 1",
+            "name": "licznik_1",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_fp_l1_ikona",
+                    "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                    "name": "ikona_obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_fp_l1_liczba",
+                    "label": "Docelowa liczba",
+                    "name": "liczba",
+                    "type": "number"
+                },
+                {
+                    "key": "field_fp_l1_etykieta",
+                    "label": "Podpis",
+                    "name": "etykieta",
+                    "type": "text"
+                },
+                {
+                    "key": "field_fp_l1_predkosc",
+                    "label": "Szybkość animacji (ms)",
+                    "name": "predkosc",
+                    "type": "number",
+                    "default_value": 1500
+                }
+            ]
+        },
+        {
+            "key": "field_fp_licznik_2",
+            "label": "Licznik 2",
+            "name": "licznik_2",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_fp_l2_ikona",
+                    "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                    "name": "ikona_obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_fp_l2_liczba",
+                    "label": "Docelowa liczba",
+                    "name": "liczba",
+                    "type": "number"
+                },
+                {
+                    "key": "field_fp_l2_etykieta",
+                    "label": "Podpis",
+                    "name": "etykieta",
+                    "type": "text"
+                },
+                {
+                    "key": "field_fp_l2_predkosc",
+                    "label": "Szybkość animacji (ms)",
+                    "name": "predkosc",
+                    "type": "number",
+                    "default_value": 1500
+                }
+            ]
+        },
+        {
+            "key": "field_fp_licznik_3",
+            "label": "Licznik 3",
+            "name": "licznik_3",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_fp_l3_ikona",
+                    "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                    "name": "ikona_obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_fp_l3_liczba",
+                    "label": "Docelowa liczba",
+                    "name": "liczba",
+                    "type": "number"
+                },
+                {
+                    "key": "field_fp_l3_etykieta",
+                    "label": "Podpis",
+                    "name": "etykieta",
+                    "type": "text"
+                },
+                {
+                    "key": "field_fp_l3_predkosc",
+                    "label": "Szybkość animacji (ms)",
+                    "name": "predkosc",
+                    "type": "number",
+                    "default_value": 1500
+                }
+            ]
+        },
+        {
+            "key": "field_fp_licznik_4",
+            "label": "Licznik 4",
+            "name": "licznik_4",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_fp_l4_ikona",
+                    "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                    "name": "ikona_obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_fp_l4_liczba",
+                    "label": "Docelowa liczba",
+                    "name": "liczba",
+                    "type": "number"
+                },
+                {
+                    "key": "field_fp_l4_etykieta",
+                    "label": "Podpis",
+                    "name": "etykieta",
+                    "type": "text"
+                },
+                {
+                    "key": "field_fp_l4_predkosc",
+                    "label": "Szybkość animacji (ms)",
+                    "name": "predkosc",
+                    "type": "number",
+                    "default_value": 1500
+                }
+            ]
+        },
+        {
+            "key": "field_fp_licznik_5",
+            "label": "Licznik 5 (opcjonalnie)",
+            "name": "licznik_5",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_fp_l5_ikona",
+                    "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                    "name": "ikona_obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_fp_l5_liczba",
+                    "label": "Docelowa liczba",
+                    "name": "liczba",
+                    "type": "number"
+                },
+                {
+                    "key": "field_fp_l5_etykieta",
+                    "label": "Podpis",
+                    "name": "etykieta",
+                    "type": "text"
+                },
+                {
+                    "key": "field_fp_l5_predkosc",
+                    "label": "Szybkość animacji (ms)",
+                    "name": "predkosc",
+                    "type": "number",
+                    "default_value": 1500
+                }
+            ]
+        },
+        {
+            "key": "field_fp_licznik_6",
+            "label": "Licznik 6 (opcjonalnie)",
+            "name": "licznik_6",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_fp_l6_ikona",
+                    "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                    "name": "ikona_obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_fp_l6_liczba",
+                    "label": "Docelowa liczba",
+                    "name": "liczba",
+                    "type": "number"
+                },
+                {
+                    "key": "field_fp_l6_etykieta",
+                    "label": "Podpis",
+                    "name": "etykieta",
+                    "type": "text"
+                },
+                {
+                    "key": "field_fp_l6_predkosc",
+                    "label": "Szybkość animacji (ms)",
+                    "name": "predkosc",
+                    "type": "number",
+                    "default_value": 1500
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments"
+    ],
+    "active": true,
+    "description": "Slajdy karuzeli hero zarządza się teraz w osobnym miejscu panelu: menu boczne „Slajdy hero” (nieograniczona liczba slajdów, zdjęcie = Obrazek wyróżniający, zalecany rozmiar 1400×1000 px). Marki w karuzeli pobierają się automatycznie z Opony → Marki. FAQ jest wspólne dla wszystkich stron — patrz Ustawienia motywu → FAQ. Puste sloty liczników (bez podpisu) po prostu się nie wyświetlają. Pole „Tło sekcji” w zakładce Liczniki pozwala podmienić domyślne zdjęcie w tle na własne."
+}

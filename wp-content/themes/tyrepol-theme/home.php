@@ -31,7 +31,7 @@ $top = !is_paged();
               <span class="news-card__date-day"><?php echo esc_html(get_the_date('j')); ?></span>
               <span class="news-card__date-year"><?php echo esc_html(get_the_date('Y')); ?></span>
             </span>
-            <?php if (has_post_thumbnail()) : the_post_thumbnail('tyrepol-card', ['class' => 'news-card__img', 'loading' => 'lazy']); else : ?>
+            <?php if (has_post_thumbnail()) : the_post_thumbnail('tyrepol-card'); else : ?>
               <div class="news-card__placeholder" aria-hidden="true">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"></path><path d="M8 9h8M8 13h8M8 17h5"></path></svg>
               </div>

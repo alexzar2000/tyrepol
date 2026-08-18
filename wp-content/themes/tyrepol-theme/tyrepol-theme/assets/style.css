@@ -1,0 +1,3668 @@
+/* ===== Heder TyrePol (BEM) ===== */
+
+:root {
+  --color-black: #000;
+  --color-white: #fff;
+  --color-accent: #9f1d35;
+  --header-height: 85px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Blok: animacja pojawiania się bloków przy przewijaniu (IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stopniowe pojawianie się elementów w siatkach (liczniki, FAQ) */
+.counters__grid .reveal:nth-child(2) { transition-delay: 0.12s; }
+.counters__grid .reveal:nth-child(3) { transition-delay: 0.24s; }
+.counters__grid .reveal:nth-child(4) { transition-delay: 0.36s; }
+
+.faq__list .reveal:nth-child(2) { transition-delay: 0.1s; }
+.faq__list .reveal:nth-child(3) { transition-delay: 0.2s; }
+.faq__list .reveal:nth-child(4) { transition-delay: 0.3s; }
+.faq__list .reveal:nth-child(5) { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: 'Oswald', Arial, Helvetica, sans-serif;
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+body.loader-active {
+  overflow: hidden;
+}
+
+/* Blok: loader */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader__panel {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: var(--color-white);
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.loader__panel--top {
+  top: 0;
+}
+
+.loader__panel--bottom {
+  bottom: 0;
+}
+
+.loader__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  transition: opacity 0.35s ease;
+}
+
+.loader__tyre-wrap {
+  position: relative;
+  width: 150px;
+  height: 158px;
+}
+
+.loader__tyre {
+  position: absolute;
+  left: 5px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 34px solid var(--color-black);
+  box-sizing: border-box;
+  animation: loaderSpin 1.8s linear infinite, loaderBounce 0.5s linear infinite;
+}
+
+.loader__tyre::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 152px;
+  height: 152px;
+  margin-left: -76px;
+  margin-top: -76px;
+  border-radius: 50%;
+  border: 10px dashed var(--color-accent);
+  box-sizing: border-box;
+}
+
+.loader__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 100px;
+  height: 14px;
+  margin-left: -50px;
+  border-radius: 50%;
+  background: var(--color-black);
+  opacity: 0.25;
+  animation: loaderShadowPulse 0.5s linear infinite;
+}
+
+.loader__count {
+  font-family: 'Oswald', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 1px;
+  color: var(--color-black);
+  font-variant-numeric: tabular-nums;
+}
+
+.loader--done .loader__panel--top {
+  transform: translateY(-100%);
+}
+
+.loader--done .loader__panel--bottom {
+  transform: translateY(100%);
+}
+
+.loader--done .loader__content {
+  opacity: 0;
+}
+
+@keyframes loaderSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loaderBounce {
+  0%, 100% { top: 4px; }
+  50% { top: 0; }
+}
+
+@keyframes loaderShadowPulse {
+  0%, 100% { filter: blur(2px); width: 100px; margin-left: -50px; }
+  50% { filter: blur(3px); width: 112px; margin-left: -56px; opacity: 0.15; }
+}
+
+/* Blok: header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--color-white);
+  color: var(--color-black);
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header--dark {
+  z-index: 999;
+  background: var(--color-white);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 32px;
+}
+
+/* Element: logo */
+.header__logo {
+  display: inline-block;
+  position: relative;
+  z-index: 1000;
+}
+
+.header__logo-img {
+  height: 44px;
+  display: block;
+}
+
+/* Element: nawigacja główna */
+.header__nav {
+}
+
+.header__list {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__item {
+}
+
+.header__item--dropdown {
+  position: relative;
+}
+
+/* Niewidzialny "mostek" nad przerwą - żeby dropdown nie znikał przy najechaniu w dół */
+@media (min-width: 1101px) {
+  .header__item--dropdown::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 12px;
+  }
+}
+
+.header__link {
+  color: var(--color-black);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header__link:hover,
+.header__link--active {
+  color: var(--color-accent);
+}
+
+/* Element: dropdown "Baza wiedzy" */
+.header__dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header__dropdown-arrow {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.header__dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: var(--color-white);
+  border: 1px solid #000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 8px 0;
+}
+
+.header__dropdown-menu--open {
+  display: block;
+}
+
+.header__dropdown-item {
+}
+
+.header__dropdown-link {
+  display: block;
+  padding: 10px 20px;
+  color: var(--color-black);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header__dropdown-link:hover,
+.header__dropdown-link--active {
+  color: var(--color-accent);
+}
+
+/* Element: przyciski w hederze */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1000;
+}
+
+.header__lang-switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 32px;
+}
+
+.header__lang-input {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.header__lang-track {
+  display: block;
+  position: relative;
+  width: 80px;
+  height: 32px;
+  background: var(--color-accent);
+  border-radius: 32px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.header__lang-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  bottom: 3px;
+  width: 39px;
+  background: var(--color-white);
+  border-radius: 26px;
+  transition: margin-left 0.2s ease;
+}
+
+.header__lang-input:checked + .header__lang-track::after {
+  margin-left: 35px;
+}
+
+.header__lang-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50%;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.header__lang-text--pl {
+  left: 0;
+  color: var(--color-black);
+}
+
+.header__lang-text--en {
+  right: 0;
+  color: var(--color-white);
+}
+
+.header__lang-input:checked ~ .header__lang-text--pl {
+  color: var(--color-white);
+}
+
+.header__lang-input:checked ~ .header__lang-text--en {
+  color: var(--color-black);
+}
+
+/* Element: hamburger - domyślnie ukryty na desktopie */
+.header__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.header__burger-line {
+  width: 24px;
+  height: 2px;
+  background: var(--color-black);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.header__burger--active .header__burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.header__burger--active .header__burger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.header__burger--active .header__burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ===== Adaptacja mobilna (<1100px): pełnoekranowe menu ===== */
+/* Próg podniesiony z 767px - więcej pozycji w menu nie mieści się już na węższych desktopach */
+@media (max-width: 1100px) {
+  .header__burger {
+    display: flex;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__nav--open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: var(--color-white);
+    padding: 110px 32px 40px;
+    overflow-y: auto;
+  }
+
+  .header__nav--open .header__list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .header__nav--open .header__link {
+    display: block;
+    color: var(--color-black);
+    font-size: 28px;
+    font-weight: 700;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .header__nav--open .header__link:hover,
+  .header__nav--open .header__link--active {
+    color: var(--color-accent);
+  }
+
+  .header__nav--open .header__dropdown-arrow {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .header__nav--open .header__dropdown-menu {
+    position: static;
+    background: transparent;
+    border: none;
+    border-left: 1px solid rgba(0, 0, 0, 0.3);
+    margin: 4px 0 4px 8px;
+    padding: 4px 0;
+  }
+
+  .header__nav--open .header__dropdown-link {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 16px;
+  }
+}
+
+/* Blok: hero / slider (Swiper.js, kierunek pionowy) */
+.hero {
+  position: relative;
+  margin-top: var(--header-height);
+  height: calc(100vh - var(--header-height) - 200px); /* niższy slider - widać kolejny blok bez przewijania */
+  min-height: 420px;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.hero__swiper,
+.hero__swiper .swiper-wrapper {
+  height: 100%;
+}
+
+/* Element: pojedynczy slajd - zdjęcie po prawej, karta z treścią zachodzi na krawędź */
+/* Białe odstępy góra/dół na KAŻDYM slajdzie (nie na kontenerze) - żeby był odstęp też podczas przewijania między slajdami */
+.hero__slide {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100%;
+  padding: clamp(40px, 8vh, 96px) 0;
+}
+
+.hero__image-wrap {
+  height: 100%;
+  width: 100%;
+}
+
+.hero__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Karta z treścią - cały blok ma rozmyte tło (backdrop-filter) tam, gdzie zachodzi na zdjęcie */
+.hero__content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: clamp(420px, 42vw, 680px);
+  max-width: calc(100% - 96px);
+  box-sizing: border-box;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.hero__title {
+  margin: 0 0 16px;
+  color: var(--color-black);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+}
+
+.hero__desc {
+  margin: 0 0 24px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.hero__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-black);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.hero__link:hover {
+  color: var(--color-accent);
+}
+
+.hero__link-icon {
+  flex: 0 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.hero__link-circle {
+  stroke-dasharray: 95;
+  stroke-dashoffset: 95;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.hero__link:hover .hero__link-icon {
+  transform: translate3d(4px, 0, 0);
+}
+
+.hero__link:hover .hero__link-circle {
+  stroke-dashoffset: 0;
+}
+
+/* Element: przewiń niżej (prawy dolny róg) */
+.hero__scroll {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 2;
+  display: none;
+}
+
+.hero__scroll-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-white);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  color: var(--color-black);
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.hero__scroll-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform: translateY(100%);
+  transition: transform 0.35s ease;
+}
+
+.hero__scroll-icon {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__scroll-btn:hover {
+  color: var(--color-white);
+}
+
+.hero__scroll-btn:hover .hero__scroll-fill {
+  transform: translateY(0);
+}
+
+/* Element: nawigacja (strzałki) i paginacja - stoją w zarezerwowanej białej kolumnie po prawej */
+.hero__nav-pag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 56px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 0;
+  background: var(--color-white);
+}
+
+.hero__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hero__nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.hero__nav-btn:hover {
+  color: var(--color-accent);
+}
+
+/* Element: kropki paginacji - mała kropka, przy aktywnym slajdzie okrąża ją czerwony pierścień postępu */
+.hero__pagination.swiper-pagination {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Reset domyślnych stylów Swiper (szare/niebieskie kółka) - zostaje tylko nasz SVG */
+.hero__pagination .swiper-pagination-bullet {
+  width: auto;
+  height: auto;
+  margin: 0 !important;
+  background: transparent;
+  opacity: 1;
+  border-radius: 0;
+}
+
+.hero__bullet {
+  display: block;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+
+/* Domyślnie pierścień jest niewidoczny - widać tylko małą kropkę */
+.hero__bullet-progress {
+  stroke: transparent;
+}
+
+.hero__bullet-dot {
+  fill: rgba(0, 0, 0, 0.35);
+  stroke: rgba(0, 0, 0, 0.35);
+}
+
+/* Aktywny slajd: pierścień "dorysowuje się" wokół kropki i zmienia kolor na czerwony */
+.swiper-pagination-bullet-active .hero__bullet-progress {
+  stroke: var(--color-accent);
+  stroke-dasharray: 63;
+  stroke-dashoffset: 63;
+  animation: heroBulletProgress 10s linear 1 forwards;
+}
+
+.swiper-pagination-bullet-active .hero__bullet-dot {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+@keyframes heroBulletProgress {
+  from { stroke-dashoffset: 63; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (min-width: 768px) {
+  .hero__image-wrap {
+    width: 60%;
+    margin-right: 110px;
+  }
+
+  .hero__nav-pag {
+    width: 110px;
+  }
+
+  .hero__content {
+    left: 0;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 56px 48px;
+  }
+
+  .hero__title {
+    font-size: 48px;
+  }
+
+  .hero__desc {
+    font-size: 16px;
+  }
+
+  .hero__scroll {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    height: 60vh; /* niższy slider na mobile */
+    min-height: 380px;
+  }
+
+  .hero__slide {
+    padding: 0; /* bez białych odstępów góra/dół */
+  }
+
+  .hero__content {
+    width: 100%;
+    right: 0;
+    left: 0;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    padding: 28px;
+    text-align: left;
+  }
+
+  .hero__nav-pag {
+    display: none; /* bez strzałek i kropek na mobile */
+  }
+}
+
+/* Blok: karuzela marek (Swiper.js, autoplay co 5s) */
+.brands {
+  padding: 64px 0;
+}
+
+.brands__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.brands__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.brands__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.brands__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Element: pasek karuzeli - strzałki po bokach + slajdy pośrodku */
+.brands__carousel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brands__swiper {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.brands__slide {
+  display: block;
+  height: auto;
+}
+
+/* Element: kafelek z logo marki - logo w oryginalnych kolorach (obsługuje logotypy kolorowe, białe i czarne) */
+.brands__logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: #f2f2f2;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+/* Wariant dla logotypów białych/jasnych - dodać klasę do .brands__logo-box, gdy logo ginie na jasnym tle */
+.brands__logo-box--dark {
+  background: var(--color-black);
+}
+
+.brands__logo {
+  max-width: 65%;
+  max-height: 45%;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.brands__slide:hover .brands__logo-box {
+  background: #e6e6e6;
+}
+
+.brands__slide:hover .brands__logo-box--dark {
+  background: #262626;
+}
+
+.brands__slide:hover .brands__logo {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Element: strzałki nawigacji */
+.brands__nav {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-black);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.brands__nav:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.brands__nav.swiper-button-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Element: kropki paginacji */
+.brands__pagination.swiper-pagination {
+  position: static;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.brands__pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0 !important;
+  background: #d9d9d9;
+  opacity: 1;
+}
+
+.brands__pagination .swiper-pagination-bullet-active {
+  background: var(--color-black);
+}
+
+/* Stan "zablokowanej" karuzeli (za mało slajdów, żeby było co przewijać) - ukrywamy strzałki i kropki, logo wyśrodkowane */
+.brands--static .brands__nav,
+.brands--static .brands__pagination {
+  display: none;
+}
+
+.brands--static .brands__swiper .swiper-wrapper {
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .brands__title {
+    font-size: 32px;
+  }
+
+  .brands__nav {
+    display: none; /* bez strzałek na mobile */
+  }
+}
+
+/* Blok: liczniki (tło z paralaksą + animacja odliczania przy wejściu w widok) */
+.counters {
+  position: relative;
+  padding: 96px 0;
+  text-align: center;
+  color: var(--color-white);
+  background: url('images/hero-tire-1.jpg') center center / cover no-repeat fixed;
+}
+
+/* Element: przyciemniająca nakładka na tło, poprawia czytelność tekstu */
+.counters::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.counters__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.counters__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+}
+
+.counters__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.counters__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.counters__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.counters__item {
+  flex: 1 1 220px;
+  padding: 32px 16px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+}
+
+.counters__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  color: var(--color-accent);
+}
+
+.counters__icon-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.counters__number {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.counters__label {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #ccc;
+}
+
+@media (max-width: 767px) {
+  .counters__title {
+    font-size: 32px;
+  }
+
+  .counters__grid {
+    gap: 16px;
+  }
+
+  /* background-attachment: fixed jest niestabilne na mobile (Safari/iOS) */
+  .counters {
+    background-attachment: scroll;
+  }
+}
+
+/* Blok: footer */
+.footer {
+  border-top: 1px solid #000;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+.footer__links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer__link {
+  color: var(--color-black);
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.footer__link:hover {
+  color: var(--color-accent);
+}
+
+.footer__copy {
+  margin: 0;
+  color: var(--color-black);
+  font-size: 14px;
+}
+
+/* Blok: sekcja kontakt */
+/* Blok: sekcja FAQ */
+.faq {
+  padding: 64px 0;
+}
+
+.faq__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.faq__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.faq__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.faq__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Element: lista pytań */
+.faq__list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.faq__question {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 1.1em 2.6em 1.1em 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-black);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.faq__question:hover,
+.faq__question:focus-visible {
+  color: var(--color-accent);
+}
+
+.faq__question:hover .faq__icon,
+.faq__question:focus-visible .faq__icon {
+  border-color: var(--color-accent);
+}
+
+/* Modyfikator: pytanie rozwinięte */
+.faq__question[aria-expanded="true"] {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.faq__question[aria-expanded="true"] .faq__icon::after {
+  width: 0;
+}
+
+/* Element: ikona plus/minus w okręgu */
+.faq__icon {
+  display: block;
+  position: absolute;
+  top: 1.1em;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transition: border-color 0.2s ease;
+}
+
+.faq__icon::before,
+.faq__icon::after {
+  content: '';
+  display: block;
+  position: absolute;
+  background: currentColor;
+  transition: width 0.2s ease;
+}
+
+.faq__icon::before {
+  top: 9px;
+  left: 5px;
+  width: 10px;
+  height: 2px;
+}
+
+.faq__icon::after {
+  top: 5px;
+  left: 9px;
+  width: 2px;
+  height: 10px;
+}
+
+/* Element: treść odpowiedzi */
+.faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.25s ease, opacity 0.25s ease;
+}
+
+.faq__question[aria-expanded="true"] + .faq__answer {
+  max-height: 20em;
+  opacity: 1;
+}
+
+.faq__answer-text {
+  margin: 0 0 1.6em;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.contact {
+  padding: 64px 0;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez slidera) */
+.contact--top {
+  margin-top: var(--header-height);
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy FAQ jest pierwszym blokiem na stronie (bez slidera) */
+.faq--top {
+  margin-top: var(--header-height);
+}
+
+/* ===== Blok: szczegóły produktu (zdjęcie opony + tabela specyfikacji) ===== */
+
+.tire-detail {
+  padding: 64px 0;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez slidera) */
+.tire-detail--top {
+  margin-top: var(--header-height);
+}
+
+/* Blok: okruszki nawigacyjne (breadcrumbs) na podstronie produktu */
+.breadcrumb {
+  margin-top: var(--header-height);
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.breadcrumb__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.breadcrumb__item {
+  color: #666;
+}
+
+.breadcrumb__link {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb__link:hover,
+.breadcrumb__link:focus-visible {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.breadcrumb__sep {
+  color: #b3b3b3;
+}
+
+.breadcrumb__item--current {
+  color: var(--color-black);
+  font-weight: 600;
+}
+
+.tire-detail__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.tire-detail__layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+/* Element: zdjęcie opony - przykleja się pod hederem podczas przewijania, aż do końca panelu z tabelą */
+.tire-detail__media {
+  flex: 0 0 340px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  align-self: flex-start;
+}
+
+.tire-detail__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.tire-detail__panel {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Element: wstążka z kodem bieżnika, np. SSL122 */
+.tire-detail__badge {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 12px 40px 12px 24px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+}
+
+.tire-detail__table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.tire-detail__table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tire-detail__table thead th {
+  background: #333;
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: center;
+  padding: 14px 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tire-detail__table thead th:first-child,
+.tire-detail__table thead th:nth-child(2) {
+  text-align: left;
+}
+
+.tire-detail__table thead th:last-child {
+  border-right: none;
+}
+
+.tire-detail__table tbody td {
+  padding: 12px 10px;
+  text-align: center;
+  color: #333;
+  border-top: 1px solid #ececec;
+}
+
+.tire-detail__table tbody td:first-child,
+.tire-detail__table tbody td:nth-child(2) {
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.tire-detail__table tbody tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+/* Modyfikator: wyróżnia wiersz odpowiadający dokładnie temu rozmiarowi, którego adres URL
+   aktualnie się przegląda (np. wejście z wyszukiwarki na konkretny rozmiar) — reszta rozmiarów
+   modelu nadal widoczna w tej samej tabeli. */
+.tire-detail__row--current {
+  background: rgba(159, 29, 53, 0.08) !important;
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+.tire-detail__icon {
+  display: inline-flex;
+}
+
+.tire-detail__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.tire-detail__ms-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-white);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tire-detail__check {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* Element: przycisk "Zapytaj o cenę" pod tabelą */
+.tire-detail__cta-wrap {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 24px;
+}
+
+.tire-detail__cta {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 36px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tire-detail__cta:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+/* Element: globalny mobilny stały pasek "Darmowa wycena" - widoczny na każdej podstronie */
+.mobile-quote-cta {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .tire-detail__layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tire-detail__media {
+    position: static;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .tire-detail__panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .tire-detail__media {
+    max-width: 260px;
+  }
+
+  .tire-detail__badge {
+    font-size: 20px;
+    padding: 10px 32px 10px 18px;
+  }
+
+  .tire-detail__cta-wrap {
+    justify-content: stretch;
+  }
+
+  .tire-detail__cta {
+    width: 100%;
+  }
+
+  /* Chowamy zwykły przycisk pod tabelą na mobile - zastępuje go stały pasek na dole ekranu */
+  .tire-detail__cta-wrap {
+    display: none;
+  }
+
+  /* Zafiksowany na dole, na całą szerokość ekranu - widoczny od razu, bez przewijania */
+  .mobile-quote-cta {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 950;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    background: var(--color-accent);
+    color: var(--color-white);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  .mobile-quote-cta:active {
+    background: #7f1729;
+  }
+
+  /* Odsunięcie innych stałych elementów, żeby nie chowały się pod paskiem wyceny */
+  .scrolltop {
+    bottom: 88px;
+  }
+
+  .toast {
+    bottom: 88px;
+  }
+
+  /* Tabela zamienia się w listę kart - łatwiejsza do przewijania i czytania na telefonie */
+  .tire-detail__table-wrap {
+    overflow-x: visible;
+    border: none;
+  }
+
+  .tire-detail__table {
+    display: block;
+    min-width: 0;
+  }
+
+  .tire-detail__table thead {
+    display: none;
+  }
+
+  .tire-detail__table tbody {
+    display: block;
+  }
+
+  .tire-detail__table tbody tr {
+    display: block;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-white) !important;
+  }
+
+  .tire-detail__table tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    text-align: right;
+    border-top: 1px solid #ececec;
+  }
+
+  .tire-detail__table tbody td::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-align: left;
+  }
+
+  .tire-detail__table tbody td:first-child {
+    background: #333;
+    color: var(--color-white);
+    border-top: none;
+    font-size: 15px;
+  }
+
+  .tire-detail__table tbody td:first-child::before {
+    display: none;
+  }
+
+  .tire-detail__table tbody td:nth-child(2) {
+    font-size: 15px;
+  }
+}
+
+.contact__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Element: nagłówek sekcji */
+.contact__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.contact__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.contact__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Element: mapa - na całą szerokość ekranu */
+.contact__map {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 56px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.contact__map iframe {
+  display: block;
+  width: 100%;
+  height: 450px;
+}
+
+/* Element: siatka - dane kontaktowe + formularz */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+/* Element: dane kontaktowe */
+.contact__info-heading {
+  margin: 0 0 12px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.contact__info-lead {
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+}
+
+.contact__info-block {
+  margin-bottom: 28px;
+}
+
+.contact__info-block:last-child {
+  margin-bottom: 0;
+}
+
+.contact__info-title {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.contact__info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact__info-item {
+  font-size: 16px;
+  color: #666;
+}
+
+.contact__info-item--icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact__info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.contact__info-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.contact__info-link {
+  color: #666;
+  text-decoration: none;
+}
+
+.contact__info-link:hover {
+  color: var(--color-accent);
+}
+
+/* Element: ikony społecznościowe */
+.contact__social {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+}
+
+.contact__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  color: var(--color-black);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact__social-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contact__social-link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Element: formularz */
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form__label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form__input,
+.form__textarea {
+  border: 1px solid #000;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--color-black);
+  background: var(--color-white);
+}
+
+.form__input:focus,
+.form__textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -1px;
+}
+
+.form__textarea {
+  min-height: 140px;
+}
+
+/* Element: honeypot - ukryty przed użytkownikiem, widoczny dla botów */
+.form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form__textarea {
+  resize: vertical;
+}
+
+.form__textarea--small {
+  min-height: 90px;
+}
+
+/* Element: zgoda RODO */
+.form__group--checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.form__checkbox {
+  margin-top: 4px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.form__checkbox-label {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.form__checkbox-label a {
+  color: var(--color-black);
+  text-decoration: underline;
+}
+
+.form__checkbox-label a:hover {
+  color: var(--color-accent);
+}
+
+/* Element: przycisk wysyłki */
+.form__submit {
+  align-self: flex-start;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 38px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.form__submit:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+/* Blok: przycisk "do góry" z pierścieniem postępu przewijania */
+.scrolltop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: var(--color-white);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: opacity 0.2s linear, visibility 0.2s linear, transform 0.2s linear;
+  z-index: 900;
+}
+
+/* Stan: widoczny po przewinięciu strony - pojawia się stopniowo */
+.scrolltop--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Element: pierścień SVG pokazujący postęp przewijania */
+.scrolltop__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.scrolltop__ring path {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 4;
+  box-sizing: border-box;
+  transition: all 0.2s linear;
+}
+
+/* Element: strzałka na środku przycisku */
+.scrolltop__icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black);
+  z-index: 1;
+  transition: color 0.2s linear;
+}
+
+.scrolltop__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.scrolltop:hover .scrolltop__icon {
+  color: var(--color-accent);
+}
+
+/* Adaptacja mobilna sekcji kontakt */
+@media (max-width: 767px) {
+  .contact__title {
+    font-size: 32px;
+  }
+
+  .contact__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact__map iframe {
+    height: 320px;
+  }
+}
+
+/* Blok: katalog opon (filtry + siatka produktów) */
+.catalog {
+  padding: 64px 0;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez slidera) */
+.catalog--top {
+  margin-top: var(--header-height);
+}
+
+.catalog__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.catalog__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.catalog__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.catalog__desc {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Blok: kafelki marek nad filtrami - klik filtruje siatkę poniżej; ponad 5 marek = karuzela (Swiper.js) */
+.catalog__brand-carousel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.catalog__brand-swiper {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+/* Element: strzałki nawigacji karuzeli - wygląd jak w karuzeli marek na stronie głównej */
+.catalog__brand-nav {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-black);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.catalog__brand-nav:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.catalog__brand-nav.swiper-button-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Element: kropki paginacji karuzeli */
+.catalog__brand-pagination.swiper-pagination {
+  position: static;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.catalog__brand-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0 !important;
+  background: #d9d9d9;
+  opacity: 1;
+}
+
+.catalog__brand-pagination .swiper-pagination-bullet-active {
+  background: var(--color-black);
+}
+
+/* Stan "zablokowanej" karuzeli (kafelki mieszczą się w jednym rzędzie) - ukrywamy strzałki i kropki, kafelki wyśrodkowane */
+.catalog__header--brand-static .catalog__brand-nav,
+.catalog__header--brand-static .catalog__brand-pagination {
+  display: none;
+}
+
+.catalog__header--brand-static .catalog__brand-swiper .swiper-wrapper {
+  justify-content: center;
+}
+
+.catalog__brand-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: none;
+  background: transparent;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.catalog__brand-tile-logo {
+  max-width: 75%;
+  max-height: 55%;
+  filter: brightness(0);
+  transition: filter 0.2s ease;
+}
+
+.catalog__brand-tile--active {
+  background: var(--color-accent);
+  border-radius: 8px;
+}
+
+.catalog__brand-tile--active .catalog__brand-tile-logo {
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 767px) {
+  .catalog__brand-nav {
+    display: none; /* bez strzałek na mobile, przewijanie dotykiem */
+  }
+}
+
+.catalog__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Element: panel filtrów - przykleja się pod hederem podczas przewijania, aż do końca siatki produktów */
+.catalog__filters {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 24px;
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  max-height: calc(100vh - var(--header-height) - 48px);
+  overflow-y: auto;
+  scroll-margin-top: calc(var(--header-height) + 64px);
+}
+
+/* Blok: mobilny skrót "Wróć do filtrów" - stały pasek pod hederem, widoczny tylko po zjechaniu poza filtry (≤1100px) */
+.catalog__filter-jump {
+  display: none;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.catalog__filter-jump--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (max-width: 1100px) {
+  .catalog__filter-jump {
+    display: flex;
+  }
+}
+
+.filter__group {
+  margin-bottom: 24px;
+}
+
+.filter__group:last-of-type {
+  margin-bottom: 20px;
+}
+
+.filter__title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.filter__select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-black);
+  background: var(--color-white);
+}
+
+.filter__select:last-child {
+  margin-bottom: 0;
+}
+
+.filter__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.filter__option:last-child {
+  margin-bottom: 0;
+}
+
+.filter__checkbox,
+.filter__radio {
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.filter__submit {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.filter__submit:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+/* Element: wyniki katalogu - odsunięcie od góry, żeby przewijanie po kliknięciu marki nie chowało się pod hederem */
+.catalog__results {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
+/* Element: siatka kart produktów */
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.tire-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 24px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease;
+}
+
+.tire-card:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Stan startowy nowo dokładanej karty (JS zdejmuje tę klasę na kolejnej klatce, żeby uruchomić przejście) */
+.tire-card--enter {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tire-card {
+    transition: none;
+  }
+}
+
+.tire-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  margin: -24px -24px 4px;
+  border-radius: 8px 8px 0 0;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+.tire-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+/* Element: neutralna ikona dla marek bez własnego zdjęcia produktu */
+.tire-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b0b0;
+}
+
+.tire-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  border-radius: 20px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 12px;
+}
+
+.tire-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tire-card__brand {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.tire-card__model {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.tire-card__row--specs {
+  font-size: 14px;
+  color: #555;
+}
+
+.tire-card__row--specs strong {
+  color: var(--color-black);
+}
+
+/* Element: pusty stan katalogu - brak wyników po zastosowaniu filtrów */
+.catalog__empty {
+  margin: 0;
+  padding: 48px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Element: przycisk doładowania kolejnych opon */
+.catalog__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.catalog__load-more {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.catalog__load-more:hover {
+  background: var(--color-white);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.catalog__load-more[hidden] {
+  display: none;
+}
+
+.tire-card__link {
+  display: inline-block;
+  margin-top: auto;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 10px 18px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.tire-card__link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+@media (max-width: 1100px) {
+  .catalog__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog__filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .filter__group {
+    flex: 1 1 200px;
+    margin-bottom: 0;
+  }
+
+  .filter__submit {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 767px) {
+  .catalog__title {
+    font-size: 32px;
+  }
+
+  .catalog__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog__filters {
+    flex-direction: column;
+  }
+
+  .filter__group {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter__title {
+    flex: 1 0 100%;
+    font-size: 17px;
+  }
+
+  .filter__option {
+    display: inline-flex;
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 15px;
+  }
+
+  .filter__checkbox,
+  .filter__radio {
+    width: 18px;
+    height: 18px;
+  }
+
+  .filter__select {
+    padding: 14px 14px;
+    font-size: 15px;
+  }
+
+  .filter__submit {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .catalog__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Blok: aktualności (siatka newsów) ===== */
+.news {
+  padding: 64px 0;
+}
+
+.news--top {
+  margin-top: var(--header-height);
+}
+
+.news__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.news__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.news__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.news__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Element: siatka kart newsów */
+.news__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0; /* zabezpieczenie: karta zawsze trzyma się swojej kolumny siatki (1fr),
+                   nawet gdyby zdjęcie w środku było większe niż dostępna szerokość */
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 24px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Stan startowy nowo dokładanej karty (JS zdejmuje tę klasę na kolejnej klatce) */
+.news-card--enter {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-card {
+    transition: none;
+  }
+}
+
+.news-card__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  margin: -24px -24px 4px;
+  border-radius: 8px 8px 0 0;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+.news-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Element: neutralna ikona dla newsów bez własnego zdjęcia */
+.news-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b0b0;
+}
+
+/* Element: "kalendarzowa" plakietka z datą publikacji na zdjęciu */
+.news-card__date {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  background: var(--color-white);
+  border-radius: 8px;
+  padding: 8px 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.news-card__date-month {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-accent);
+}
+
+.news-card__date-day {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 3px 0;
+}
+
+.news-card__date-year {
+  font-size: 11px;
+  color: #777;
+}
+
+.news-card__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.news-card__excerpt {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.news-card__link {
+  display: inline-block;
+  margin-top: auto;
+  align-self: flex-start;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 10px 18px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.news-card__link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Element: pusty stan (brak wpisów) */
+.news__empty {
+  margin: 0;
+  padding: 48px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Element: przycisk doładowania kolejnych newsów */
+.news__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.news__load-more {
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.news__load-more:hover {
+  background: var(--color-white);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.news__load-more[hidden] {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .news__title {
+    font-size: 32px;
+  }
+
+  .news__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .news__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Blok: pojedynczy artykuł aktualności ===== */
+.article {
+  padding: 64px 0 96px;
+}
+
+.article--top {
+  margin-top: var(--header-height);
+}
+
+.article__inner {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.article__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.article__back:hover {
+  text-decoration: underline;
+}
+
+.article__back svg {
+  width: 16px;
+  height: 16px;
+}
+
+.article__date {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-accent);
+}
+
+.article__title {
+  margin: 0 0 24px;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.article__cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  background: #f2f2f2;
+  color: #b0b0b0;
+}
+
+.article__body p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.article__body h2 {
+  margin: 32px 0 16px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.article__body ul {
+  margin: 0 0 20px;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.article__share {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd;
+}
+
+.article__share-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.article__share-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  color: var(--color-black);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.article__share-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.article__share-link:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Element: sekcja powiązanych artykułów pod treścią */
+.article__related {
+  max-width: 1280px;
+  margin: 72px auto 0;
+  padding: 0 32px;
+}
+
+.article__related-title {
+  margin: 0 0 24px;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.article__related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 767px) {
+  .article__title {
+    font-size: 28px;
+  }
+
+  .article__related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .article__related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Blok: strona prawna (polityka prywatności / polityka cookies) */
+.legal {
+  padding: 64px 0 96px;
+}
+
+.legal--top {
+  margin-top: var(--header-height);
+}
+
+.legal__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.legal__title {
+  margin: 0 0 8px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.legal__updated {
+  margin: 0 0 40px;
+  font-size: 14px;
+  color: #666;
+}
+
+.legal__section {
+  margin-bottom: 32px;
+}
+
+.legal__section-title {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.legal__section p,
+.legal__section li {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.legal__section ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.legal__section a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* ===== Blok: strona "O firmie" ===== */
+
+/* Element: baner strony - hasło, lead i zdjęcie */
+.about-hero {
+  padding: 64px 0 96px;
+}
+
+/* Modyfikator: odstęp od stałego hedera, gdy sekcja jest pierwszym blokiem na stronie (bez okruszków) */
+.about-hero--top {
+  margin-top: var(--header-height);
+}
+
+.about-hero__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.about-hero__eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about-hero__title {
+  margin: 0 0 20px;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.about-hero__lead {
+  margin: 0 0 28px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.about-hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-hero__badge {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.about-hero__media {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.about-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Modyfikator: zdjęcie produktowe (np. opona na przezroczystym tle) - bez kadrowania */
+.about-hero__media--product {
+  background: #f2f2f2;
+}
+
+.about-hero__img--contain {
+  object-fit: contain;
+  padding: 32px;
+}
+
+/* Modyfikator: „Automatyczna wysokość” w polu „Dopasowanie zdjęcia” — zdjęcie bez sztywnego
+   pudełka proporcji (aspect-ratio), skaluje się do szerokości i zachowuje własne proporcje. */
+.about-hero__media--auto {
+  aspect-ratio: auto;
+}
+
+.about-hero__media--auto .about-hero__img {
+  height: auto;
+  object-fit: initial;
+}
+
+/* Blok: sekcja "Kim jesteśmy" - tekst + zdjęcie */
+.about {
+  padding: 32px 0 96px;
+}
+
+.about__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* Zdjęcie zawsze na pełną szerokość, z wysokością dopasowaną do jego własnych proporcji —
+   bez sztywnego pudełka „aspect-ratio” i bez kadrowania (object-fit), więc nic się nie
+   rozciąga ani nie „gubi” niezależnie od proporcji wgranego pliku. */
+.about__media {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+.about__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.about__eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about__title {
+  margin: 0 0 20px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.about__body p {
+  margin: 0 0 18px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.about__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Blok: naprzemienne wiersze tekst + zdjęcie (oferta, odbiorcy, wartości) */
+.about-split {
+  padding: 0 0 96px;
+}
+
+.about-split__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-split__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 56px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.about-split__row:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.about-split__row--reverse .about-split__media {
+  order: 2;
+}
+
+.about-split__row--reverse .about-split__content {
+  order: 1;
+}
+
+/* Zdjęcie zawsze na pełną szerokość swojej kolumny, z wysokością dopasowaną do jego własnych
+   proporcji — bez kadrowania i bez rozciągania, niezależnie od proporcji wgranego pliku. */
+.about-split__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #f2f2f2;
+}
+
+.about-split__title {
+  margin: 0 0 16px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.about-split__text {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.about-split__text:last-child {
+  margin-bottom: 0;
+}
+
+/* Element: link "Zobacz opony..." pod opisem wiersza */
+.about-split__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.about-split__link:hover {
+  text-decoration: underline;
+}
+
+.about-split__link svg {
+  flex: 0 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.about-split__link:hover svg {
+  transform: translateX(3px);
+}
+
+/* Blok: karty wartości - "dlaczego TyrePol" */
+.about-values {
+  padding: 96px 0;
+  background: #f7f7f7;
+}
+
+.about-values__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-values__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.about-values__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.about-values__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.about-values__card {
+  padding: 32px 28px;
+  background: var(--color-white);
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.about-values__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.about-values__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: rgba(159, 29, 53, 0.1);
+  color: var(--color-accent);
+  overflow: hidden;
+}
+
+.about-values__icon-img {
+  display: block;
+  max-width: 60%;
+  max-height: 60%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.about-values__card-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.about-values__card-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #555;
+}
+
+.about-values__grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+.about-values__grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+.about-values__grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+.about-values__grid .reveal:nth-child(5) { transition-delay: 0.32s; }
+.about-values__grid .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+/* Blok: galeria zdjęć - zza kulis firmy */
+.about-gallery {
+  padding: 96px 0;
+}
+
+.about-gallery__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-gallery__header {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.about-gallery__title {
+  margin: 0 0 16px;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.about-gallery__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.about-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.about-gallery__item {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+/* Zdjęcie jako tło kafelka — zawsze wypełnia cały kafelek i jest wycentrowane (cover),
+   niezależnie od proporcji wgranego pliku. */
+.about-gallery__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: transform 0.4s ease;
+}
+
+.about-gallery__item:hover .about-gallery__media {
+  transform: scale(1.06);
+}
+
+.about-gallery__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 14px 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.about-gallery__grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+.about-gallery__grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+.about-gallery__grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+.about-gallery__grid .reveal:nth-child(5) { transition-delay: 0.32s; }
+.about-gallery__grid .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+/* Blok: CTA - zaproszenie do kontaktu */
+.about-cta {
+  padding: 80px 0;
+  background: var(--color-black);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.about-cta__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.about-cta__title {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.about-cta__desc {
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.about-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.about-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.about-cta__btn--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.about-cta__btn--primary:hover {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.about-cta__btn--outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--color-white);
+}
+
+.about-cta__btn--outline:hover {
+  border-color: var(--color-white);
+}
+
+/* Blok: samodzielny przycisk CTA między sekcjami (czerwone tło, biały tekst) */
+.section-cta {
+  display: flex;
+  justify-content: center;
+  padding: 40px 32px;
+}
+
+.section-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 16px 48px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.section-cta__btn:hover {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+@media (max-width: 767px) {
+  .section-cta {
+    padding: 28px 20px;
+  }
+
+  .section-cta__btn {
+    padding: 14px 32px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .about-values__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .about-hero__inner,
+  .about__inner,
+  .about-split__row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-split__row--reverse .about-split__media,
+  .about-split__row--reverse .about-split__content {
+    order: 0;
+  }
+
+  .about-hero__title {
+    font-size: 32px;
+  }
+
+  .about-values__title,
+  .about-gallery__title {
+    font-size: 30px;
+  }
+
+  .about-values__grid,
+  .about-gallery__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-cta__title {
+    font-size: 26px;
+  }
+}
+
+/* ===== Blok: popup z formularzem (np. zapytanie o cenę opony) ===== */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal--open {
+  display: flex;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 40px 32px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modal__close:hover {
+  background: #f2f2f2;
+}
+
+.modal__title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.modal__desc {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media (max-width: 767px) {
+  .modal {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal__dialog {
+    max-width: none;
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
+    padding: 32px 20px 24px;
+  }
+}
+
+/* ===== Blok: komunikat potwierdzający (toast) ===== */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 32px);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.toast svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #4ade80;
+}
+
+.toast--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* ===== Mobile: mniejsze odstępy między blokami/sekcjami ===== */
+@media (max-width: 767px) {
+  .brands,
+  .faq,
+  .contact,
+  .catalog,
+  .news,
+  .tire-detail {
+    padding: 40px 0;
+  }
+
+  .counters,
+  .about-gallery,
+  .about-values {
+    padding: 56px 0;
+  }
+
+  .about-cta {
+    padding: 48px 0;
+  }
+
+  .article,
+  .legal,
+  .about-hero {
+    padding: 40px 0 56px;
+  }
+
+  .about {
+    padding: 24px 0 56px;
+  }
+
+  .about-split {
+    padding: 0 0 56px;
+  }
+
+  .brands__header,
+  .counters__header,
+  .faq__header,
+  .contact__header,
+  .catalog__header,
+  .news__header,
+  .about-values__header,
+  .about-gallery__header {
+    margin-bottom: 28px;
+  }
+
+  .contact__map {
+    margin-bottom: 32px;
+  }
+
+  .catalog__layout {
+    gap: 24px;
+  }
+
+  .tire-detail__layout {
+    gap: 28px;
+  }
+
+  .contact__grid {
+    gap: 32px;
+  }
+
+  .counters__grid,
+  .about-values__grid,
+  .about-gallery__grid,
+  .catalog__grid {
+    gap: 16px;
+  }
+
+  .filter__group {
+    margin-bottom: 16px;
+  }
+}
+
+
+/* WP: komunikat statusu formularza kontaktowego (sukces/błąd wysyłki AJAX) */
+.form__status {
+  margin: -8px 0 4px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form__status--ok {
+  background: rgba(38, 138, 76, 0.12);
+  color: #1e7a43;
+}
+
+.form__status--error {
+  background: rgba(159, 29, 53, 0.1);
+  color: var(--color-accent);
+}
+
+.toast--error {
+  background: var(--color-accent);
+}

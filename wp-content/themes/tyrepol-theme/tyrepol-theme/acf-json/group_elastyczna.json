@@ -1,0 +1,1187 @@
+{
+    "key": "group_tyrepol_elastyczna",
+    "title": "Elastyczna strona — sekcje",
+    "fields": [
+        {
+            "key": "field_el_tab_hero",
+            "label": "Baner (hero)",
+            "name": "tab_hero",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_hero",
+            "label": "",
+            "name": "sekcja_hero",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_h_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 1
+                },
+                {
+                    "key": "field_el_h_eyebrow",
+                    "label": "Nadtytuł",
+                    "name": "eyebrow",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_h_tytul",
+                    "label": "Tytuł (H1)",
+                    "name": "tytul",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_h_lead",
+                    "label": "Lead / opis",
+                    "name": "lead",
+                    "type": "textarea",
+                    "rows": 3
+                },
+                {
+                    "key": "field_el_h_odznaki",
+                    "label": "Odznaki (oddziel przecinkami, np. DOT, E-MARK, ISO/TS16949)",
+                    "name": "odznaki_tekst",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_h_obraz",
+                    "label": "Zdjęcie",
+                    "name": "obraz",
+                    "type": "image",
+                    "return_format": "id"
+                },
+                {
+                    "key": "field_el_h_dopasowanie",
+                    "label": "Dopasowanie zdjęcia",
+                    "name": "dopasowanie_obrazu",
+                    "type": "select",
+                    "choices": {
+                        "cover": "Wypełnij kadr (cover)",
+                        "contain": "Zmieść całe zdjęcie (contain)",
+                        "auto": "Automatyczna wysokość (bez przycinania i kadrowania)"
+                    },
+                    "default_value": "cover",
+                    "ui": 1
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_tekst",
+            "label": "Tekst + zdjęcie",
+            "name": "tab_tekst",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_tekst",
+            "label": "",
+            "name": "sekcja_tekst",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_t_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 1
+                },
+                {
+                    "key": "field_el_t_eyebrow",
+                    "label": "Nadtytuł",
+                    "name": "eyebrow",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_t_tytul",
+                    "label": "Tytuł (H2)",
+                    "name": "tytul",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_t_tresc",
+                    "label": "Treść",
+                    "name": "tresc",
+                    "type": "wysiwyg",
+                    "media_upload": 0,
+                    "toolbar": "basic"
+                },
+                {
+                    "key": "field_el_t_obraz",
+                    "label": "Zdjęcie",
+                    "name": "obraz",
+                    "type": "image",
+                    "return_format": "id"
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_liczniki",
+            "label": "Liczniki",
+            "name": "tab_liczniki",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_liczniki",
+            "label": "",
+            "name": "sekcja_liczniki",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_li_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 1
+                },
+                {
+                    "key": "field_el_li_tytul",
+                    "label": "Nagłówek",
+                    "name": "tytul",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_li_opis",
+                    "label": "Opis",
+                    "name": "opis",
+                    "type": "textarea",
+                    "rows": 2
+                },
+                {
+                    "key": "field_el_li_tlo",
+                    "label": "Tło sekcji (zdjęcie w tle, przyciemnione)",
+                    "name": "tlo",
+                    "type": "image",
+                    "return_format": "id",
+                    "instructions": "Opcjonalnie — jeśli puste, użyte zostanie domyślne tło z motywu."
+                },
+                {
+                    "key": "field_el_li_1",
+                    "label": "Licznik 1",
+                    "name": "licznik_1",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_li1_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_li1_liczba",
+                            "label": "Docelowa liczba",
+                            "name": "liczba",
+                            "type": "number"
+                        },
+                        {
+                            "key": "field_el_li1_etykieta",
+                            "label": "Podpis",
+                            "name": "etykieta",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_li1_predkosc",
+                            "label": "Szybkość animacji (ms)",
+                            "name": "predkosc",
+                            "type": "number",
+                            "default_value": 1500
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_li_2",
+                    "label": "Licznik 2",
+                    "name": "licznik_2",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_li2_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_li2_liczba",
+                            "label": "Docelowa liczba",
+                            "name": "liczba",
+                            "type": "number"
+                        },
+                        {
+                            "key": "field_el_li2_etykieta",
+                            "label": "Podpis",
+                            "name": "etykieta",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_li2_predkosc",
+                            "label": "Szybkość animacji (ms)",
+                            "name": "predkosc",
+                            "type": "number",
+                            "default_value": 1500
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_li_3",
+                    "label": "Licznik 3",
+                    "name": "licznik_3",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_li3_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_li3_liczba",
+                            "label": "Docelowa liczba",
+                            "name": "liczba",
+                            "type": "number"
+                        },
+                        {
+                            "key": "field_el_li3_etykieta",
+                            "label": "Podpis",
+                            "name": "etykieta",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_li3_predkosc",
+                            "label": "Szybkość animacji (ms)",
+                            "name": "predkosc",
+                            "type": "number",
+                            "default_value": 1500
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_li_4",
+                    "label": "Licznik 4",
+                    "name": "licznik_4",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_li4_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_li4_liczba",
+                            "label": "Docelowa liczba",
+                            "name": "liczba",
+                            "type": "number"
+                        },
+                        {
+                            "key": "field_el_li4_etykieta",
+                            "label": "Podpis",
+                            "name": "etykieta",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_li4_predkosc",
+                            "label": "Szybkość animacji (ms)",
+                            "name": "predkosc",
+                            "type": "number",
+                            "default_value": 1500
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_li_5",
+                    "label": "Licznik 5 (opcjonalnie)",
+                    "name": "licznik_5",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_li5_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_li5_liczba",
+                            "label": "Docelowa liczba",
+                            "name": "liczba",
+                            "type": "number"
+                        },
+                        {
+                            "key": "field_el_li5_etykieta",
+                            "label": "Podpis",
+                            "name": "etykieta",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_li5_predkosc",
+                            "label": "Szybkość animacji (ms)",
+                            "name": "predkosc",
+                            "type": "number",
+                            "default_value": 1500
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_li_6",
+                    "label": "Licznik 6 (opcjonalnie)",
+                    "name": "licznik_6",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_li6_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_li6_liczba",
+                            "label": "Docelowa liczba",
+                            "name": "liczba",
+                            "type": "number"
+                        },
+                        {
+                            "key": "field_el_li6_etykieta",
+                            "label": "Podpis",
+                            "name": "etykieta",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_li6_predkosc",
+                            "label": "Szybkość animacji (ms)",
+                            "name": "predkosc",
+                            "type": "number",
+                            "default_value": 1500
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_cta1",
+            "label": "Przycisk CTA #1 (między sekcjami)",
+            "name": "tab_cta1",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_cta_miedzy_1",
+            "label": "",
+            "name": "cta_miedzysekcyjny_1",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_cm1_pokaz",
+                    "label": "Pokaż ten przycisk",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_cm1_tekst",
+                    "label": "Tekst przycisku (otwiera popup wyceny)",
+                    "name": "tekst",
+                    "type": "text",
+                    "default_value": "Darmowa wycena"
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_karty",
+            "label": "Karty cech",
+            "name": "tab_karty",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_karty",
+            "label": "",
+            "name": "sekcja_karty",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_ka_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_ka_kolejnosc",
+                    "label": "Kolejność względem sekcji „Naprzemienne bloki” (mniejsza liczba = wyżej)",
+                    "name": "kolejnosc",
+                    "type": "number",
+                    "default_value": 10
+                },
+                {
+                    "key": "field_el_ka_tytul",
+                    "label": "Nagłówek",
+                    "name": "tytul",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_ka_opis",
+                    "label": "Opis",
+                    "name": "opis",
+                    "type": "textarea",
+                    "rows": 2
+                },
+                {
+                    "key": "field_el_ka_1",
+                    "label": "Karta 1",
+                    "name": "karta_1",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ka1_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ka1_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_ka1_opis",
+                            "label": "Opis",
+                            "name": "opis",
+                            "type": "textarea",
+                            "rows": 2
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ka_2",
+                    "label": "Karta 2",
+                    "name": "karta_2",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ka2_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ka2_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_ka2_opis",
+                            "label": "Opis",
+                            "name": "opis",
+                            "type": "textarea",
+                            "rows": 2
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ka_3",
+                    "label": "Karta 3",
+                    "name": "karta_3",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ka3_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ka3_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_ka3_opis",
+                            "label": "Opis",
+                            "name": "opis",
+                            "type": "textarea",
+                            "rows": 2
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ka_4",
+                    "label": "Karta 4",
+                    "name": "karta_4",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ka4_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ka4_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_ka4_opis",
+                            "label": "Opis",
+                            "name": "opis",
+                            "type": "textarea",
+                            "rows": 2
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ka_5",
+                    "label": "Karta 5 (opcjonalnie)",
+                    "name": "karta_5",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ka5_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ka5_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_ka5_opis",
+                            "label": "Opis",
+                            "name": "opis",
+                            "type": "textarea",
+                            "rows": 2
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ka_6",
+                    "label": "Karta 6 (opcjonalnie)",
+                    "name": "karta_6",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ka6_ikona",
+                            "label": "Ikonka (małe zdjęcie/ikona, wyśrodkuje się i przeskaluje automatycznie)",
+                            "name": "ikona_obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ka6_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_ka6_opis",
+                            "label": "Opis",
+                            "name": "opis",
+                            "type": "textarea",
+                            "rows": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_split",
+            "label": "Naprzemienne bloki",
+            "name": "tab_split",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_split",
+            "label": "",
+            "name": "sekcja_split",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_sp_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_sp_kolejnosc",
+                    "label": "Kolejność względem sekcji „Karty cech” (mniejsza liczba = wyżej)",
+                    "name": "kolejnosc",
+                    "type": "number",
+                    "default_value": 20
+                },
+                {
+                    "key": "field_el_sp_1",
+                    "label": "Blok 1",
+                    "name": "blok_1",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_sp1_eyebrow",
+                            "label": "Nadtytuł",
+                            "name": "eyebrow",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp1_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp1_tekst",
+                            "label": "Tekst",
+                            "name": "tekst",
+                            "type": "textarea",
+                            "rows": 3
+                        },
+                        {
+                            "key": "field_el_sp1_link_tekst",
+                            "label": "Tekst linku",
+                            "name": "link_tekst",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp1_link_url",
+                            "label": "Adres linku",
+                            "name": "link_url",
+                            "type": "url"
+                        },
+                        {
+                            "key": "field_el_sp1_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_sp1_odwrocony",
+                            "label": "Odwróć układ (zdjęcie po prawej)",
+                            "name": "odwrocony",
+                            "type": "true_false",
+                            "ui": 1
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_sp_2",
+                    "label": "Blok 2",
+                    "name": "blok_2",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_sp2_eyebrow",
+                            "label": "Nadtytuł",
+                            "name": "eyebrow",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp2_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp2_tekst",
+                            "label": "Tekst",
+                            "name": "tekst",
+                            "type": "textarea",
+                            "rows": 3
+                        },
+                        {
+                            "key": "field_el_sp2_link_tekst",
+                            "label": "Tekst linku",
+                            "name": "link_tekst",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp2_link_url",
+                            "label": "Adres linku",
+                            "name": "link_url",
+                            "type": "url"
+                        },
+                        {
+                            "key": "field_el_sp2_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_sp2_odwrocony",
+                            "label": "Odwróć układ (zdjęcie po prawej)",
+                            "name": "odwrocony",
+                            "type": "true_false",
+                            "ui": 1,
+                            "default_value": 1
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_sp_3",
+                    "label": "Blok 3",
+                    "name": "blok_3",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_sp3_eyebrow",
+                            "label": "Nadtytuł",
+                            "name": "eyebrow",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp3_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp3_tekst",
+                            "label": "Tekst",
+                            "name": "tekst",
+                            "type": "textarea",
+                            "rows": 3
+                        },
+                        {
+                            "key": "field_el_sp3_link_tekst",
+                            "label": "Tekst linku",
+                            "name": "link_tekst",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp3_link_url",
+                            "label": "Adres linku",
+                            "name": "link_url",
+                            "type": "url"
+                        },
+                        {
+                            "key": "field_el_sp3_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_sp3_odwrocony",
+                            "label": "Odwróć układ (zdjęcie po prawej)",
+                            "name": "odwrocony",
+                            "type": "true_false",
+                            "ui": 1
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_sp_4",
+                    "label": "Blok 4 (opcjonalnie)",
+                    "name": "blok_4",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_sp4_eyebrow",
+                            "label": "Nadtytuł",
+                            "name": "eyebrow",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp4_tytul",
+                            "label": "Tytuł",
+                            "name": "tytul",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp4_tekst",
+                            "label": "Tekst",
+                            "name": "tekst",
+                            "type": "textarea",
+                            "rows": 3
+                        },
+                        {
+                            "key": "field_el_sp4_link_tekst",
+                            "label": "Tekst linku",
+                            "name": "link_tekst",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_el_sp4_link_url",
+                            "label": "Adres linku",
+                            "name": "link_url",
+                            "type": "url"
+                        },
+                        {
+                            "key": "field_el_sp4_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_sp4_odwrocony",
+                            "label": "Odwróć układ (zdjęcie po prawej)",
+                            "name": "odwrocony",
+                            "type": "true_false",
+                            "ui": 1,
+                            "default_value": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_cta2",
+            "label": "Przycisk CTA #2 (między sekcjami)",
+            "name": "tab_cta2",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_cta_miedzy_2",
+            "label": "",
+            "name": "cta_miedzysekcyjny_2",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_cm2_pokaz",
+                    "label": "Pokaż ten przycisk",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_cm2_tekst",
+                    "label": "Tekst przycisku (otwiera popup wyceny)",
+                    "name": "tekst",
+                    "type": "text",
+                    "default_value": "Darmowa wycena"
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_galeria",
+            "label": "Galeria",
+            "name": "tab_galeria",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_galeria",
+            "label": "",
+            "name": "sekcja_galeria",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_ga_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_ga_tytul",
+                    "label": "Nagłówek",
+                    "name": "tytul",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_ga_opis",
+                    "label": "Opis",
+                    "name": "opis",
+                    "type": "textarea",
+                    "rows": 2
+                },
+                {
+                    "key": "field_el_ga_1",
+                    "label": "Zdjęcie 1",
+                    "name": "zdjecie_1",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga1_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga1_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_2",
+                    "label": "Zdjęcie 2",
+                    "name": "zdjecie_2",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga2_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga2_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_3",
+                    "label": "Zdjęcie 3",
+                    "name": "zdjecie_3",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga3_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga3_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_4",
+                    "label": "Zdjęcie 4",
+                    "name": "zdjecie_4",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga4_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga4_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_5",
+                    "label": "Zdjęcie 5",
+                    "name": "zdjecie_5",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga5_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga5_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_6",
+                    "label": "Zdjęcie 6",
+                    "name": "zdjecie_6",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga6_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga6_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_7",
+                    "label": "Zdjęcie 7 (opcjonalnie)",
+                    "name": "zdjecie_7",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga7_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga7_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_el_ga_8",
+                    "label": "Zdjęcie 8 (opcjonalnie)",
+                    "name": "zdjecie_8",
+                    "type": "group",
+                    "sub_fields": [
+                        {
+                            "key": "field_el_ga8_obraz",
+                            "label": "Zdjęcie",
+                            "name": "obraz",
+                            "type": "image",
+                            "return_format": "id"
+                        },
+                        {
+                            "key": "field_el_ga8_podpis",
+                            "label": "Podpis",
+                            "name": "podpis",
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_cta",
+            "label": "CTA końcowe",
+            "name": "tab_cta",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_cta",
+            "label": "",
+            "name": "sekcja_cta",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_c_pokaz",
+                    "label": "Pokaż tę sekcję",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_c_tytul",
+                    "label": "Nagłówek",
+                    "name": "tytul",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_c_opis",
+                    "label": "Opis",
+                    "name": "opis",
+                    "type": "textarea",
+                    "rows": 2
+                },
+                {
+                    "key": "field_el_c_b1_tekst",
+                    "label": "Przycisk 1 — tekst",
+                    "name": "przycisk_1_tekst",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_c_b1_url",
+                    "label": "Przycisk 1 — adres",
+                    "name": "przycisk_1_url",
+                    "type": "url"
+                },
+                {
+                    "key": "field_el_c_b2_tekst",
+                    "label": "Przycisk 2 — tekst (opcjonalnie)",
+                    "name": "przycisk_2_tekst",
+                    "type": "text"
+                },
+                {
+                    "key": "field_el_c_b2_url",
+                    "label": "Przycisk 2 — adres",
+                    "name": "przycisk_2_url",
+                    "type": "url"
+                }
+            ]
+        },
+        {
+            "key": "field_el_tab_kontakt",
+            "label": "Kontakt",
+            "name": "tab_kontakt",
+            "type": "tab"
+        },
+        {
+            "key": "field_el_sekcja_kontakt",
+            "label": "",
+            "name": "sekcja_kontakt",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_el_k_pokaz",
+                    "label": "Pokaż sekcję kontakt na dole strony",
+                    "name": "pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 1,
+                    "instructions": "Dane pociągają się automatycznie z Ustawienia motywu — nic więcej nie trzeba wypełniać."
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "template-elastyczna.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments"
+    ],
+    "active": true,
+    "description": "Kolejność sekcji na stronie jest stała (Baner → Tekst → Liczniki → Karty/Bloki → Galeria → CTA → FAQ → Kontakt) — jedyne dwie sekcje, które można zamienić miejscami, to „Karty cech” i „Naprzemienne bloki” (pole „Kolejność”). Sekcję, której nie potrzebujesz na danej stronie, po prostu zostaw wyłączoną (\"Pokaż tę sekcję\" = nie). Sekcja FAQ jest WSPÓLNA dla wszystkich stron — edytuje się ją raz w Ustawienia motywu → FAQ, dlatego nie ma tu osobnych pól ani przełącznika. Zdjęcia w zakładkach „Tekst + zdjęcie” i „Naprzemienne bloki” pokazują się zawsze na pełną szerokość bloku z automatyczną wysokością wg własnych proporcji (bez wyboru, bez kadrowania, bez rozciągania). Zdjęcia w „Galerii” pokazują się zawsze jako wypełniające cały kafelek i wycentrowane (jak tło strony — cover). Pole „Dopasowanie zdjęcia” (cover/contain/auto) zostało tylko w zakładce „Baner”, gdzie zdjęcie musi pasować do konkretnej kompozycji obok tekstu. Sekcja „Liczniki” ma dodatkowo pole „Tło sekcji” — własne zdjęcie w tle zamiast domyślnego z motywu."
+}

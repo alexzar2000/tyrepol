@@ -48,29 +48,18 @@ add_action('after_setup_theme', 'tyrepol_setup');
  * zachowany zostanie układ folderów assets/style.css + assets/images/.
  */
 function tyrepol_assets() {
-    // Wersja pliku = jego data modyfikacji (filemtime), NIE stała „1.0.0”. Dzięki temu przy każdym
-    // wgraniu nowej wersji motywu adres pliku (?ver=...) automatycznie się zmienia i przeglądarka
-    // (a także serwer/CDN z długim cache — u nas Cache-Control: max-age=2592000, czyli 30 dni)
-    // pobiera świeży plik zamiast pokazywać stary z pamięci podręcznej. Bez tego zmiany w CSS/JS
-    // mogły być niewidoczne dla odwiedzających nawet po poprawnym wgraniu nowej wersji motywu.
-    $style_path  = TYREPOL_DIR . '/assets/style.css';
-    $script_path = TYREPOL_DIR . '/assets/script.js';
-    $style_ver   = file_exists($style_path) ? filemtime($style_path) : TYREPOL_VERSION;
-    $script_ver  = file_exists($script_path) ? filemtime($script_path) : TYREPOL_VERSION;
-
     wp_enqueue_style('tyrepol-google-font', 'https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap', [], null);
     wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11');
-    wp_enqueue_style('tyrepol-style', TYREPOL_URI . '/assets/style.css', ['swiper'], $style_ver);
+    wp_enqueue_style('tyrepol-style', TYREPOL_URI . '/assets/style.css', ['swiper'], TYREPOL_VERSION);
 
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);
-    wp_enqueue_script('tyrepol-script', TYREPOL_URI . '/assets/script.js', ['swiper'], $script_ver, true);
+    wp_enqueue_script('tyrepol-script', TYREPOL_URI . '/assets/script.js', ['swiper'], TYREPOL_VERSION, true);
 
     // Teksty używane bezpośrednio w JS (karty katalogu opon / karty aktualności) — tłumaczone przez
     // standardowy mechanizm WordPress (przełącznik Polylang zmienia język strony -> zmienia się i __()).
     wp_localize_script('tyrepol-script', 'tyrepolI18n', [
-        'detailsLink'    => __('Zobacz szczegóły', 'tyrepol'),
-        'readMore'       => __('Czytaj więcej', 'tyrepol'),
-        'sizesAvailable' => __('Dostępne rozmiary', 'tyrepol'),
+        'detailsLink' => __('Zobacz szczegóły', 'tyrepol'),
+        'readMore'    => __('Czytaj więcej', 'tyrepol'),
     ]);
 }
 add_action('wp_enqueue_scripts', 'tyrepol_assets');

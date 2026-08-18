@@ -1,0 +1,10 @@
+/*
+Theme Name: TyrePol
+Theme URI: https://tyrepol.pl
+Author: TyrePol
+Description: Motyw TyrePol — konwersja statycznej wersji HTML/CSS na edytowalny motyw WordPress (ACF + Polylang). Style wizualne znajdują się w pliku assets/style.css (ładowanym przez functions.php) — ten plik zawiera tylko nagłówek wymagany przez WordPress.
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+Text Domain: tyrepol
+*/
