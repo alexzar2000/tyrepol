@@ -89,6 +89,31 @@ function tyrepol_register_opona_cpt() {
     // Zapamiętujemy listę taksonomii + ich domyślne terminy, żeby jednorazowo utworzyć je
     // po aktywacji motywu (patrz tyrepol_maybe_seed_taxonomies poniżej).
     set_transient('tyrepol_taxonomies_definition', $taxonomies, DAY_IN_SECONDS);
+
+    // Taksonomia „Cechy opon” — REJESTR dodatkowych parametrów (poza pkt. wyżej), NIEOGRANICZONY
+    // co do liczby (bez seedowania domyślnych terminów — admin dodaje własne w Opony → Cechy opon).
+    // Sama nazwa/ikona/sposób wyświetlania siedzi na terminie (patrz acf-json/group_cecha_opony.json),
+    // a wartość dla konkretnej opony wpisuje się w osobnym boksie na ekranie edycji wpisu
+    // (patrz inc/cechy-opony.php) — dzięki temu nazwa i ikona parametru są spójne dla wszystkich
+    // opon naraz, zamiast wpisywać je osobno przy każdej sztuce.
+    register_taxonomy('cecha-opony', ['opona'], [
+        'labels' => [
+            'name'          => __('Cechy opon', 'tyrepol'),
+            'singular_name' => __('Cecha opony', 'tyrepol'),
+            'add_new_item'  => __('Dodaj nowy parametr', 'tyrepol'),
+            'edit_item'     => __('Edytuj parametr', 'tyrepol'),
+            'search_items'  => __('Szukaj parametrów', 'tyrepol'),
+            'not_found'     => __('Nie znaleziono parametrów', 'tyrepol'),
+            'menu_name'     => __('Cechy opon', 'tyrepol'),
+        ],
+        'hierarchical'      => false,
+        'public'            => false,
+        'show_ui'           => true,
+        'show_in_menu'      => true,
+        'show_admin_column' => false,
+        'show_in_rest'      => true,
+        'rewrite'           => false,
+    ]);
 }
 add_action('init', 'tyrepol_register_opona_cpt');
 

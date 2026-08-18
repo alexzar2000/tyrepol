@@ -81,6 +81,12 @@ add_action('wp_enqueue_scripts', 'tyrepol_assets');
 require TYREPOL_DIR . '/inc/cpt-opona.php';
 
 /**
+ * Rejestr dodatkowych, nieograniczonych parametrów opon („Cechy opon”) + boks z wartościami
+ * na ekranie edycji opony + budowanie kolumn tabeli specyfikacji (patrz komentarz w pliku).
+ */
+require TYREPOL_DIR . '/inc/cechy-opony.php';
+
+/**
  * Rejestracja CPT „Slajd hero” — nieograniczona liczba slajdów w karuzeli Strony głównej
  * (zamiast stałej liczby pól ACF — patrz komentarz w pliku).
  */

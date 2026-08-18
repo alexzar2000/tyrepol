@@ -1,0 +1,52 @@
+{
+    "key": "group_tyrepol_cecha_opony",
+    "title": "Cecha opony — ustawienia",
+    "fields": [
+        {
+            "key": "field_cecha_sposob",
+            "label": "Sposób wyświetlania w tabeli",
+            "name": "sposob_wyswietlania",
+            "type": "select",
+            "instructions": "Nazwa parametru (widoczna niżej, w liście „Opony → Cechy opon”) jest jednocześnie nazwą kolumny. Tutaj ustalasz tylko, jak wygląda nagłówek.",
+            "choices": {
+                "tekst": "Tekst (pełna nazwa parametru w nagłówku)",
+                "ikona": "Ikona (z odnośnikiem do legendy pod tabelą)"
+            },
+            "default_value": "tekst",
+            "allow_null": 0,
+            "ui": 1
+        },
+        {
+            "key": "field_cecha_ikona",
+            "label": "Ikona",
+            "name": "ikona",
+            "type": "image",
+            "instructions": "Mały, jednokolorowy symbol z przezroczystym tłem (np. SVG/PNG). Pod tabelą automatycznie pojawi się legenda z nazwą tego parametru.",
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_cecha_sposob",
+                        "operator": "==",
+                        "value": "ikona"
+                    }
+                ]
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "cecha-opony"
+            }
+        ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "description": "Definicja jednego parametru z rejestru „Cechy opon”. Wartość dla konkretnej opony wpisuje się w edycji tej opony, w boksie „Dodatkowe parametry”."
+}
