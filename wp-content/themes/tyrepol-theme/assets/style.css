@@ -1375,6 +1375,14 @@ body.loader-active {
   background: #f7f7f7;
 }
 
+/* Modyfikator: wyróżnia wiersz odpowiadający dokładnie temu rozmiarowi, którego adres URL
+   aktualnie się przegląda (np. wejście z wyszukiwarki na konkretny rozmiar) — reszta rozmiarów
+   modelu nadal widoczna w tej samej tabeli. */
+.tire-detail__row--current {
+  background: rgba(159, 29, 53, 0.08) !important;
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
 .tire-detail__icon {
   display: inline-flex;
 }
@@ -2024,27 +2032,34 @@ body.loader-active {
   justify-content: center;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border: none;
-  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: #f2f2f2;
   padding: 12px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .catalog__brand-tile-logo {
   max-width: 75%;
   max-height: 55%;
-  filter: brightness(0);
-  transition: filter 0.2s ease;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.catalog__brand-tile:hover .catalog__brand-tile-logo {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 .catalog__brand-tile--active {
-  background: var(--color-accent);
-  border-radius: 8px;
+  background: #fff;
+  border-color: var(--color-accent);
 }
 
 .catalog__brand-tile--active .catalog__brand-tile-logo {
-  filter: brightness(0) invert(1);
+  opacity: 1;
 }
 
 @media (max-width: 767px) {
@@ -2480,6 +2495,8 @@ body.loader-active {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  min-width: 0; /* zabezpieczenie: karta zawsze trzyma się swojej kolumny siatki (1fr),
+                   nawet gdyby zdjęcie w środku było większe niż dostępna szerokość */
   border: 1px solid #000;
   border-radius: 8px;
   padding: 24px;
@@ -2517,6 +2534,7 @@ body.loader-active {
 }
 
 .news-card__img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -2953,6 +2971,17 @@ body.loader-active {
   padding: 32px;
 }
 
+/* Modyfikator: „Automatyczna wysokość” w polu „Dopasowanie zdjęcia” — zdjęcie bez sztywnego
+   pudełka proporcji (aspect-ratio), skaluje się do szerokości i zachowuje własne proporcje. */
+.about-hero__media--auto {
+  aspect-ratio: auto;
+}
+
+.about-hero__media--auto .about-hero__img {
+  height: auto;
+  object-fit: initial;
+}
+
 /* Blok: sekcja "Kim jesteśmy" - tekst + zdjęcie */
 .about {
   padding: 32px 0 96px;
@@ -2968,24 +2997,19 @@ body.loader-active {
   align-items: center;
 }
 
+/* Zdjęcie zawsze na pełną szerokość, z wysokością dopasowaną do jego własnych proporcji —
+   bez sztywnego pudełka „aspect-ratio” i bez kadrowania (object-fit), więc nic się nie
+   rozciąga ani nie „gubi” niezależnie od proporcji wgranego pliku. */
 .about__media {
   border-radius: 8px;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
   background: #f2f2f2;
 }
 
 .about__img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Modyfikator: „Zmieść całe zdjęcie (contain)” w polu „Dopasowanie zdjęcia” — bez kadrowania. */
-.about__img--contain {
-  object-fit: contain;
-  padding: 24px;
+  height: auto;
 }
 
 .about__eyebrow {
@@ -3049,19 +3073,14 @@ body.loader-active {
   order: 1;
 }
 
+/* Zdjęcie zawsze na pełną szerokość swojej kolumny, z wysokością dopasowaną do jego własnych
+   proporcji — bez kadrowania i bez rozciągania, niezależnie od proporcji wgranego pliku. */
 .about-split__img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
   border-radius: 8px;
   background: #f2f2f2;
-}
-
-/* Modyfikator: „Zmieść całe zdjęcie (contain)” w polu „Dopasowanie zdjęcia” — bez kadrowania. */
-.about-split__img--contain {
-  object-fit: contain;
-  padding: 24px;
 }
 
 .about-split__title {
@@ -3080,26 +3099,6 @@ body.loader-active {
 
 .about-split__text:last-child {
   margin-bottom: 0;
-}
-
-/* Element: chipy z rozmiarami opon w wierszu zakresu produktowego */
-.about-split__sizes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 4px 0 20px;
-  padding: 0;
-  list-style: none;
-}
-
-.about-split__size {
-  padding: 6px 12px;
-  background: #f7f7f7;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #333;
 }
 
 /* Element: link "Zobacz opony..." pod opisem wiersza */
@@ -3186,6 +3185,16 @@ body.loader-active {
   border-radius: 50%;
   background: rgba(159, 29, 53, 0.1);
   color: var(--color-accent);
+  overflow: hidden;
+}
+
+.about-values__icon-img {
+  display: block;
+  max-width: 60%;
+  max-height: 60%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .about-values__card-title {
@@ -3252,21 +3261,19 @@ body.loader-active {
   background: #f2f2f2;
 }
 
-.about-gallery__img {
+/* Zdjęcie jako tło kafelka — zawsze wypełnia cały kafelek i jest wycentrowane (cover),
+   niezależnie od proporcji wgranego pliku. */
+.about-gallery__media {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   transition: transform 0.4s ease;
 }
 
-/* Modyfikator: „Zmieść całe zdjęcie (contain)” w polu „Dopasowanie zdjęcia” — bez kadrowania. */
-.about-gallery__img--contain {
-  object-fit: contain;
-  padding: 16px;
-}
-
-.about-gallery__item:hover .about-gallery__img {
+.about-gallery__item:hover .about-gallery__media {
   transform: scale(1.06);
 }
 

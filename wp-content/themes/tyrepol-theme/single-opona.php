@@ -1,10 +1,11 @@
 <?php
 /**
- * Szczegóły pojedynczej opony (jeden wpis CPT „Opona” = jeden rozmiar/wariant, z pełną etykietą
- * UE opony ciężarowej). Uwaga: w statycznej wersji jedna „karta produktu” pokazywała od razu
- * kilka rozmiarów tego samego wzoru bieżnika w jednej tabeli — tutaj, żeby każdy rozmiar był
- * osobno edytowalny w panelu (własne zdjęcie, własne dane), każdy wariant ma własną stronę.
- * Warianty tego samego wzoru bieżnika łączy pole „Wzór bieżnika” (widoczne w okruszkach).
+ * Szczegóły pojedynczej opony — a właściwie szczegóły CAŁEGO MODELU. Jeden wpis CPT „Opona” =
+ * jeden rozmiar/wariant, ale dokładnie jak w dawnej wersji statycznej, strona produktu pokazuje
+ * od razu WSZYSTKIE rozmiary tego samego modelu (ten sam „Wzór bieżnika” + ta sama „Marka”)
+ * razem w jednej tabeli — każdy rozmiar to osobny wiersz, ale nadal osobno edytowalny w panelu
+ * (własne dane UE dla danego rozmiaru). Zdjęcie i tytuł strony biorą się z PIERWSZEGO wariantu
+ * (tego, na który prowadzi karta w katalogu) — patrz $variants niżej.
  */
 if (!defined('ABSPATH')) exit;
 get_header();
@@ -19,6 +20,27 @@ while (have_posts()) : the_post();
 
     $catalog_url = tyrepol_catalog_url();
     $wzor = get_field('wzor_bieznika') ?: get_the_title();
+
+    // Wszystkie wpisy tego samego modelu (ten sam wzór bieżnika + ta sama marka) — to one
+    // tworzą razem wiersze tabeli poniżej. Jeśli marka nie jest ustawiona, dopasowanie idzie
+    // tylko po wzorze bieżnika (rzadki przypadek, ale nie chcemy przez to ukryć żadnego wiersza).
+    $variant_query_args = [
+        'post_type'      => 'opona',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+        'meta_query'     => [
+            ['key' => 'wzor_bieznika', 'value' => $wzor, 'compare' => '='],
+        ],
+    ];
+    if ($brand) {
+        $variant_query_args['tax_query'] = [
+            ['taxonomy' => 'marka-opony', 'field' => 'term_id', 'terms' => $brand->term_id],
+        ];
+    }
+    $variants = get_posts($variant_query_args);
+    if (empty($variants)) $variants = [get_post()]; // zabezpieczenie — przynajmniej bieżący wpis
 ?>
 
   <nav class="breadcrumb" aria-label="<?php esc_attr_e('Okruszki nawigacyjne', 'tyrepol'); ?>">
@@ -72,18 +94,24 @@ while (have_posts()) : the_post();
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td data-label="<?php esc_attr_e('Seria', 'tyrepol'); ?>"><?php echo esc_html($wzor); ?></td>
-                  <td data-label="<?php esc_attr_e('Rozmiar', 'tyrepol'); ?>"><?php echo esc_html(get_field('rozmiar')); ?></td>
-                  <td data-label="LI / SR"><?php echo esc_html(get_field('li_sr')); ?></td>
-                  <td data-label="<?php esc_attr_e('Głębokość bieżnika', 'tyrepol'); ?>"><?php echo esc_html(get_field('glebokosc_biezn')); ?></td>
-                  <td data-label="<?php esc_attr_e('Zużycie paliwa', 'tyrepol'); ?>"><?php echo esc_html(get_field('zuzycie_paliwa')); ?></td>
-                  <td data-label="<?php esc_attr_e('Przyczepność na mokrej nawierzchni', 'tyrepol'); ?>"><?php echo esc_html(get_field('przyczepnosc_mokra')); ?></td>
-                  <td data-label="<?php esc_attr_e('Hałas', 'tyrepol'); ?>"><?php echo esc_html(get_field('halas_db')); ?></td>
-                  <td data-label="<?php esc_attr_e('Opór toczenia', 'tyrepol'); ?>"><?php echo esc_html(get_field('opor_toczenia')); ?></td>
-                  <td data-label="M+S" class="tire-detail__check"><?php echo get_field('oznaczenie_ms') ? '✓' : '—'; ?></td>
-                  <td data-label="3PMSF" class="tire-detail__check"><?php echo get_field('oznaczenie_3pmsf') ? '✓' : '—'; ?></td>
+                <?php foreach ($variants as $variant) :
+                  $v_id    = $variant->ID;
+                  $v_wzor  = get_field('wzor_bieznika', $v_id) ?: $wzor;
+                  $v_current = ((int) $v_id === (int) get_the_ID());
+                ?>
+                <tr<?php echo $v_current ? ' class="tire-detail__row--current"' : ''; ?>>
+                  <td data-label="<?php esc_attr_e('Seria', 'tyrepol'); ?>"><?php echo esc_html($v_wzor); ?></td>
+                  <td data-label="<?php esc_attr_e('Rozmiar', 'tyrepol'); ?>"><?php echo esc_html(get_field('rozmiar', $v_id)); ?></td>
+                  <td data-label="LI / SR"><?php echo esc_html(get_field('li_sr', $v_id)); ?></td>
+                  <td data-label="<?php esc_attr_e('Głębokość bieżnika', 'tyrepol'); ?>"><?php echo esc_html(get_field('glebokosc_biezn', $v_id)); ?></td>
+                  <td data-label="<?php esc_attr_e('Zużycie paliwa', 'tyrepol'); ?>"><?php echo esc_html(get_field('zuzycie_paliwa', $v_id)); ?></td>
+                  <td data-label="<?php esc_attr_e('Przyczepność na mokrej nawierzchni', 'tyrepol'); ?>"><?php echo esc_html(get_field('przyczepnosc_mokra', $v_id)); ?></td>
+                  <td data-label="<?php esc_attr_e('Hałas', 'tyrepol'); ?>"><?php echo esc_html(get_field('halas_db', $v_id)); ?></td>
+                  <td data-label="<?php esc_attr_e('Opór toczenia', 'tyrepol'); ?>"><?php echo esc_html(get_field('opor_toczenia', $v_id)); ?></td>
+                  <td data-label="M+S" class="tire-detail__check"><?php echo get_field('oznaczenie_ms', $v_id) ? '✓' : '—'; ?></td>
+                  <td data-label="3PMSF" class="tire-detail__check"><?php echo get_field('oznaczenie_3pmsf', $v_id) ? '✓' : '—'; ?></td>
                 </tr>
+                <?php endforeach; ?>
               </tbody>
             </table>
           </div>

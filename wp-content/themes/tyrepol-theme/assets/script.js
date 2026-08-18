@@ -235,22 +235,27 @@ function initCatalog() {
 
   const getChecked = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((el) => el.value);
 
+  // WP: tire.axle / tire.season / tire.vehicle / tire.sizes to teraz TABLICE (unia wszystkich
+  // rozmiarów danego modelu — patrz grupowanie w page-opony.php), stąd dopasowanie przez
+  // "includes"/"some" zamiast prostego porównania pojedynczej wartości.
   const matchesFilters = (tire, filters) => {
     if (filters.brands.length && !filters.brands.includes(tire.brand)) return false;
-    if (filters.vehicle !== 'all' && tire.vehicle !== filters.vehicle) return false;
-    if (filters.axles.length && !filters.axles.includes(tire.axle)) return false;
-    if (filters.seasons.length && !filters.seasons.includes(tire.season)) return false;
-    if (filters.size && tire.size !== filters.size) return false;
+    if (filters.vehicle !== 'all' && !tire.vehicle.includes(filters.vehicle)) return false;
+    if (filters.axles.length && !filters.axles.some((a) => tire.axle.includes(a))) return false;
+    if (filters.seasons.length && !filters.seasons.some((s) => tire.season.includes(s))) return false;
+    if (filters.size && !tire.sizes.includes(filters.size)) return false;
     return true;
   };
 
   const cardTemplate = (tire) => {
     const brandLabel = BRAND_LABELS[tire.brand] || tire.brand;
-    const axleLabel = AXLE_LABELS[tire.axle] || tire.axle;
-    const vehicleLabel = VEHICLE_LABELS[tire.vehicle] || tire.vehicle;
-    const seasonLabel = SEASON_LABELS[tire.season] || tire.season;
+    const axleLabel = (tire.axle || []).map((a) => AXLE_LABELS[a] || a).join(', ');
+    const vehicleLabel = (tire.vehicle || []).map((v) => VEHICLE_LABELS[v] || v).join(', ');
+    const seasonLabel = (tire.season || []).map((s) => SEASON_LABELS[s] || s).join(', ');
+    const sizesCount = (tire.sizes || []).length;
 
-    // WP: zdjęcie pochodzi z obrazka wyróżniającego danego wpisu CPT „Opona” (tire.image).
+    // WP: zdjęcie pochodzi z obrazka wyróżniającego reprezentatywnego wpisu CPT „Opona” danego
+    // modelu (tire.image) — jedna karta = jeden model, niezależnie od liczby rozmiarów.
     const mediaMarkup = tire.image
       ? `<img class="tire-card__img" src="${tire.image}" alt="Opona ${brandLabel} ${tire.pattern}" loading="lazy">`
       : `<div class="tire-card__placeholder" aria-hidden="true">
@@ -271,6 +276,7 @@ function initCatalog() {
           <span>Oś: <strong>${axleLabel}</strong></span>
           <span>Typ pojazdu: <strong>${vehicleLabel}</strong></span>
         </div>
+        ${sizesCount ? `<div class="tire-card__row tire-card__row--specs"><span>${I18N.sizesAvailable || 'Dostępne rozmiary'}: <strong>${sizesCount}</strong></span></div>` : ''}
         <a class="tire-card__link" href="${tire.link || '#'}">${I18N.detailsLink || 'Zobacz szczegóły'}</a>
       </article>`;
   };

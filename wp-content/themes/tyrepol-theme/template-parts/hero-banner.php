@@ -2,15 +2,17 @@
 /**
  * Cząstka „Baner (about-hero)” — używana jako pierwsza sekcja szablonu „Elastyczna strona”
  * (np. baner marki Saucerman albo baner strony O firmie).
- * $args: eyebrow, title, lead, badges (array tekstów), image (ID załącznika), image_fit (cover|contain)
+ * $args: eyebrow, title, lead, badges (array tekstów), image (ID załącznika), image_fit (cover|contain|auto)
  */
 if (!defined('ABSPATH')) exit;
-$eyebrow = $args['eyebrow'] ?? '';
-$title   = $args['title'] ?? '';
-$lead    = $args['lead'] ?? '';
-$badges  = $args['badges'] ?? [];
-$image   = $args['image'] ?? null;
-$fit     = ($args['image_fit'] ?? 'cover') === 'contain' ? ' about-hero__img--contain' : '';
+$eyebrow  = $args['eyebrow'] ?? '';
+$title    = $args['title'] ?? '';
+$lead     = $args['lead'] ?? '';
+$badges   = $args['badges'] ?? [];
+$image    = $args['image'] ?? null;
+$fit_val  = $args['image_fit'] ?? 'cover';
+$fit      = $fit_val === 'contain' ? ' about-hero__img--contain' : '';
+$media_cl = $fit_val === 'auto' ? ' about-hero__media--auto' : '';
 ?>
 <section class="about-hero about-hero--top">
   <div class="about-hero__inner">
@@ -27,7 +29,7 @@ $fit     = ($args['image_fit'] ?? 'cover') === 'contain' ? ' about-hero__img--co
       <?php endif; ?>
     </div>
     <?php if ($image) : ?>
-    <div class="about-hero__media about-hero__media--product reveal">
+    <div class="about-hero__media about-hero__media--product reveal<?php echo $media_cl; ?>">
       <?php echo wp_get_attachment_image($image, 'large', false, ['class' => 'about-hero__img' . $fit, 'loading' => 'eager']); ?>
     </div>
     <?php endif; ?>

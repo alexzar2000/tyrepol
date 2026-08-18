@@ -5,16 +5,22 @@
  * Filtrowana siatka opon (marka / typ pojazdu / oś / sezon / rozmiar). Filtrowanie po stronie
  * przeglądarki wykonuje ta sama logika co w wersji statycznej (assets/script.js → initCatalog),
  * tylko dane wejściowe (TIRES) są teraz pobierane z bazy WordPress (CPT „Opona”), a nie zaszyte
- * na sztywno w pliku JS — dzięki temu każdą oponę da się dodać/edytować w panelu.
+ * na sztywno w pliku JS — dzięki temu każdą oponę da się dodać/edytować w panelu. Wpisy są
+ * grupowane wg modelu (marka + wzór bieżnika), więc niezależnie od tego ile rozmiarów danego
+ * modelu jest w bazie, w siatce pokazuje się jedna karta — dokładnie jak w wersji statycznej.
  *
  * Przypisz ten szablon stronie o adresie /opony/ (Atrybuty strony → Szablon).
  */
 if (!defined('ABSPATH')) exit;
 get_header();
 
-// Pobranie wszystkich opublikowanych opon + ich pól, przygotowane w formacie identycznym
-// z dawną tablicą TIRES z assets/script.js (żeby front-end (filtrowanie w JS) działał bez zmian).
-$tires = [];
+// Pobranie wszystkich opublikowanych opon i pogrupowanie ich wg modelu (marka + wzór bieżnika) —
+// każdy wpis CPT „Opona” to jeden ROZMIAR, ale w katalogu (i w dawnej wersji statycznej) jeden
+// MODEL pokazuje się jako JEDNA karta, niezależnie od tego ile ma rozmiarów w bazie. Kliknięcie
+// karty prowadzi do strony pierwszego (reprezentatywnego) rozmiaru — sama strona szczegółów
+// (single-opona.php) doszukuje się tam wszystkich pozostałych rozmiarów tego samego modelu
+// i pokazuje je razem w jednej tabeli (patrz komentarz w single-opona.php).
+$groups = [];
 $opony = get_posts(['post_type' => 'opona', 'posts_per_page' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC']);
 
 foreach ($opony as $opona) {
@@ -23,17 +29,46 @@ foreach ($opony as $opona) {
     $season_terms  = get_the_terms($opona->ID, 'sezon-opony');
     $vehicle_terms = get_the_terms($opona->ID, 'typ-pojazdu');
 
-    $tires[] = [
-        'id'      => $opona->ID,
-        'brand'   => $brand_terms && !is_wp_error($brand_terms) ? $brand_terms[0]->slug : '',
-        'axle'    => $axle_terms && !is_wp_error($axle_terms) ? $axle_terms[0]->slug : '',
-        'season'  => $season_terms && !is_wp_error($season_terms) ? $season_terms[0]->slug : '',
-        'vehicle' => $vehicle_terms && !is_wp_error($vehicle_terms) ? $vehicle_terms[0]->slug : '',
-        'pattern' => get_field('wzor_bieznika', $opona->ID),
-        'size'    => get_field('rozmiar', $opona->ID),
-        'image'   => get_the_post_thumbnail_url($opona->ID, 'tyrepol-card') ?: null,
-        'link'    => get_permalink($opona->ID),
-    ];
+    $brand_slug = $brand_terms && !is_wp_error($brand_terms) ? $brand_terms[0]->slug : '';
+    $pattern    = get_field('wzor_bieznika', $opona->ID) ?: get_the_title($opona->ID);
+    $size       = get_field('rozmiar', $opona->ID);
+    $key        = $brand_slug . '||' . $pattern;
+
+    if (!isset($groups[$key])) {
+        $groups[$key] = [
+            'id'      => $opona->ID,
+            'brand'   => $brand_slug,
+            'axle'    => [],
+            'season'  => [],
+            'vehicle' => [],
+            'pattern' => $pattern,
+            'sizes'   => [],
+            'image'   => get_the_post_thumbnail_url($opona->ID, 'tyrepol-card') ?: null,
+            'link'    => get_permalink($opona->ID),
+        ];
+    }
+
+    // Oś/sezon/typ pojazdu zbieramy z WSZYSTKICH rozmiarów modelu (unia) — dzięki temu filtry
+    // działają poprawnie nawet gdyby poszczególne rozmiary miały inne przypisane terminy.
+    if ($axle_terms && !is_wp_error($axle_terms)) {
+        foreach ($axle_terms as $t) { $groups[$key]['axle'][$t->slug] = true; }
+    }
+    if ($season_terms && !is_wp_error($season_terms)) {
+        foreach ($season_terms as $t) { $groups[$key]['season'][$t->slug] = true; }
+    }
+    if ($vehicle_terms && !is_wp_error($vehicle_terms)) {
+        foreach ($vehicle_terms as $t) { $groups[$key]['vehicle'][$t->slug] = true; }
+    }
+    if ($size) { $groups[$key]['sizes'][$size] = true; }
+}
+
+$tires = [];
+foreach ($groups as $group) {
+    $group['axle']    = array_values(array_keys($group['axle']));
+    $group['season']  = array_values(array_keys($group['season']));
+    $group['vehicle'] = array_values(array_keys($group['vehicle']));
+    $group['sizes']   = array_values(array_keys($group['sizes']));
+    $tires[] = $group;
 }
 
 $brand_terms_all   = get_terms(['taxonomy' => 'marka-opony', 'hide_empty' => false]);
