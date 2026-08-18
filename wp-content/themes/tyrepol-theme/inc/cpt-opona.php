@@ -172,3 +172,70 @@ add_action('edit_form_after_title', function ($post) {
         . '<p>' . esc_html__('Kolejność wierszy w tabeli rozmiarów ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = wyżej).', 'tyrepol') . '</p>'
         . '</div>';
 });
+
+/**
+ * Duplikowanie opony jednym kliknięciem — szybkie tworzenie kolejnego wariantu (np. innego
+ * rozmiaru tego samego modelu): kopiuje tytuł, zdjęcie, WSZYSTKIE pola ACF (w tym „Wzór bieżnika”,
+ * żeby kopia od razu należała do tego samego modelu — wystarczy zmienić „Rozmiar”) oraz wszystkie
+ * wypełnione „Dodatkowe parametry” (patrz inc/cechy-opony.php), a także taksonomie (marka, oś
+ * montażu, sezon, typ pojazdu). Nowa kopia trafia jako szkic, żeby nic nie opublikowało się
+ * przypadkiem bez sprawdzenia.
+ */
+add_filter('post_row_actions', function ($actions, $post) {
+    if (!$post || $post->post_type !== 'opona' || !current_user_can('edit_posts')) return $actions;
+
+    $url = wp_nonce_url(
+        admin_url('admin.php?action=tyrepol_duplikuj_opone&post=' . $post->ID),
+        'tyrepol_duplikuj_opone_' . $post->ID
+    );
+    $actions['tyrepol_duplikuj'] = '<a href="' . esc_url($url) . '">' . esc_html__('Duplikuj', 'tyrepol') . '</a>';
+    return $actions;
+}, 10, 2);
+
+add_action('admin_action_tyrepol_duplikuj_opone', function () {
+    $post_id = isset($_GET['post']) ? (int) $_GET['post'] : 0;
+    if (!$post_id || !current_user_can('edit_post', $post_id)) {
+        wp_die(esc_html__('Brak uprawnień do tej operacji.', 'tyrepol'));
+    }
+    check_admin_referer('tyrepol_duplikuj_opone_' . $post_id);
+
+    $original = get_post($post_id);
+    if (!$original || $original->post_type !== 'opona') {
+        wp_die(esc_html__('Nie znaleziono opony do duplikowania.', 'tyrepol'));
+    }
+
+    $new_id = wp_insert_post([
+        'post_title'   => $original->post_title . ' ' . __('(kopia)', 'tyrepol'),
+        'post_content' => $original->post_content,
+        'post_excerpt' => $original->post_excerpt,
+        'post_status'  => 'draft',
+        'post_type'    => 'opona',
+        'post_author'  => get_current_user_id(),
+        'menu_order'   => $original->menu_order,
+    ], true);
+
+    if (is_wp_error($new_id)) {
+        wp_die(esc_html($new_id->get_error_message()));
+    }
+
+    // Kopiujemy WSZYSTKIE meta (pola ACF — Wzór bieżnika/Rozmiar, oraz wartości „Dodatkowych
+    // parametrów” z inc/cechy-opony.php, oraz zdjęcie wyróżniające — to też zwykłe post meta).
+    foreach (get_post_meta($post_id) as $key => $values) {
+        if (in_array($key, ['_edit_lock', '_edit_last'], true)) continue;
+        foreach ($values as $value) {
+            add_post_meta($new_id, $key, maybe_unserialize($value));
+        }
+    }
+
+    // Kopiujemy przypisania do taksonomii katalogowych (marka, oś montażu, sezon, typ pojazdu).
+    foreach (get_object_taxonomies('opona') as $taxonomy) {
+        if ($taxonomy === 'cecha-opony') continue; // to rejestr definicji, nie przypisanie do opony
+        $terms = wp_get_object_terms($post_id, $taxonomy, ['fields' => 'ids']);
+        if (!is_wp_error($terms) && !empty($terms)) {
+            wp_set_object_terms($new_id, $terms, $taxonomy);
+        }
+    }
+
+    wp_safe_redirect(admin_url('post.php?action=edit&post=' . $new_id));
+    exit;
+});

@@ -17,65 +17,6 @@
             "type": "text",
             "instructions": "Np. 315/70R22.5",
             "required": 1
-        },
-        {
-            "key": "field_opona_li_sr",
-            "label": "LI / SR (indeks nośności / prędkości)",
-            "name": "li_sr",
-            "type": "text"
-        },
-        {
-            "key": "field_opona_glebokosc",
-            "label": "Głębokość bieżnika (mm)",
-            "name": "glebokosc_biezn",
-            "type": "text"
-        },
-        {
-            "key": "field_opona_zuzycie_paliwa",
-            "label": "Zużycie paliwa (etykieta UE)",
-            "name": "zuzycie_paliwa",
-            "type": "select",
-            "choices": {"A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "F": "F", "G": "G"},
-            "allow_null": 1,
-            "ui": 1
-        },
-        {
-            "key": "field_opona_przyczepnosc",
-            "label": "Przyczepność na mokrej nawierzchni (etykieta UE)",
-            "name": "przyczepnosc_mokra",
-            "type": "select",
-            "choices": {"A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "F": "F", "G": "G"},
-            "allow_null": 1,
-            "ui": 1
-        },
-        {
-            "key": "field_opona_halas",
-            "label": "Hałas zewnętrzny (dB)",
-            "name": "halas_db",
-            "type": "number"
-        },
-        {
-            "key": "field_opona_opor",
-            "label": "Klasa oporu toczenia",
-            "name": "opor_toczenia",
-            "type": "select",
-            "choices": {"A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "F": "F", "G": "G"},
-            "allow_null": 1,
-            "ui": 1
-        },
-        {
-            "key": "field_opona_ms",
-            "label": "Oznaczenie M+S",
-            "name": "oznaczenie_ms",
-            "type": "true_false",
-            "ui": 1
-        },
-        {
-            "key": "field_opona_3pmsf",
-            "label": "Oznaczenie 3PMSF (płatek śniegu)",
-            "name": "oznaczenie_3pmsf",
-            "type": "true_false",
-            "ui": 1
         }
     ],
     "location": [
@@ -88,5 +29,5 @@
     "instruction_placement": "label",
     "hide_on_screen": ["excerpt", "discussion", "comments", "tags", "send-trackbacks"],
     "active": true,
-    "description": "Zdjęcie opony ustawia się jako obrazek wyróżniający (Featured Image), marka/oś/sezon/typ pojazdu — w taksonomiach po prawej stronie ekranu edycji."
+    "description": "Zdjęcie opony ustawia się jako obrazek wyróżniający (Featured Image), marka/oś/sezon/typ pojazdu — w taksonomiach po prawej stronie ekranu edycji. Wszystkie pozostałe dane techniczne (LI/SR, głębokość bieżnika, etykieta UE, M+S, 3PMSF itd.) wpisuje się jako dowolne parametry w boksie „Dodatkowe parametry” niżej — patrz Opony → Cechy opon, żeby je najpierw zdefiniować."
 }

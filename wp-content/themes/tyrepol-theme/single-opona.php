@@ -79,34 +79,20 @@ while (have_posts()) : the_post();
 
           <div class="tire-detail__table-wrap">
             <?php
-            // Ikony stałych kolumn (te same SVG, co wcześniej — tylko teraz w zmiennych, żeby dało
-            // się je złożyć w tablicę $fixed_defs poniżej).
-            $fuel_icon    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"></path><path d="M3 10h9"></path><path d="M15 6h2a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2v5a2 2 0 0 1-2 2"></path><rect x="6" y="13" width="4" height="4"></rect></svg>';
-            $wet_icon     = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s7 8.5 7 13a7 7 0 0 1-14 0c0-4.5 7-13 7-13z"></path></svg>';
-            $noise_icon   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>';
-            $rolling_icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 3v2M12 19v2M21 12h-2M5 12H3"></path></svg>';
-            $snow_icon    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="4" y1="7" x2="20" y2="17"></line><line x1="20" y1="7" x2="4" y2="17"></line></svg>';
-
-            // Definicje stałych kolumn — 'get' pobiera wartość dla danego ID wariantu, 'check'
-            // oznacza kolumny wyświetlane jako kolorowy „✓ / —” (jak dotychczas przy M+S/3PMSF).
+            // Kolumny stałe — TYLKO Seria (wzór bieżnika) i Rozmiar. Wszystkie pozostałe dane
+            // (LI/SR, głębokość bieżnika, etykieta UE, M+S, 3PMSF itd.) to już wyłącznie parametry
+            // z rejestru „Cechy opon” (patrz inc/cechy-opony.php) — admin definiuje je sam, w
+            // dowolnej liczbie, z wyborem tekst/ikona.
             $fixed_defs = [
-                ['label' => __('Seria', 'tyrepol'), 'type' => 'text', 'get' => fn($id) => get_field('wzor_bieznika', $id) ?: $wzor],
-                ['label' => __('Rozmiar', 'tyrepol'), 'type' => 'text', 'get' => fn($id) => get_field('rozmiar', $id)],
-                ['label' => 'LI / SR', 'type' => 'text', 'get' => fn($id) => get_field('li_sr', $id)],
-                ['label' => __('Głębokość bieżnika (mm)', 'tyrepol'), 'type' => 'text', 'get' => fn($id) => get_field('glebokosc_biezn', $id)],
-                ['label' => __('Zużycie paliwa', 'tyrepol'), 'type' => 'icon', 'icon_svg' => $fuel_icon, 'get' => fn($id) => get_field('zuzycie_paliwa', $id)],
-                ['label' => __('Przyczepność na mokrej nawierzchni', 'tyrepol'), 'type' => 'icon', 'icon_svg' => $wet_icon, 'get' => fn($id) => get_field('przyczepnosc_mokra', $id)],
-                ['label' => __('Hałas zewnętrzny (dB)', 'tyrepol'), 'type' => 'icon', 'icon_svg' => $noise_icon, 'get' => fn($id) => get_field('halas_db', $id)],
-                ['label' => __('Klasa oporu toczenia', 'tyrepol'), 'type' => 'icon', 'icon_svg' => $rolling_icon, 'get' => fn($id) => get_field('opor_toczenia', $id)],
-                ['label' => 'M+S', 'type' => 'badge', 'check' => true, 'get' => fn($id) => get_field('oznaczenie_ms', $id) ? '✓' : ''],
-                ['label' => '3PMSF', 'type' => 'icon', 'icon_svg' => $snow_icon, 'check' => true, 'get' => fn($id) => get_field('oznaczenie_3pmsf', $id) ? '✓' : ''],
+                ['label' => __('Seria', 'tyrepol'), 'get' => fn($id) => get_field('wzor_bieznika', $id) ?: $wzor],
+                ['label' => __('Rozmiar', 'tyrepol'), 'get' => fn($id) => get_field('rozmiar', $id)],
             ];
 
             $variant_ids = wp_list_pluck($variants, 'ID');
 
             // Kolumna trafia do tabeli tylko wtedy, gdy CHOĆ JEDEN wariant ma w niej wartość —
-            // dzięki temu np. brak wypełnionego „Hałasu” u WSZYSTKICH wariantów usuwa całą kolumnę,
-            // a jeśli wypełniony jest choć u jednego, reszta wierszy w tej kolumnie dostaje „—”.
+            // puste u wszystkich = kolumna w ogóle się nie pojawia; jeśli wypełniona choć u
+            // jednego, pozostałe wiersze w tej kolumnie dostają „—”.
             $columns = [];
             foreach ($fixed_defs as $def) {
                 $values = [];
@@ -117,54 +103,30 @@ while (have_posts()) : the_post();
                     if ($val !== '') $has_value = true;
                 }
                 if (!$has_value) continue;
-                $columns[] = [
-                    'label'    => $def['label'],
-                    'type'     => $def['type'],
-                    'icon_svg' => $def['icon_svg'] ?? null,
-                    'icon_id'  => null,
-                    'check'    => !empty($def['check']),
-                    'values'   => $values,
-                ];
+                $columns[] = ['label' => $def['label'], 'type' => 'text', 'icon_id' => null, 'values' => $values];
             }
 
-            // Dołączamy dodatkowe parametry z rejestru „Cechy opon” (nieograniczona liczba —
-            // patrz inc/cechy-opony.php). Ten sam warunek: kolumna tylko jeśli choć jeden wariant
-            // ma wypełnioną wartość.
+            // Dołączamy parametry z rejestru „Cechy opon” (ten sam warunek: kolumna tylko jeśli
+            // choć jeden wariant ma wypełnioną wartość).
             if (function_exists('tyrepol_get_opona_cechy_kolumny')) {
                 foreach (tyrepol_get_opona_cechy_kolumny($variant_ids) as $col) {
-                    $col['check'] = false;
                     $columns[] = $col;
                 }
             }
 
-            // Numerujemy kolumny typu „ikona” do legendy pod tabelą (fixed + z rejestru — wspólna
-            // numeracja w kolejności, w jakiej kolumny faktycznie występują w tabeli).
-            $legend = [];
-            $marks = ['¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
-            foreach ($columns as &$col) {
-                if ($col['type'] === 'icon') {
-                    $mark = $marks[count($legend)] ?? ('(' . (count($legend) + 1) . ')');
-                    $col['mark'] = $mark;
-                    $legend[] = $mark . ' ' . $col['label'];
-                }
-            }
-            unset($col);
+            // Legenda pod tabelą — dla każdej kolumny typu „ikona” pokazujemy TĘ SAMĄ ikonę razem
+            // z nazwą parametru (zamiast numerków), więc od razu widać co dana ikona oznacza.
+            $legend = array_values(array_filter($columns, fn($c) => $c['type'] === 'icon' && !empty($c['icon_id'])));
             ?>
             <table class="tire-detail__table">
               <thead>
                 <tr>
                   <?php foreach ($columns as $col) : ?>
                   <th scope="col">
-                    <?php if ($col['type'] === 'icon') : ?>
+                    <?php if ($col['type'] === 'icon' && !empty($col['icon_id'])) : ?>
                       <span class="tire-detail__icon" title="<?php echo esc_attr($col['label']); ?>">
-                        <?php if (!empty($col['icon_svg'])) : ?>
-                          <?php echo $col['icon_svg']; ?>
-                        <?php elseif (!empty($col['icon_id'])) : ?>
-                          <?php echo wp_get_attachment_image($col['icon_id'], 'thumbnail', false, ['class' => 'tire-detail__icon-img']); ?>
-                        <?php endif; ?>
-                      </span><sup class="tire-detail__mark"><?php echo esc_html($col['mark']); ?></sup>
-                    <?php elseif ($col['type'] === 'badge') : ?>
-                      <span class="tire-detail__ms-badge" title="<?php echo esc_attr($col['label']); ?>"><?php echo esc_html($col['label']); ?></span>
+                        <?php echo wp_get_attachment_image($col['icon_id'], 'thumbnail', false, ['class' => 'tire-detail__icon-img', 'alt' => esc_attr($col['label'])]); ?>
+                      </span>
                     <?php else : ?>
                       <?php echo esc_html($col['label']); ?>
                     <?php endif; ?>
@@ -181,14 +143,21 @@ while (have_posts()) : the_post();
                   <?php foreach ($columns as $col) :
                     $val = $col['values'][$v_id] ?? '';
                   ?>
-                  <td data-label="<?php echo esc_attr($col['label']); ?>"<?php echo $col['check'] ? ' class="tire-detail__check"' : ''; ?>><?php echo esc_html($val !== '' ? $val : '—'); ?></td>
+                  <td data-label="<?php echo esc_attr($col['label']); ?>"><?php echo esc_html($val !== '' ? $val : '—'); ?></td>
                   <?php endforeach; ?>
                 </tr>
                 <?php endforeach; ?>
               </tbody>
             </table>
             <?php if (!empty($legend)) : ?>
-            <p class="tire-detail__legend"><?php echo esc_html(implode('   ', $legend)); ?></p>
+            <ul class="tire-detail__legend">
+              <?php foreach ($legend as $col) : ?>
+              <li class="tire-detail__legend-item">
+                <?php echo wp_get_attachment_image($col['icon_id'], 'thumbnail', false, ['class' => 'tire-detail__legend-icon', 'alt' => '']); ?>
+                <span><?php echo esc_html($col['label']); ?></span>
+              </li>
+              <?php endforeach; ?>
+            </ul>
             <?php endif; ?>
           </div>
 
