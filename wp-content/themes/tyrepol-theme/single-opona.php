@@ -83,9 +83,20 @@ while (have_posts()) : the_post();
             // (LI/SR, głębokość bieżnika, etykieta UE, M+S, 3PMSF itd.) to już wyłącznie parametry
             // z rejestru „Cechy opon” (patrz inc/cechy-opony.php) — admin definiuje je sam, w
             // dowolnej liczbie, z wyborem tekst/ikona.
+            // Nazwy terminów przypisanych do danego wariantu (używane niżej dla „Oś montażu” i
+            // „Sezon” — te dwie taksonomie potrafią się różnić między wariantami tego samego modelu,
+            // dlatego liczymy je per wiersz, a nie raz dla całej strony).
+            $term_names = function ($id, $taxonomy) {
+                $terms = get_the_terms($id, $taxonomy);
+                if (!$terms || is_wp_error($terms)) return '';
+                return implode(', ', wp_list_pluck($terms, 'name'));
+            };
+
             $fixed_defs = [
                 ['label' => __('Seria', 'tyrepol'), 'get' => fn($id) => get_field('wzor_bieznika', $id) ?: $wzor],
                 ['label' => __('Rozmiar', 'tyrepol'), 'get' => fn($id) => get_field('rozmiar', $id)],
+                ['label' => __('Oś montażu', 'tyrepol'), 'get' => fn($id) => $term_names($id, 'os-montazu')],
+                ['label' => __('Sezon', 'tyrepol'), 'get' => fn($id) => $term_names($id, 'sezon-opony')],
             ];
 
             $variant_ids = wp_list_pluck($variants, 'ID');
