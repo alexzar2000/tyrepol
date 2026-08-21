@@ -1966,8 +1966,8 @@ body.loader-active {
 }
 
 .catalog__brand-tile-logo {
-  max-width: 75%;
-  max-height: 55%;
+  max-width: 100%;
+  height: auto;
   object-fit: contain;
   opacity: 0.85;
   transition: opacity 0.2s ease, transform 0.2s ease;
