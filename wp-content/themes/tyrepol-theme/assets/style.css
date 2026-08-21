@@ -23,10 +23,7 @@
   transform: translateY(0);
 }
 
-/* Stopniowe pojawianie się elementów w siatkach (liczniki, FAQ) */
-.counters__grid .reveal:nth-child(2) { transition-delay: 0.12s; }
-.counters__grid .reveal:nth-child(3) { transition-delay: 0.24s; }
-.counters__grid .reveal:nth-child(4) { transition-delay: 0.36s; }
+/* Stopniowe pojawianie się elementów w siatkach (FAQ) */
 
 .faq__list .reveal:nth-child(2) { transition-delay: 0.1s; }
 .faq__list .reveal:nth-child(3) { transition-delay: 0.2s; }
@@ -923,110 +920,6 @@ body.loader-active {
 
   .brands__nav {
     display: none; /* bez strzałek na mobile */
-  }
-}
-
-/* Blok: liczniki (tło z paralaksą + animacja odliczania przy wejściu w widok) */
-.counters {
-  position: relative;
-  padding: 96px 0;
-  text-align: center;
-  color: var(--color-white);
-  background: url('images/hero-tire-1.jpg') center center / cover no-repeat fixed;
-}
-
-/* Element: przyciemniająca nakładka na tło, poprawia czytelność tekstu */
-.counters::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.counters__inner {
-  position: relative;
-  z-index: 1;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 32px;
-}
-
-.counters__header {
-  max-width: 640px;
-  margin: 0 auto 48px;
-}
-
-.counters__title {
-  margin: 0 0 16px;
-  font-size: 42px;
-  font-weight: 700;
-}
-
-.counters__desc {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #ddd;
-}
-
-.counters__grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.counters__item {
-  flex: 1 1 220px;
-  padding: 32px 16px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
-}
-
-.counters__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 16px;
-  color: var(--color-accent);
-}
-
-.counters__icon-img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.counters__number {
-  margin: 0;
-  font-size: 40px;
-  font-weight: 700;
-}
-
-.counters__label {
-  margin: 10px 0 0;
-  font-size: 13px;
-  color: #ccc;
-}
-
-@media (max-width: 767px) {
-  .counters__title {
-    font-size: 32px;
-  }
-
-  .counters__grid {
-    gap: 16px;
-  }
-
-  /* background-attachment: fixed jest niestabilne na mobile (Safari/iOS) */
-  .counters {
-    background-attachment: scroll;
   }
 }
 
@@ -3619,7 +3512,6 @@ body.loader-active {
     padding: 40px 0;
   }
 
-  .counters,
   .about-gallery,
   .about-values {
     padding: 56px 0;
@@ -3644,7 +3536,6 @@ body.loader-active {
   }
 
   .brands__header,
-  .counters__header,
   .faq__header,
   .contact__header,
   .catalog__header,
@@ -3670,7 +3561,6 @@ body.loader-active {
     gap: 32px;
   }
 
-  .counters__grid,
   .about-values__grid,
   .about-gallery__grid,
   .catalog__grid {

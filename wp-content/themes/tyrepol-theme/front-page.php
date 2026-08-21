@@ -122,16 +122,6 @@ get_header();
   <?php get_template_part('template-parts/section-cta-button', null, ['tekst' => get_field('cta_miedzysekcyjne_tekst') ?: __('Darmowa wycena', 'tyrepol')]); ?>
 
   <?php
-  // WP: 6 stałych slotów liczników (zamiast Repeatera) — puste (bez podpisu) się pomijają.
-  $counter_items = [];
-  for ($i = 1; $i <= 6; $i++) {
-      $row = get_field('licznik_' . $i);
-      if (!empty($row['etykieta'])) $counter_items[] = $row;
-  }
-  get_template_part('template-parts/counters', null, ['title' => get_field('liczniki_tytul'), 'desc' => get_field('liczniki_opis'), 'items' => $counter_items, 'bg' => get_field('liczniki_tlo')]);
-  ?>
-
-  <?php
   // FAQ jest teraz WSPÓLNE dla wszystkich stron — edytuje się raz w Ustawienia motywu → FAQ,
   // a treść pociąga się automatycznie tutaj i na każdej innej stronie (patrz tyrepol_faq_section()).
   tyrepol_faq_section('faq');

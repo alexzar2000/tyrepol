@@ -1,12 +1,11 @@
 // ===== Logika interakcji (BEM) — wersja WordPress =====
 // Zmiany względem wersji statycznej są oznaczone komentarzem "WP:".
-// Reszta pliku (Swiper, liczniki, FAQ, modal, scrolltop, reveal) jest bez zmian.
+// Reszta pliku (Swiper, FAQ, modal, scrolltop, reveal) jest bez zmian.
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initHero();
   initBrandsCarousel();
-  initCounters();
   initCatalog();
   initCatalogFilterJump();
   initReveal();
@@ -148,42 +147,6 @@ function initBrandsCarousel() {
       unlock: (swiper) => { section.classList.remove('brands--static'); swiper.autoplay.start(); },
     },
   });
-}
-
-// Liczniki - odliczanie do wartości docelowej, uruchamiane po wejściu sekcji w widok
-function initCounters() {
-  const sections = document.querySelectorAll('.counters');
-  if (!sections.length) return;
-
-  const animate = (el) => {
-    const to = parseInt(el.dataset.to, 10) || 0;
-    const speed = parseInt(el.dataset.speed, 10) || 1500;
-    const start = performance.now();
-
-    const tick = (now) => {
-      const progress = Math.min((now - start) / speed, 1);
-      const value = Math.floor(progress * to);
-      el.textContent = value.toLocaleString('pl-PL');
-
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        el.textContent = to.toLocaleString('pl-PL');
-      }
-    };
-
-    requestAnimationFrame(tick);
-  };
-
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.querySelectorAll('.counters__number').forEach((item) => animate(item));
-      obs.unobserve(entry.target);
-    });
-  }, { threshold: 0.4, rootMargin: '0px 0px -15% 0px' });
-
-  sections.forEach((section) => observer.observe(section));
 }
 
 // WP: dane katalogu opon wstrzykiwane z page-opony.php (wp_add_inline_script) zamiast tablicy

@@ -4,7 +4,7 @@
  *
  * Uniwersalny szablon strony budowanej z gotowych sekcji (pola ACF, zakładki w edytorze) —
  * użyj go dla stron typu „O firmie”, strony marki (np. Saucerman) albo każdej przyszłej strony
- * z podobnym układem: baner, tekst, liczniki, karty cech / naprzemienne bloki, galeria, CTA, FAQ, kontakt.
+ * z podobnym układem: baner, tekst, karty cech / naprzemienne bloki, galeria, CTA, FAQ, kontakt.
  *
  * Uwaga (ACF Free — bez PRO): kolejność większości sekcji jest STAŁA (patrz opis grupy pól
  * w acf-json/group_elastyczna.json) — ACF Free nie ma pola „Elastyczna treść” do przeciągania
@@ -52,20 +52,6 @@ get_header();
         'body'    => $sec['tresc'] ?? '',
         'image'   => $sec['obraz'] ?? null,
     ]);
-  endif;
-
-  // 3) Liczniki (do 6 stałych slotów zamiast Repeatera)
-  $sec = get_field('sekcja_liczniki');
-  if (!empty($sec['pokaz'])) :
-    $items = [];
-    for ($i = 1; $i <= 6; $i++) {
-        $row = $sec['licznik_' . $i] ?? null;
-        if (!empty($row['etykieta'])) $items[] = $row;
-    }
-    if (!empty($items)) :
-      $ma_sekcje = true;
-      get_template_part('template-parts/counters', null, ['title' => $sec['tytul'] ?? '', 'desc' => $sec['opis'] ?? '', 'items' => $items, 'bg' => $sec['tlo'] ?? null]);
-    endif;
   endif;
 
   // 4) Przycisk CTA #1 (między sekcjami)
