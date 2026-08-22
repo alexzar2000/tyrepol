@@ -19,6 +19,21 @@ if (!defined('ABSPATH')) exit;
  * językach) nie trzeba dublować — wystarczy dodać „_en” tylko przy tekstach, które faktycznie
  * różnią się między językami.
  */
+/**
+ * Nazwa terminu taksonomii (oś montażu / sezon / typ pojazdu) z uwzględnieniem angielskiej wersji —
+ * jeśli termin ma wypełnione pole „nazwa_en” (patrz acf-json/group_kategorie_en.json) i strona jest
+ * po angielsku, pokazuje właśnie ją; inaczej zwykłą nazwę terminu. Bezpieczne też dla taksonomii bez
+ * tego pola (np. marka-opony — nazwy marek są takie same w obu językach) — po prostu zwraca $name.
+ */
+function tyrepol_term_label($term) {
+    if (!$term) return '';
+    if (tyrepol_current_lang() === 'en' && function_exists('get_field')) {
+        $nazwa_en = get_field('nazwa_en', $term->taxonomy . '_' . $term->term_id);
+        if ($nazwa_en) return $nazwa_en;
+    }
+    return $term->name;
+}
+
 function tyrepol_opt($field, $default = '') {
     if (!function_exists('get_field')) return $default;
     $page_id = tyrepol_settings_page_id();

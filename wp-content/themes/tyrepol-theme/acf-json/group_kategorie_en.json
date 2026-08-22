@@ -1,0 +1,23 @@
+{
+    "key": "group_tyrepol_kategorie_en",
+    "title": "Nazwa kategorii (EN)",
+    "fields": [
+        {
+            "key": "field_kategoria_nazwa_en",
+            "label": "Nazwa (EN)",
+            "name": "nazwa_en",
+            "type": "text",
+            "instructions": "Angielski odpowiednik tej kategorii — używany w filtrach katalogu i w tabeli rozmiarów na wersji angielskiej strony. Puste = pokaże się zwykła polska nazwa (nic się nie zepsuje).",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [{"param": "taxonomy", "operator": "==", "value": "os-montazu"}],
+        [{"param": "taxonomy", "operator": "==", "value": "sezon-opony"}],
+        [{"param": "taxonomy", "operator": "==", "value": "typ-pojazdu"}]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "description": "Ta grupa pokazuje się na terminach taksonomii „Oś montażu”, „Sezon” i „Typ pojazdu” — NIE na markach (nazwy marek, np. Saucerman, są takie same w obu językach)."
+}

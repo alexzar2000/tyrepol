@@ -118,20 +118,19 @@ function tyrepol_register_opona_cpt() {
 add_action('init', 'tyrepol_register_opona_cpt');
 
 /**
- * Polylang — rejestrujemy CPT „Opona” i jej taksonomie katalogowe jako TŁUMACZALNE, żeby
- * działało od razu po aktywacji wtyczki, bez ręcznego zaznaczania w Języki → Ustawienia →
- * Typy treści (Polylang bez tego traktowałby wszystkie opony jako „bez przypisanego języka”,
- * wspólne dla PL i EN — a nam zależy na osobnej wersji angielskiej każdego wpisu).
+ * Polylang — rejestrujemy TYLKO CPT „Opona” jako tłumaczalny (żeby każda opona miała osobną
+ * wersję PL i EN — patrz automatyczne tworzenie kopii EN niżej). Taksonomie katalogowe (marka,
+ * oś montażu, sezon, typ pojazdu, cechy opon) CELOWO NIE są rejestrowane jako tłumaczalne — to
+ * WSPÓLNY, jeden zestaw kategorii dla obu języków (ta sama opona PL i jej wersja EN mają te same
+ * przypisane kategorie). Kiedyś próbowaliśmy zrobić te taksonomie tłumaczalne przez Polylang, ale
+ * to powodowało duplikowanie się terminów (np. dwa razy „Ciężarowe” — jeden z sufiksem „-pl”) za
+ * każdym razem, gdy automat kopiował oponę na angielską wersję. Angielskie nazwy kategorii (np.
+ * „Trucks” zamiast „Ciężarowe”) obsługuje osobne pole „nazwa_en” na terminie — patrz
+ * acf-json/group_kategorie_en.json i tyrepol_term_label() w inc/helpers.php.
  */
 add_filter('pll_get_post_types', function ($post_types) {
     $post_types['opona'] = 'opona';
     return $post_types;
-});
-add_filter('pll_get_taxonomies', function ($taxonomies) {
-    foreach (['marka-opony', 'os-montazu', 'sezon-opony', 'typ-pojazdu', 'cecha-opony'] as $tax) {
-        $taxonomies[$tax] = $tax;
-    }
-    return $taxonomies;
 });
 
 /**
@@ -155,6 +154,98 @@ function tyrepol_maybe_seed_taxonomies() {
     update_option('tyrepol_taxonomies_seeded', 1);
 }
 add_action('init', 'tyrepol_maybe_seed_taxonomies', 20);
+
+/**
+ * Sprzątanie zduplikowanych kategorii (marka/oś/sezon/typ pojazdu), które powstały WCZEŚNIEJ,
+ * gdy te taksonomie były (błędnie) zarejestrowane jako tłumaczalne w Polylang — automat kopiujący
+ * opony na wersję EN tworzył wtedy DRUGI termin z tą samą nazwą i sufiksem „-pl”/„-en” w slugu
+ * (np. „Ciężarowe” / ciezarowe-pl obok zwykłego „Ciężarowe” / ciezarowe), zamiast po prostu użyć
+ * tego samego terminu dla obu wersji językowych opony. Teraz te taksonomie NIE są już tłumaczalne
+ * (patrz wyżej), więc duplikaty się nie tworzą — ale te, które już powstały, trzeba scalić ręcznie
+ * (jednym kliknięciem): wszystkie opony przypisane do duplikatu „…-pl”/„…-en” dostają z powrotem
+ * zwykły termin bez sufiksu, a duplikat jest usuwany.
+ */
+function tyrepol_znajdz_duplikaty_kategorii() {
+    $duplikaty = [];
+    foreach (['marka-opony', 'os-montazu', 'sezon-opony', 'typ-pojazdu'] as $taxonomy) {
+        $terms = get_terms(['taxonomy' => $taxonomy, 'hide_empty' => false]);
+        if (is_wp_error($terms) || empty($terms)) continue;
+
+        $by_slug = [];
+        foreach ($terms as $term) $by_slug[$term->slug] = $term;
+
+        foreach ($terms as $term) {
+            foreach (['-pl', '-en'] as $sufiks) {
+                if (substr($term->slug, -strlen($sufiks)) !== $sufiks) continue;
+                $base_slug = substr($term->slug, 0, -strlen($sufiks));
+                if (isset($by_slug[$base_slug]) && $by_slug[$base_slug]->name === $term->name) {
+                    $duplikaty[] = ['taxonomy' => $taxonomy, 'duplikat' => $term, 'oryginal' => $by_slug[$base_slug]];
+                }
+            }
+        }
+    }
+    return $duplikaty;
+}
+
+add_action('admin_notices', function () {
+    if (!current_user_can('manage_categories')) return;
+    $duplikaty = tyrepol_znajdz_duplikaty_kategorii();
+    if (empty($duplikaty)) return;
+
+    $url = wp_nonce_url(admin_url('admin.php?action=tyrepol_wyczysc_duplikaty_kategorii'), 'tyrepol_wyczysc_duplikaty_kategorii');
+    echo '<div class="notice notice-warning"><p>'
+        . sprintf(
+            tyrepol_esc_html(
+                'Wykryto %d zduplikowanych kategorii opon (powstałych wcześniej przez Polylang) — np. dwa razy ta sama nazwa w Typy pojazdów / Sezony / Osie montażu / Marki.',
+                'Found %d duplicate tyre categories (created earlier by Polylang) — e.g. the same name twice in Vehicle types / Seasons / Axle positions / Brands.'
+            ),
+            count($duplikaty)
+        )
+        . ' <a href="' . esc_url($url) . '" class="button button-primary">'
+        . tyrepol_esc_html('Wyczyść duplikaty', 'Clean up duplicates')
+        . '</a></p></div>';
+});
+
+add_action('admin_action_tyrepol_wyczysc_duplikaty_kategorii', function () {
+    if (!current_user_can('manage_categories')) {
+        wp_die(tyrepol_esc_html('Brak uprawnień do tej operacji.', 'You don\'t have permission to perform this action.'));
+    }
+    check_admin_referer('tyrepol_wyczysc_duplikaty_kategorii');
+
+    $duplikaty = tyrepol_znajdz_duplikaty_kategorii();
+    $scalono = 0;
+
+    foreach ($duplikaty as $d) {
+        $posts = get_posts([
+            'post_type'      => 'opona',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'post_status'    => 'any',
+            'tax_query'      => [
+                ['taxonomy' => $d['taxonomy'], 'field' => 'term_id', 'terms' => $d['duplikat']->term_id],
+            ],
+        ]);
+        foreach ($posts as $post_id) {
+            wp_set_object_terms($post_id, $d['oryginal']->term_id, $d['taxonomy'], true);
+        }
+        wp_delete_term($d['duplikat']->term_id, $d['taxonomy']);
+        $scalono++;
+    }
+
+    wp_safe_redirect(add_query_arg('tyrepol_duplikaty_scalone', $scalono, wp_get_referer() ?: admin_url()));
+    exit;
+});
+
+add_action('admin_notices', function () {
+    if (!isset($_GET['tyrepol_duplikaty_scalone'])) return;
+    printf(
+        '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+        sprintf(
+            tyrepol_esc_html('Scalono %d zduplikowanych kategorii.', 'Merged %d duplicate categories.'),
+            (int) $_GET['tyrepol_duplikaty_scalone']
+        )
+    );
+});
 
 /**
  * Etykieta wzoru bieżnika i rozmiaru w liście admina — ułatwia rozpoznanie, które wpisy należą

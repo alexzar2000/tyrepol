@@ -81,10 +81,10 @@ $season_terms_all  = get_terms(['taxonomy' => 'sezon-opony', 'hide_empty' => fal
 $vehicle_terms_all = get_terms(['taxonomy' => 'typ-pojazdu', 'hide_empty' => false]);
 
 $brand_labels = $axle_labels = $season_labels = $vehicle_labels = [];
-foreach ($brand_terms_all as $t) $brand_labels[$t->slug] = $t->name;
-foreach ($axle_terms_all as $t) $axle_labels[$t->slug] = $t->name;
-foreach ($season_terms_all as $t) $season_labels[$t->slug] = $t->name;
-foreach ($vehicle_terms_all as $t) $vehicle_labels[$t->slug] = $t->name;
+foreach ($brand_terms_all as $t) $brand_labels[$t->slug] = $t->name; // nazwy marek te same w PL/EN
+foreach ($axle_terms_all as $t) $axle_labels[$t->slug] = tyrepol_term_label($t);
+foreach ($season_terms_all as $t) $season_labels[$t->slug] = tyrepol_term_label($t);
+foreach ($vehicle_terms_all as $t) $vehicle_labels[$t->slug] = tyrepol_term_label($t);
 
 $all_sizes = array_values(tyrepol_get_available_sizes());
 
@@ -156,21 +156,21 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Typ pojazdu', 'Vehicle type'); ?></h3>
             <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="all" checked> <?php tyrepol_esc_html_e('Wszystkie', 'All'); ?></label>
             <?php foreach ($vehicle_terms_all as $t) : ?>
-              <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
+              <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html(tyrepol_term_label($t)); ?></label>
             <?php endforeach; ?>
           </div>
 
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Oś', 'Axle'); ?></h3>
             <?php foreach ($axle_terms_all as $t) : ?>
-              <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="axle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
+              <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="axle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html(tyrepol_term_label($t)); ?></label>
             <?php endforeach; ?>
           </div>
 
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Sezon', 'Season'); ?></h3>
             <?php foreach ($season_terms_all as $t) : ?>
-              <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="season" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
+              <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="season" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html(tyrepol_term_label($t)); ?></label>
             <?php endforeach; ?>
           </div>
 

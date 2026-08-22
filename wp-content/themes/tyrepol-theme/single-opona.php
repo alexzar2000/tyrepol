@@ -53,7 +53,7 @@ while (have_posts()) : the_post();
         <li class="breadcrumb__item"><a class="breadcrumb__link" href="<?php echo esc_url($catalog_url); ?>"><?php tyrepol_esc_html_e('Wszystkie opony', 'All tyres'); ?></a></li>
         <?php if ($vehicle) : ?>
         <li class="breadcrumb__sep" aria-hidden="true">&rsaquo;</li>
-        <li class="breadcrumb__item"><a class="breadcrumb__link" href="<?php echo esc_url(add_query_arg('vehicle', $vehicle->slug, $catalog_url)); ?>"><?php echo esc_html($vehicle->name); ?></a></li>
+        <li class="breadcrumb__item"><a class="breadcrumb__link" href="<?php echo esc_url(add_query_arg('vehicle', $vehicle->slug, $catalog_url)); ?>"><?php echo esc_html(tyrepol_term_label($vehicle)); ?></a></li>
         <?php endif; ?>
         <?php if ($brand) : ?>
         <li class="breadcrumb__sep" aria-hidden="true">&rsaquo;</li>
@@ -93,7 +93,7 @@ while (have_posts()) : the_post();
             $term_names = function ($id, $taxonomy) {
                 $terms = get_the_terms($id, $taxonomy);
                 if (!$terms || is_wp_error($terms)) return '';
-                return implode(', ', wp_list_pluck($terms, 'name'));
+                return implode(', ', array_map('tyrepol_term_label', $terms));
             };
 
             $fixed_defs = [
