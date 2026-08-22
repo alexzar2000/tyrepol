@@ -210,6 +210,28 @@ function initCatalog() {
     return true;
   };
 
+  // WP: opony są WSPÓLNE dla obu wersji językowych (patrz inc/cpt-opona.php) i ich adres z
+  // serwera (tire.link) jest ustalany PRZY RENDEROWANIU strony katalogu w PHP — jeśli ta strona
+  // trafi do jakiegokolwiek cache'a (pełnej strony/CDN), odwiedzający może dostać starszą wersję
+  // HTML-a z linkami sprzed ostatniego wdrożenia. Dlatego tutaj, w JS (który zawsze wykonuje się
+  // NA ŚWIEŻO w przeglądarce, niezależnie od cache'a strony), jeszcze raz sprawdzamy i poprawiamy
+  // prefiks /en/ na podstawie aktualnego adresu w pasku przeglądarki — to jest ostateczne
+  // zabezpieczenie, żeby link zawsze prowadził do właściwej wersji językowej tej samej opony.
+  const withCatalogLang = (url) => {
+    if (!url) return url;
+    try {
+      const isEn = window.location.pathname.replace(/^\/+/, '').split('/')[0] === 'en';
+      if (!isEn) return url; // wersja polska — adres bez zmian
+      const a = document.createElement('a');
+      a.href = url;
+      if (a.pathname.replace(/^\/+/, '').split('/')[0] === 'en') return url; // prefiks już jest
+      a.pathname = '/en' + a.pathname;
+      return a.href;
+    } catch (e) {
+      return url;
+    }
+  };
+
   const cardTemplate = (tire) => {
     const brandLabel = BRAND_LABELS[tire.brand] || tire.brand;
     const axleLabel = (tire.axle || []).map((a) => AXLE_LABELS[a] || a).join(', ');
@@ -220,7 +242,7 @@ function initCatalog() {
     // WP: zdjęcie pochodzi z obrazka wyróżniającego reprezentatywnego wpisu CPT „Opona” danego
     // modelu (tire.image) — jedna karta = jeden model, niezależnie od liczby rozmiarów.
     const mediaMarkup = tire.image
-      ? `<img class="tire-card__img" src="${tire.image}" alt="Opona ${brandLabel} ${tire.pattern}" loading="lazy">`
+      ? `<img class="tire-card__img" src="${tire.image}" alt="${I18N.tyreAlt || 'Opona'} ${brandLabel} ${tire.pattern}" loading="lazy">`
       : `<div class="tire-card__placeholder" aria-hidden="true">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.5"></circle></svg>
         </div>`;
@@ -236,11 +258,11 @@ function initCatalog() {
           <span class="tire-card__model">${tire.pattern || ''}</span>
         </div>
         <div class="tire-card__row tire-card__row--specs">
-          <span>Oś: <strong>${axleLabel}</strong></span>
-          <span>Typ pojazdu: <strong>${vehicleLabel}</strong></span>
+          <span>${I18N.axleLabel || 'Oś'}: <strong>${axleLabel}</strong></span>
+          <span>${I18N.vehicleLabel || 'Typ pojazdu'}: <strong>${vehicleLabel}</strong></span>
         </div>
         ${sizesCount ? `<div class="tire-card__row tire-card__row--specs"><span>${I18N.sizesAvailable || 'Dostępne rozmiary'}: <strong>${sizesCount}</strong></span></div>` : ''}
-        <a class="tire-card__link" href="${tire.link || '#'}">${I18N.detailsLink || 'Zobacz szczegóły'}</a>
+        <a class="tire-card__link" href="${withCatalogLang(tire.link) || '#'}">${I18N.detailsLink || 'Zobacz szczegóły'}</a>
       </article>`;
   };
 

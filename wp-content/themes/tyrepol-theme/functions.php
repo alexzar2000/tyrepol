@@ -116,6 +116,11 @@ function tyrepol_assets() {
         'detailsLink'    => tyrepol_t('Zobacz szczegóły', 'See details'),
         'readMore'       => tyrepol_t('Czytaj więcej', 'Read more'),
         'sizesAvailable' => tyrepol_t('Dostępne rozmiary', 'Available sizes'),
+        // Etykiety w karcie katalogu opon (budowana w JS z window.tyrepolCatalog — patrz
+        // assets/script.js, cardTemplate()) — wcześniej były zaszyte na sztywno po polsku.
+        'axleLabel'      => tyrepol_t('Oś', 'Axle'),
+        'vehicleLabel'   => tyrepol_t('Typ pojazdu', 'Vehicle type'),
+        'tyreAlt'         => tyrepol_t('Opona', 'Tyre'),
     ]);
 }
 add_action('wp_enqueue_scripts', 'tyrepol_assets');
