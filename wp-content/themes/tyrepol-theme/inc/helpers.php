@@ -112,6 +112,9 @@ function tyrepol_faq_section($anchor = 'faq') {
         'posts_per_page' => -1,
         'orderby'        => 'menu_order',
         'order'          => 'ASC',
+        // get_posts() domyślnie NIE filtruje po języku — dopisujemy 'lang' ręcznie, żeby na
+        // wersji EN pokazywały się tylko angielskie pytania FAQ.
+        'lang'           => function_exists('pll_current_language') ? pll_current_language() : '',
     ]);
 
     $items = [];

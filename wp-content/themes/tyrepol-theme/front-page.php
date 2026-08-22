@@ -23,6 +23,9 @@ get_header();
             'posts_per_page' => -1,
             'orderby'        => 'menu_order',
             'order'          => 'ASC',
+            // get_posts() domyślnie NIE filtruje po języku (suppress_filters=true) — dopisujemy
+            // 'lang' ręcznie, żeby na wersji EN pokazywały się tylko angielskie slajdy.
+            'lang'           => function_exists('pll_current_language') ? pll_current_language() : '',
         ]);
         foreach ($hero_slides as $slide) :
           $tytul = get_the_title($slide);

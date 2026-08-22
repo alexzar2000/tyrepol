@@ -43,6 +43,16 @@ function tyrepol_register_pytanie_faq_cpt() {
 add_action('init', 'tyrepol_register_pytanie_faq_cpt');
 
 /**
+ * Polylang — rejestrujemy „Pytania FAQ” jako TŁUMACZALNE, żeby każde pytanie miało osobną wersję
+ * PL i EN. Wymaga też dopisania 'lang' do zapytania get_posts() w tyrepol_faq_section()
+ * (inc/helpers.php), bo get_posts() domyślnie wyłącza automatyczne filtrowanie po języku.
+ */
+add_filter('pll_get_post_types', function ($post_types) {
+    $post_types['pytanie_faq'] = 'pytanie_faq';
+    return $post_types;
+});
+
+/**
  * Podpowiedź nad edytorem — Tytuł to pytanie, treść to odpowiedź (zwykły tekst).
  */
 add_action('edit_form_after_title', function ($post) {

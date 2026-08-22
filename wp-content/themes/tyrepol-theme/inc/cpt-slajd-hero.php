@@ -42,6 +42,17 @@ function tyrepol_register_slajd_hero_cpt() {
 add_action('init', 'tyrepol_register_slajd_hero_cpt');
 
 /**
+ * Polylang — rejestrujemy „Slajdy hero” jako TŁUMACZALNE, żeby każdy slajd miał osobną wersję
+ * PL i EN (inaczej wszystkie slajdy pokazywałyby się identycznie w obu językach). Wymaga też
+ * dopisania 'lang' do zapytania get_posts() w front-page.php, bo get_posts() domyślnie wyłącza
+ * automatyczne filtrowanie WordPressa/Polylang po języku (suppress_filters=true).
+ */
+add_filter('pll_get_post_types', function ($post_types) {
+    $post_types['slajd_hero'] = 'slajd_hero';
+    return $post_types;
+});
+
+/**
  * Przypomnienie o zalecanym rozmiarze zdjęcia — pokazuje się nad polami przy dodawaniu/edycji
  * slajdu, tuż pod tytułem. Zdjęcie ustawia się jako zwykły „Obrazek wyróżniający” (panel po
  * prawej stronie ekranu edycji), więc to nie jest osobne pole ACF.
