@@ -21,8 +21,6 @@ define('TYREPOL_URI', get_template_directory_uri());
  * Podstawowa konfiguracja motywu.
  */
 function tyrepol_setup() {
-    load_theme_textdomain('tyrepol', TYREPOL_DIR . '/languages');
-
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
     add_theme_support('html5', ['search-form', 'gallery', 'caption', 'style', 'script']);
@@ -40,6 +38,19 @@ function tyrepol_setup() {
     ]);
 }
 add_action('after_setup_theme', 'tyrepol_setup');
+
+/**
+ * Tłumaczenia motywu (languages/tyrepol-*.mo) — UMYŚLNIE na hooku 'init', a NIE wewnątrz
+ * tyrepol_setup() / 'after_setup_theme'. Polylang ustala język bieżącego żądania (np. z adresu
+ * /en/) dopiero na wczesnym etapie 'init' — jeśli wczytać tłumaczenia wcześniej (na
+ * after_setup_theme), get_locale() zwraca jeszcze DOMYŚLNY język strony (polski), WordPress
+ * wczytuje (lub próbuje wczytać) złe/nieistniejące tłumaczenie i już go nie podmienia do końca
+ * żądania — stąd np. „Ostatnia aktualizacja” zostawało po polsku na wersji /en/, mimo że sam plik
+ * tyrepol-en_US.mo istniał i był poprawny.
+ */
+add_action('init', function () {
+    load_theme_textdomain('tyrepol', TYREPOL_DIR . '/languages');
+});
 
 /**
  * Style i skrypty.
