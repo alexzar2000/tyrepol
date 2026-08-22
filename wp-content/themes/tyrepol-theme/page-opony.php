@@ -21,11 +21,10 @@ get_header();
 // (single-opona.php) doszukuje się tam wszystkich pozostałych rozmiarów tego samego modelu
 // i pokazuje je razem w jednej tabeli (patrz komentarz w single-opona.php).
 $groups = [];
-// get_posts() domyślnie NIE filtruje po języku (suppress_filters=true) — dopisujemy 'lang'
-// ręcznie, żeby na wersji EN katalog pokazywał tylko angielskie opony (bez tego mieszałyby
-// się opony PL i EN w jednej siatce).
-$tyrepol_lang = function_exists('pll_current_language') ? pll_current_language() : '';
-$opony = get_posts(['post_type' => 'opona', 'posts_per_page' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC', 'lang' => $tyrepol_lang]);
+// Opony są WSPÓLNE dla obu wersji językowych (nie są tłumaczalne przez Polylang — patrz komentarz
+// w inc/cpt-opona.php), więc pokazujemy TE SAME opublikowane opony niezależnie od języka strony —
+// bez filtrowania po 'lang'. Etykiety kolumn/kategorii tłumaczą się same (tyrepol_term_label()).
+$opony = get_posts(['post_type' => 'opona', 'posts_per_page' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC']);
 
 foreach ($opony as $opona) {
     $brand_terms   = get_the_terms($opona->ID, 'marka-opony');

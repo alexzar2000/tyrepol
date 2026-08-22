@@ -33,10 +33,9 @@ while (have_posts()) : the_post();
         'meta_query'     => [
             ['key' => 'wzor_bieznika', 'value' => $wzor, 'compare' => '='],
         ],
-        // get_posts() domyślnie NIE filtruje po języku — dopisujemy 'lang' ręcznie, żeby w
-        // tabeli rozmiarów łączyły się tylko warianty W TYM SAMYM JĘZYKU co bieżąca strona
-        // (inaczej wiersze PL i EN tego samego modelu mieszałyby się w jednej tabeli).
-        'lang'           => function_exists('pll_current_language') ? pll_current_language() : '',
+        // Opony są WSPÓLNE dla obu wersji językowych (patrz komentarz w inc/cpt-opona.php) —
+        // bez filtrowania po 'lang': tabela rozmiarów pokazuje te same warianty niezależnie
+        // od tego, czy strona jest oglądana po polsku czy po angielsku.
     ];
     if ($brand) {
         $variant_query_args['tax_query'] = [

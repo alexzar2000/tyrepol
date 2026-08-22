@@ -118,20 +118,22 @@ function tyrepol_register_opona_cpt() {
 add_action('init', 'tyrepol_register_opona_cpt');
 
 /**
- * Polylang — rejestrujemy TYLKO CPT „Opona” jako tłumaczalny (żeby każda opona miała osobną
- * wersję PL i EN — patrz automatyczne tworzenie kopii EN niżej). Taksonomie katalogowe (marka,
- * oś montażu, sezon, typ pojazdu, cechy opon) CELOWO NIE są rejestrowane jako tłumaczalne — to
- * WSPÓLNY, jeden zestaw kategorii dla obu języków (ta sama opona PL i jej wersja EN mają te same
- * przypisane kategorie). Kiedyś próbowaliśmy zrobić te taksonomie tłumaczalne przez Polylang, ale
- * to powodowało duplikowanie się terminów (np. dwa razy „Ciężarowe” — jeden z sufiksem „-pl”) za
- * każdym razem, gdy automat kopiował oponę na angielską wersję. Angielskie nazwy kategorii (np.
- * „Trucks” zamiast „Ciężarowe”) obsługuje osobne pole „nazwa_en” na terminie — patrz
- * acf-json/group_kategorie_en.json i tyrepol_term_label() w inc/helpers.php.
+ * Polylang — CPT „Opona” CELOWO NIE jest już rejestrowany jako tłumaczalny (podobnie jak
+ * taksonomie katalogowe niżej) — to WSPÓLNY, jeden zestaw opon dla obu wersji językowych strony,
+ * bez osobnej kopii EN dla każdej opony. Wcześniej każda opublikowana opona PL dostawała
+ * automatycznie kopię EN (jako szkic do ręcznego przetłumaczenia) — ale opona ma tylko DWA pola
+ * tekstowe („Wzór bieżnika” i „Rozmiar”), a to są kody/oznaczenia identyczne w obu językach
+ * (np. „SSL122”, „315/70R22.5”) — nic tam faktycznie nie trzeba tłumaczyć. Wszystko, co
+ * rzeczywiście różni się między językami (nazwy kategorii marka/oś/sezon/typ pojazdu, nazwy
+ * i wartości parametrów z „Cech opon”) obsługują osobne pola „nazwa_en” na terminach — patrz
+ * acf-json/group_kategorie_en.json, acf-json/group_cecha_opony.json i tyrepol_term_label() /
+ * tyrepol_get_opona_cechy_kolumny() — więc dublowanie samej opony jest zbędne, wystarczy dodać ją
+ * RAZ i ona pokaże się identycznie w obu wersjach strony (z automatycznie przetłumaczonymi
+ * etykietami kolumn i kategorii). Taksonomie katalogowe (marka, oś montażu, sezon, typ pojazdu,
+ * cechy opon) z tego samego powodu też NIE są tłumaczalne przez Polylang — kiedyś próbowaliśmy to
+ * zrobić, ale powodowało to duplikowanie się terminów (np. dwa razy „Ciężarowe” — jeden z sufiksem
+ * „-pl”) za każdym razem, gdy automat kopiował oponę na angielską wersję.
  */
-add_filter('pll_get_post_types', function ($post_types) {
-    $post_types['opona'] = 'opona';
-    return $post_types;
-});
 
 /**
  * Jednorazowe utworzenie domyślnych terminów (marka/oś/sezon/typ pojazdu), żeby po instalacji
@@ -278,31 +280,17 @@ add_action('edit_form_after_title', function ($post) {
     echo '<div class="notice notice-info inline" style="margin:14px 0 0;padding:10px 14px;">'
         . '<p>' . tyrepol_esc_html('Jeden wpis = jeden rozmiar. Kilka wpisów z TAKIM SAMYM „Wzorem bieżnika” i TĄ SAMĄ „Marką” (po prawej) automatycznie łączy się w jedną kartę w katalogu i jedną stronę produktu z tabelą wszystkich rozmiarów — nic więcej nie trzeba zaznaczać.', 'One entry = one size. Several entries with the SAME "Tread pattern" and the SAME "Brand" (on the right) automatically merge into one catalogue card and one product page with a table of all sizes — nothing else needs to be set.') . '</p>'
         . '<p>' . tyrepol_esc_html('Kolejność wierszy w tabeli rozmiarów ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = wyżej).', 'The row order in the size table is set by the "Order" field in the "Attributes" panel on the right (a lower number = higher up).') . '</p>'
+        . '<p>' . tyrepol_esc_html('Ta opona pokaże się identycznie na polskiej i angielskiej wersji strony — nie trzeba tworzyć osobnej kopii angielskiej. Nazwy kategorii (marka/oś/sezon/typ pojazdu) i etykiety parametrów tłumaczą się same, o ile mają wypełnione pole „Nazwa (EN)” / „Nazwa parametru (EN)”.', 'This tyre will appear identically on the Polish and English versions of the site — no separate English copy is needed. Category names (brand/axle/season/vehicle type) and parameter labels translate themselves automatically, as long as their "Name (EN)" / "Parameter name (EN)" field is filled in.') . '</p>'
         . '</div>';
-
-    if (!function_exists('pll_get_post_language')) {
-        echo '<div class="notice notice-warning inline" style="margin:10px 0 0;padding:10px 14px;">'
-            . '<p>' . tyrepol_esc_html('Wtyczka Polylang nie jest aktywna — wersja angielska NIE utworzy się automatycznie po zapisaniu tej opony. Zainstaluj i aktywuj Polylang (patrz punkt 1 i 8 instrukcji), żeby to zadziałało.', 'The Polylang plugin is not active — the English version will NOT be created automatically when you save this tyre. Install and activate Polylang (see points 1 and 8 of the instructions) for this to work.') . '</p>'
-            . '</div>';
-    }
 });
 
 /**
- * Duplikowanie opony jednym kliknięciem — szybkie tworzenie kolejnego wariantu (np. innego
- * rozmiaru tego samego modelu): kopiuje tytuł, zdjęcie, WSZYSTKIE pola ACF (w tym „Wzór bieżnika”,
- * żeby kopia od razu należała do tego samego modelu — wystarczy zmienić „Rozmiar”) oraz wszystkie
- * wypełnione „Dodatkowe parametry” (patrz inc/cechy-opony.php), a także taksonomie (marka, oś
- * montażu, sezon, typ pojazdu). Nowa kopia trafia jako szkic, żeby nic nie opublikowało się
- * przypadkiem bez sprawdzenia.
- */
-/**
- * Kopiuje WSZYSTKIE dane jednej opony na drugą (już istniejący, pusty wpis „opona”) — wspólna
- * funkcja używana zarówno przy ręcznym duplikowaniu (patrz niżej), jak i przy automatycznym
- * tworzeniu wersji angielskiej (patrz tyrepol_auto_utworz_tlumaczenie_en niżej). Kopiuje WSZYSTKIE
- * pola ACF (w tym „Wzór bieżnika”/„Rozmiar”), wartości „Dodatkowych parametrów” z rejestru „Cechy
- * opon” (patrz inc/cechy-opony.php) oraz zdjęcie wyróżniające (to też zwykłe post meta), a także
- * taksonomie katalogowe (marka, oś montażu, sezon, typ pojazdu) — BEZ „cecha-opony”, bo to rejestr
- * definicji parametrów, a nie przypisanie do konkretnej opony.
+ * Kopiuje WSZYSTKIE dane jednej opony na drugą (już istniejący, pusty wpis „opona”) — funkcja
+ * pomocnicza używana przy ręcznym duplikowaniu (patrz niżej). Kopiuje WSZYSTKIE pola ACF (w tym
+ * „Wzór bieżnika”/„Rozmiar”), wartości „Dodatkowych parametrów” z rejestru „Cechy opon” (patrz
+ * inc/cechy-opony.php) oraz zdjęcie wyróżniające (to też zwykłe post meta), a także taksonomie
+ * katalogowe (marka, oś montażu, sezon, typ pojazdu) — BEZ „cecha-opony”, bo to rejestr definicji
+ * parametrów, a nie przypisanie do konkretnej opony.
  */
 function tyrepol_kopiuj_dane_opony($z_id, $do_id) {
     foreach (get_post_meta($z_id) as $key => $values) {
@@ -365,78 +353,87 @@ add_action('admin_action_tyrepol_duplikuj_opone', function () {
 
     tyrepol_kopiuj_dane_opony($post_id, $new_id);
 
-    // Duplikat to zwykła kopia PO POLSKU (nie tłumaczenie) — jeśli Polylang jest aktywny, zapisz
-    // mu ten sam język co oryginał, inaczej automat niżej mógłby potraktować go jako osobny wpis
-    // bez języka i spróbować dorobić mu jeszcze wersję angielską.
-    if (function_exists('pll_get_post_language') && function_exists('pll_set_post_language')) {
-        $lang = pll_get_post_language($post_id);
-        if ($lang) pll_set_post_language($new_id, $lang);
-    }
-
     wp_safe_redirect(admin_url('post.php?action=edit&post=' . $new_id));
     exit;
 });
 
 /**
- * Polylang — automatyczne tworzenie wersji angielskiej przy pierwszym zapisaniu opony po polsku,
- * żeby NIE trzeba było klikać „+” przy fladze EN w panelu „Języki”. Wymaga aktywnej wtyczki
- * Polylang (bez niej funkcje pll_* nie istnieją i ten kod nic nie robi — bezpiecznie się wyłącza).
- *
- * Jak to działa: gdy zapisujesz oponę i nie ma ona jeszcze przypisanego języka, zakładamy że to
- * PL (domyślny język motywu) i od razu tworzymy jej kopię — dokładnie tymi samymi danymi co
- * PL (tytuł, wzór bieżnika, rozmiar, wszystkie dodatkowe parametry, zdjęcie, marka/oś/sezon/typ) —
- * oznaczoną jako angielska i połączoną z polską jako tłumaczenie. Kopia trafia jako SZKIC, więc
- * nic nie opublikuje się nieprzetłumaczone — wystarczy ją otworzyć (przycisk przy fladze EN w
- * panelu „Języki” przy edycji polskiej opony) i podmienić teksty na angielskie.
- * Uruchamia się TYLKO RAZ na wpis (jeśli angielska wersja już istnieje — np. usunięto powiązanie
- * albo utworzono ją ręcznie — nic więcej się nie dzieje).
+ * Sprzątanie angielskich „klonów” opon, które automat tworzył WCZEŚNIEJ (gdy każda opublikowana
+ * opona PL dostawała automatycznie kopię EN jako szkic do przetłumaczenia). Opony NIE są już
+ * tłumaczalne (patrz komentarz przy rejestracji CPT wyżej) — te stare, nigdy nieopublikowane kopie
+ * EN są teraz zbędne i tylko zaśmiecają listę „Wszystkie opony”. Wykrywamy je bardzo ostrożnie:
+ * musi to być SZKIC, oznaczony przez Polylang jako angielski, połączony jako tłumaczenie
+ * z OPUBLIKOWANYM polskim wpisem, z IDENTYCZNYM „Wzorem bieżnika” i „Rozmiarem” (dokładnie to
+ * kopiował automat) — żeby przypadkiem nie przenieść do kosza czyjegoś prawdziwego, nowego szkicu.
  */
-add_action('save_post_opona', function ($post_id) {
-    static $tworzenie_w_toku = false;
-    if ($tworzenie_w_toku) return; // zabezpieczenie przed nieskończoną pętlą (patrz niżej)
+function tyrepol_znajdz_zbedne_klony_opon() {
+    if (!function_exists('pll_get_post_language') || !function_exists('pll_get_post')) return [];
 
-    if (
-        !function_exists('pll_get_post_language')
-        || !function_exists('pll_set_post_language')
-        || !function_exists('pll_save_post_translations')
-        || !function_exists('pll_get_post')
-    ) return;
+    $draft_ids = get_posts([
+        'post_type'      => 'opona',
+        'post_status'    => 'draft',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+    ]);
 
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (wp_is_post_revision($post_id)) return;
-    if (!current_user_can('edit_post', $post_id)) return;
+    $do_kosza = [];
+    foreach ($draft_ids as $draft_id) {
+        if (pll_get_post_language($draft_id) !== 'en') continue;
 
-    $lang = pll_get_post_language($post_id);
-    if (!$lang) {
-        $lang = function_exists('pll_default_language') ? (pll_default_language() ?: 'pl') : 'pl';
-        pll_set_post_language($post_id, $lang);
+        $pl_id = pll_get_post($draft_id, 'pl');
+        if (!$pl_id || get_post_status($pl_id) !== 'publish') continue;
+
+        $wzor_zgodny    = get_field('wzor_bieznika', $draft_id) === get_field('wzor_bieznika', $pl_id);
+        $rozmiar_zgodny = get_field('rozmiar', $draft_id) === get_field('rozmiar', $pl_id);
+
+        if ($wzor_zgodny && $rozmiar_zgodny) {
+            $do_kosza[] = $draft_id;
+        }
     }
-    if ($lang !== 'pl') return; // klonujemy tylko PL -> EN, nigdy w drugą stronę
+    return $do_kosza;
+}
 
-    if (pll_get_post($post_id, 'en')) return; // wersja angielska już istnieje — nic nie rób
+add_action('admin_notices', function () {
+    if (!current_user_can('edit_posts')) return;
+    $do_kosza = tyrepol_znajdz_zbedne_klony_opon();
+    if (empty($do_kosza)) return;
 
-    $original = get_post($post_id);
-    if (!$original) return;
+    $url = wp_nonce_url(admin_url('admin.php?action=tyrepol_wyczysc_klony_opon'), 'tyrepol_wyczysc_klony_opon');
+    echo '<div class="notice notice-warning"><p>'
+        . sprintf(
+            tyrepol_esc_html(
+                'Znaleziono %d zbędnych angielskich kopii opon (utworzonych wcześniej automatycznie, nigdy nieopublikowanych) — opony nie potrzebują już osobnej wersji angielskiej. Można je bezpiecznie przenieść do kosza.',
+                'Found %d unnecessary English tyre copies (created earlier automatically, never published) — tyres no longer need a separate English version. They can be safely moved to trash.'
+            ),
+            count($do_kosza)
+        )
+        . ' <a href="' . esc_url($url) . '" class="button button-primary">'
+        . tyrepol_esc_html('Przenieś do kosza', 'Move to trash')
+        . '</a></p></div>';
+});
 
-    // Blokujemy ponowne wejście na czas tworzenia kopii — wp_insert_post() niżej synchronicznie
-    // odpala ten sam hook dla NOWEGO wpisu (bez tego doszłoby do nieskończonej pętli klonowania).
-    $tworzenie_w_toku = true;
+add_action('admin_action_tyrepol_wyczysc_klony_opon', function () {
+    if (!current_user_can('edit_posts')) {
+        wp_die(tyrepol_esc_html('Brak uprawnień do tej operacji.', 'You don\'t have permission to perform this action.'));
+    }
+    check_admin_referer('tyrepol_wyczysc_klony_opon');
 
-    $en_id = wp_insert_post([
-        'post_title'   => $original->post_title,
-        'post_content' => $original->post_content,
-        'post_excerpt' => $original->post_excerpt,
-        'post_status'  => 'draft',
-        'post_type'    => 'opona',
-        'post_author'  => $original->post_author,
-        'menu_order'   => $original->menu_order,
-    ], true);
-
-    if (!is_wp_error($en_id)) {
-        tyrepol_kopiuj_dane_opony($post_id, $en_id);
-        pll_set_post_language($en_id, 'en');
-        pll_save_post_translations(['pl' => $post_id, 'en' => $en_id]);
+    $do_kosza = tyrepol_znajdz_zbedne_klony_opon();
+    foreach ($do_kosza as $id) {
+        wp_trash_post($id);
     }
 
-    $tworzenie_w_toku = false;
-}, 20);
+    wp_safe_redirect(add_query_arg('tyrepol_klony_wyczyszczone', count($do_kosza), wp_get_referer() ?: admin_url()));
+    exit;
+});
+
+add_action('admin_notices', function () {
+    if (!isset($_GET['tyrepol_klony_wyczyszczone'])) return;
+    printf(
+        '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+        sprintf(
+            tyrepol_esc_html('Przeniesiono do kosza %d zbędnych kopii.', 'Moved %d unnecessary copies to trash.'),
+            (int) $_GET['tyrepol_klony_wyczyszczone']
+        )
+    );
+});
