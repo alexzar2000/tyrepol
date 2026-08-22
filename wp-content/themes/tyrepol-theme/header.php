@@ -42,14 +42,25 @@ if (!defined('ABSPATH')) exit;
 
       <div class="header__actions">
         <?php
-        $show_lang_switch = function_exists('pll_the_languages');
-        $languages = $show_lang_switch ? pll_the_languages(['raw' => 1, 'hide_if_empty' => 0]) : [];
-        $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'pl';
-        $lang_en_url = '';
-        $lang_pl_url = '';
-        foreach ($languages as $lang) {
-            if ($lang['slug'] === 'en') $lang_en_url = $lang['url'];
-            if ($lang['slug'] === 'pl') $lang_pl_url = $lang['url'];
+        // Strona pojedynczej opony to SZCZEGÓLNY przypadek: CPT „opona” nie jest zarządzany przez
+        // Polylang (patrz inc/cpt-opona.php), więc pll_the_languages() nic by tu nie znalazł i
+        // przełącznik prowadziłby donikąd (albo na stronę główną — stąd wrażenie „wyrzuca ze
+        // strony”). Budujemy więc PL/EN adresy TEJ SAMEJ opony ręcznie, przez tyrepol_opona_permalink().
+        if (is_singular('opona')) {
+            $show_lang_switch = true;
+            $current_lang = tyrepol_current_lang();
+            $lang_pl_url = tyrepol_opona_permalink(get_the_ID(), 'pl');
+            $lang_en_url = tyrepol_opona_permalink(get_the_ID(), 'en');
+        } else {
+            $show_lang_switch = function_exists('pll_the_languages');
+            $languages = $show_lang_switch ? pll_the_languages(['raw' => 1, 'hide_if_empty' => 0]) : [];
+            $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'pl';
+            $lang_en_url = '';
+            $lang_pl_url = '';
+            foreach ($languages as $lang) {
+                if ($lang['slug'] === 'en') $lang_en_url = $lang['url'];
+                if ($lang['slug'] === 'pl') $lang_pl_url = $lang['url'];
+            }
         }
         ?>
         <div class="header__lang-switch" data-lang-pl="<?php echo esc_url($lang_pl_url); ?>" data-lang-en="<?php echo esc_url($lang_en_url); ?>">

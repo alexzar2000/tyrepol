@@ -47,7 +47,10 @@ foreach ($opony as $opona) {
             'pattern' => $pattern,
             'sizes'   => [],
             'image'   => get_the_post_thumbnail_url($opona->ID, 'tyrepol-card') ?: null,
-            'link'    => get_permalink($opona->ID),
+            // tyrepol_opona_permalink() (nie zwykłe get_permalink()) — na wersji angielskiej
+            // katalogu dodaje prefiks /en/, żeby karta prowadziła do angielskiej wersji strony
+            // opony (patrz komentarz przy tej funkcji w inc/cpt-opona.php).
+            'link'    => tyrepol_opona_permalink($opona->ID),
         ];
     }
 

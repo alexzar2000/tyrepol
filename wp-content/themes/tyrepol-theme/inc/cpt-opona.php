@@ -136,6 +136,55 @@ add_action('init', 'tyrepol_register_opona_cpt');
  */
 
 /**
+ * Skoro opona nie jest zarządzana przez Polylang, jej adres domyślnie NIE ma prefiksu /en/
+ * (zawsze /opony/nazwa/, niezależnie od tego, w jakiej wersji językowej ktoś ją otwiera) — a bez
+ * tego prefiksu WordPress/Polylang nie ma jak rozpoznać, że odwiedzający chce wersję angielską
+ * (patrz tyrepol_current_lang() w functions.php). Dlatego dodajemy WŁASNĄ, dodatkową regułę
+ * przepisywania adresów: /en/opony/nazwa/ prowadzi do TEGO SAMEGO wpisu co /opony/nazwa/, tylko
+ * z ustawioną zmienną zapytania „tyrepol_view_lang=en” — dzięki temu strona wie, że ma pokazać
+ * angielskie etykiety, mimo że to wciąż jeden, wspólny wpis „opona” (bez osobnej kopii EN).
+ */
+add_action('init', function () {
+    add_rewrite_rule('^en/opony/([^/]+)/?$', 'index.php?opona=$matches[1]&tyrepol_view_lang=en', 'top');
+});
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'tyrepol_view_lang';
+    return $vars;
+});
+
+/**
+ * Reguła przepisywania adresów wyżej zaczyna działać dopiero PO odświeżeniu reguł WordPressa
+ * (normalnie trzeba by wejść w Ustawienia → Bezpośrednie odnośniki i kliknąć „Zapisz zmiany”) —
+ * robimy to automatycznie, JEDNORAZOWO po wdrożeniu tej zmiany, żeby Bob nie musiał o tym pamiętać.
+ */
+add_action('init', function () {
+    if (get_option('tyrepol_rewrite_flushed_opona_en') === '1') return;
+    flush_rewrite_rules();
+    update_option('tyrepol_rewrite_flushed_opona_en', '1');
+}, 999);
+
+/**
+ * Adres pojedynczej opony w konkretnej wersji językowej — patrz reguła przepisywania adresów
+ * wyżej. Używane wszędzie tam, gdzie w motywie linkuje się do strony konkretnej opony (karty
+ * w katalogu, przełącznik języka w nagłówku na stronie opony), żeby link prowadził do właściwej
+ * wersji (PL bez prefiksu, EN z prefiksem /en/), zamiast zawsze do domyślnej polskiej.
+ */
+function tyrepol_opona_permalink($post_id, $lang = null) {
+    if ($lang === null) $lang = tyrepol_current_lang();
+
+    $url = get_permalink($post_id);
+    if (!$url || $lang !== 'en') return $url;
+
+    $home = trailingslashit(home_url('/'));
+    if (strpos($url, $home) !== 0) return $url; // niestandardowy adres — nie ryzykujemy psucia go
+
+    $path = substr($url, strlen($home));
+    if (strpos($path, 'en/') === 0) return $url; // prefiks już jest
+
+    return $home . 'en/' . $path;
+}
+
+/**
  * Jednorazowe utworzenie domyślnych terminów (marka/oś/sezon/typ pojazdu), żeby po instalacji
  * motywu filtry w panelu i na katalogu nie były puste. Nie nadpisuje terminów, które już istnieją.
  */

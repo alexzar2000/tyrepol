@@ -34,6 +34,15 @@ define('TYREPOL_URI', get_template_directory_uri());
  * z poniższych odpowiedników z DWOMA argumentami: (polski tekst, angielski tekst).
  */
 function tyrepol_current_lang() {
+    // Opony (CPT „opona”) NIE są zarządzane przez Polylang (patrz inc/cpt-opona.php) — ich adres
+    // NIE ma normalnie prefiksu /en/, więc Polylang nie ma jak rozpoznać języka na takiej stronie
+    // i pll_current_language() zwracałby zawsze język domyślny (pl), nawet gdy odwiedzający
+    // przyszedł z angielskiej wersji katalogu. Dlatego strona pojedynczej opony ma WŁASNY,
+    // dodatkowy adres z prefiksem /en/ (patrz reguła przepisywania adresów i tyrepol_opona_permalink()
+    // w inc/cpt-opona.php) — ten prefiks ustawia zmienną zapytania „tyrepol_view_lang”, którą
+    // sprawdzamy tutaj PRZED zapytaniem Polylang.
+    if (get_query_var('tyrepol_view_lang') === 'en') return 'en';
+
     return function_exists('pll_current_language') ? (pll_current_language() ?: 'pl') : 'pl';
 }
 function tyrepol_t($pl, $en) {
