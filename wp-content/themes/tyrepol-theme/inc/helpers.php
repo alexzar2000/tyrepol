@@ -11,11 +11,24 @@ if (!defined('ABSPATH')) exit;
 /**
  * Bezpieczne pobranie pola ze strony „Ustawienia motywu” (zwykła strona WP, nie ACF Options —
  * patrz inc/ustawienia.php, ACF Free nie ma Options Page).
+ *
+ * Wersja angielska: jeśli bieżący język to EN i istnieje pole o tej samej nazwie z dopiskiem
+ * „_en” (np. faq_tytul_en — zakładka „English (EN)” na tej samej stronie „Ustawienia motywu”)
+ * i jest wypełnione, ma ono pierwszeństwo. Dzięki temu nie trzeba osobnej angielskiej strony —
+ * PL i EN edytuje się w jednym miejscu, a pola typu adres/telefon/e-mail/URL (te same w obu
+ * językach) nie trzeba dublować — wystarczy dodać „_en” tylko przy tekstach, które faktycznie
+ * różnią się między językami.
  */
 function tyrepol_opt($field, $default = '') {
     if (!function_exists('get_field')) return $default;
     $page_id = tyrepol_settings_page_id();
     if (!$page_id) return $default;
+
+    if (tyrepol_current_lang() === 'en') {
+        $en_value = get_field($field . '_en', $page_id);
+        if ($en_value !== null && $en_value !== '') return $en_value;
+    }
+
     $value = get_field($field, $page_id);
     return ($value === null || $value === '') ? $default : $value;
 }

@@ -32,7 +32,16 @@
         {"key": "field_opt_tab_faq", "label": "FAQ (wspólne dla wszystkich stron)", "name": "tab_faq_wspolne", "type": "tab"},
         {"key": "field_opt_faq_tytul", "label": "Nagłówek", "name": "faq_tytul", "type": "text", "default_value": "FAQ"},
         {"key": "field_opt_faq_opis", "label": "Opis", "name": "faq_opis", "type": "textarea", "rows": 2, "instructions": "Same pytania i odpowiedzi dodaje się w INNYM miejscu panelu — menu boczne „Pytania FAQ” (Dodaj nowe pytanie) — można ich dodać dowolnie dużo. Ta lista pokazuje się automatycznie na dole każdej strony (Strona główna, Opony, każda „Elastyczna strona” — O firmie, Saucerman itd.)."},
-        {"key": "field_opt_faq_wskazowka", "label": "", "name": "faq_wskazowka", "type": "message", "message": "Pytania i odpowiedzi: menu boczne panelu → „Pytania FAQ” → „Dodaj nowe pytanie” (Tytuł = pytanie, treść = odpowiedź, pole „Kolejność” ustala kolejność)."}
+        {"key": "field_opt_faq_wskazowka", "label": "", "name": "faq_wskazowka", "type": "message", "message": "Pytania i odpowiedzi: menu boczne panelu → „Pytania FAQ” → „Dodaj nowe pytanie” (Tytuł = pytanie, treść = odpowiedź, pole „Kolejność” ustala kolejność)."},
+
+        {"key": "field_opt_tab_en", "label": "English (EN)", "name": "tab_en", "type": "tab"},
+        {"key": "field_opt_en_wskazowka", "label": "", "name": "en_wskazowka", "type": "message", "message": "Angielskie wersje tekstów z zakładek powyżej. Puste pole = na wersji angielskiej strony pokaże się zwykły polski tekst z odpowiedniej zakładki (nic się nie zepsuje) — wypełniaj tylko to, co chcesz mieć osobno po angielsku. Adresy, telefon, e-mail i linki social media są WSPÓLNE dla obu języków — nie trzeba ich tu powtarzać."},
+        {"key": "field_opt_biuro_naglowek_en", "label": "Biuro / magazyn — nagłówek bloku (EN)", "name": "biuro_naglowek_en", "type": "text", "placeholder": "Office / Warehouse"},
+        {"key": "field_opt_kontakt_naglowek_en", "label": "Sekcja „Kontakt” — nagłówek (EN)", "name": "kontakt_naglowek_en", "type": "text", "placeholder": "Contact"},
+        {"key": "field_opt_kontakt_opis_en", "label": "Sekcja „Kontakt” — opis pod nagłówkiem (EN)", "name": "kontakt_opis_en", "type": "textarea", "rows": 2},
+        {"key": "field_opt_kontakt_lead_en", "label": "Sekcja „Kontakt” — tekst nad danymi firmy (EN)", "name": "kontakt_lead_en", "type": "textarea", "rows": 2},
+        {"key": "field_opt_faq_tytul_en", "label": "FAQ — nagłówek (EN)", "name": "faq_tytul_en", "type": "text", "placeholder": "FAQ"},
+        {"key": "field_opt_faq_opis_en", "label": "FAQ — opis (EN)", "name": "faq_opis_en", "type": "textarea", "rows": 2}
     ],
     "location": [
         [{"param": "page_template", "operator": "==", "value": "template-ustawienia.php"}]

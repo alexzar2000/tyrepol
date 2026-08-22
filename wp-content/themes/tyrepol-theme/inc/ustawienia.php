@@ -84,25 +84,13 @@ add_action('admin_init', function () {
 /**
  * ID strony „Ustawienia motywu” — używane przez tyrepol_opt() i pola ACF z location „ta strona”.
  *
- * Polylang: strona bazowa (ta stworzona automatycznie) jest po polsku. Jeśli ktoś doda jej
- * angielskie tłumaczenie przez Polylang (przycisk „+” przy fladze EN na ekranie edycji strony —
- * dokładnie tak, jak zrobiono np. dla „Theme Settings (Do Not Remove)”), ta funkcja automatycznie
- * zwróci ID WŁAŚCIWEJ wersji językowej. Dzięki temu wystarczy wypełnić pola ACF na angielskiej
- * kopii angielskim tekstem (FAQ, dane kontaktowe, teksty formularzy) — reszta motywu (tyrepol_opt())
- * sama zacznie je pobierać na wersji /en/, bez żadnych dodatkowych zmian w kodzie.
- *
- * Jeśli tłumaczenie jeszcze nie istnieje (albo Polylang nie jest aktywny), zwracamy polską stronę
- * bazową — dokładnie tak jak dotychczas.
+ * UWAGA: to zawsze JEDNA strona (polska), niezależnie od języka wersji, którą się ogląda — bez
+ * osobnej angielskiej kopii przez Polylang. Angielskie teksty (FAQ, sekcja Kontakt, zgoda RODO)
+ * wypełnia się polami „…(EN)” w NOWEJ zakładce „English (EN)” na TEJ SAMEJ stronie — patrz
+ * tyrepol_opt() w inc/helpers.php, który sam wybiera właściwe pole wg języka. Dzięki temu edycja
+ * PL i EN odbywa się w jednym miejscu, bez przełączania się między dwiema osobnymi stronami WP.
  */
 function tyrepol_settings_page_id() {
-    $base_id = (int) get_option('tyrepol_settings_page_id');
-    if (!$base_id) $base_id = tyrepol_maybe_create_settings_page();
-    if (!$base_id) return 0;
-
-    if (function_exists('pll_get_post')) {
-        $translated_id = pll_get_post($base_id, tyrepol_current_lang());
-        if ($translated_id) return $translated_id;
-    }
-
-    return $base_id;
+    $id = (int) get_option('tyrepol_settings_page_id');
+    return $id ?: tyrepol_maybe_create_settings_page();
 }
