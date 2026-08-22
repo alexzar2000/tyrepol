@@ -77,6 +77,15 @@ foreach ($groups as $group) {
     $tires[] = $group;
 }
 
+// Marka „Saucerman” zawsze na pierwszym miejscu w siatce (i w kartach doładowywanych „Załaduj
+// więcej”), niezależnie od kolejności alfabetycznej — reszta modeli zostaje w dotychczasowej
+// kolejności (wg tytułu). Gdy ktoś zawęzi filtr do innej, pojedynczej marki, Saucerman i tak
+// zniknie z listy jak każdy niepasujący model — to sortowanie dotyczy tylko KOLEJNOŚCI, nie
+// dodaje wyjątku w samym filtrowaniu (patrz initCatalog() w assets/script.js).
+$tires_saucerman = array_values(array_filter($tires, fn($t) => $t['brand'] === 'saucerman'));
+$tires_pozostale  = array_values(array_filter($tires, fn($t) => $t['brand'] !== 'saucerman'));
+$tires = array_merge($tires_saucerman, $tires_pozostale);
+
 $brand_terms_all   = get_terms(['taxonomy' => 'marka-opony', 'hide_empty' => false]);
 $axle_terms_all    = get_terms(['taxonomy' => 'os-montazu', 'hide_empty' => false]);
 $season_terms_all  = get_terms(['taxonomy' => 'sezon-opony', 'hide_empty' => false]);
