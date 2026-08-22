@@ -1,0 +1,622 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TyrePol Theme 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-22 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: tyrepol\n"
+
+#: single-opona.php:50
+msgid "Okruszki nawigacyjne"
+msgstr ""
+
+#: single-opona.php:53 inc/cpt-opona.php:18
+msgid "Wszystkie opony"
+msgstr ""
+
+#: single-opona.php:100
+msgid "Seria"
+msgstr ""
+
+#: single-opona.php:101 page-opony.php:178 inc/cpt-opona.php:165
+msgid "Rozmiar"
+msgstr ""
+
+#: single-opona.php:102 inc/cpt-opona.php:45
+msgid "Oś montażu"
+msgstr ""
+
+#: single-opona.php:103 page-opony.php:171 inc/cpt-opona.php:57
+msgid "Sezon"
+msgstr ""
+
+#: single-opona.php:180 front-page.php:125 footer.php:49 footer.php:58 template-parts/section-cta-button.php:8
+msgid "Darmowa wycena"
+msgstr ""
+
+#: home.php:18
+msgid "Aktualności"
+msgstr ""
+
+#: home.php:19
+msgid "Najnowsze informacje ze świata TyrePol — premiery, promocje i porady dla kierowców zawodowych."
+msgstr ""
+
+#: home.php:43 single.php:76 functions.php:72
+msgid "Czytaj więcej"
+msgstr ""
+
+#: home.php:53
+msgid "Załaduj więcej aktualności"
+msgstr ""
+
+#: home.php:58
+msgid "Brak aktualności do wyświetlenia."
+msgstr ""
+
+#: index.php:22
+msgid "Nie znaleziono treści"
+msgstr ""
+
+#: index.php:23
+msgid "Przepraszamy, nie udało się odnaleźć żądanej strony."
+msgstr ""
+
+#: front-page.php:46
+msgid "Sprawdź ofertę"
+msgstr ""
+
+#: front-page.php:63
+msgid "Przewiń w dół"
+msgstr ""
+
+#: front-page.php:71 front-page.php:91
+msgid "Poprzedni slajd"
+msgstr ""
+
+#: front-page.php:74 front-page.php:115
+msgid "Następny slajd"
+msgstr ""
+
+#: front-page.php:86
+msgid "Marki w naszej ofercie"
+msgstr ""
+
+#: front-page.php:108 page-opony.php:128
+msgid "Logo marki %s"
+msgstr ""
+
+#: single.php:17
+msgid "Powrót do aktualności"
+msgstr ""
+
+#: single.php:38
+msgid "Udostępnij:"
+msgstr ""
+
+#: single.php:39
+msgid "Udostępnij na Facebooku"
+msgstr ""
+
+#: single.php:42
+msgid "Udostępnij na LinkedIn"
+msgstr ""
+
+#: single.php:56
+msgid "Zobacz również"
+msgstr ""
+
+#: footer.php:31
+msgid "Polityka prywatności"
+msgstr ""
+
+#: footer.php:32
+msgid "Polityka cookies"
+msgstr ""
+
+#: footer.php:36
+msgid "Wszelkie prawa zastrzeżone."
+msgstr ""
+
+#: footer.php:40
+msgid "Przewiń do góry strony"
+msgstr ""
+
+#: footer.php:54
+msgid "Zamknij okno"
+msgstr ""
+
+#: footer.php:59
+msgid "Podaj kilka informacji, a przygotujemy dla Ciebie bezpłatną wycenę."
+msgstr ""
+
+#: footer.php:64 template-parts/contact.php:86
+msgid "Strona internetowa"
+msgstr ""
+
+#: footer.php:69
+msgid "Interesujący rozmiar"
+msgstr ""
+
+#: footer.php:71
+msgid "Wybierz rozmiar"
+msgstr ""
+
+#: footer.php:75
+msgid "Inny rozmiar / nie wiem"
+msgstr ""
+
+#: footer.php:80
+msgid "Ilość sztuk"
+msgstr ""
+
+#: footer.php:81
+msgid "np. 4"
+msgstr ""
+
+#: footer.php:85 template-parts/contact.php:91
+msgid "E-mail"
+msgstr ""
+
+#: footer.php:90 template-parts/contact.php:96
+msgid "Telefon"
+msgstr ""
+
+#: footer.php:95 template-parts/contact.php:101
+msgid "Wiadomość"
+msgstr ""
+
+#: footer.php:101 template-parts/contact.php:107
+msgid "Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności."
+msgstr ""
+
+#: footer.php:104
+msgid "Wyślij zapytanie"
+msgstr ""
+
+#: footer.php:111
+msgid "Zapytanie zostało wysłane. Skontaktujemy się wkrótce."
+msgstr ""
+
+#: page-opony.php:103
+msgid "Wróć do filtrów"
+msgstr ""
+
+#: page-opony.php:117
+msgid "Poprzednia marka"
+msgstr ""
+
+#: page-opony.php:136
+msgid "Następna marka"
+msgstr ""
+
+#: page-opony.php:149 inc/cpt-opona.php:37
+msgid "Marka"
+msgstr ""
+
+#: page-opony.php:156 inc/cpt-opona.php:66
+msgid "Typ pojazdu"
+msgstr ""
+
+#: page-opony.php:157
+msgid "Wszystkie"
+msgstr ""
+
+#: page-opony.php:164
+msgid "Oś"
+msgstr ""
+
+#: page-opony.php:179
+msgid "Rozmiar opony"
+msgstr ""
+
+#: page-opony.php:180
+msgid "Wszystkie rozmiary"
+msgstr ""
+
+#: page-opony.php:187
+msgid "Wyczyść filtry"
+msgstr ""
+
+#: page-opony.php:192
+msgid "Brak opon spełniających wybrane kryteria."
+msgstr ""
+
+#: page-opony.php:194
+msgid "Załaduj więcej opon"
+msgstr ""
+
+#: page.php:14
+msgid "Ostatnia aktualizacja: %s"
+msgstr ""
+
+#: template-ustawienia.php:16 inc/ustawienia.php:63 inc/ustawienia.php:64
+msgid "Ustawienia motywu"
+msgstr ""
+
+#: template-ustawienia.php:17
+msgid "Ta strona nie jest przeznaczona do publicznego wyświetlania — służy wyłącznie do przechowywania danych kontaktowych motywu w polach poniżej edytora. Nie usuwaj jej."
+msgstr ""
+
+#: functions.php:38
+msgid "Menu główne (nagłówek)"
+msgstr ""
+
+#: functions.php:39
+msgid "Stopka — linki prawne"
+msgstr ""
+
+#: functions.php:71
+msgid "Zobacz szczegóły"
+msgstr ""
+
+#: functions.php:73
+msgid "Dostępne rozmiary"
+msgstr ""
+
+#: header.php:24
+msgid "TyrePol Logo"
+msgstr ""
+
+#: header.php:56
+msgid "Przełącz język PL / EN"
+msgstr ""
+
+#: header.php:61
+msgid "Otwórz menu"
+msgstr ""
+
+#: template-parts/contact.php:21 inc/nav-walker.php:65
+msgid "Kontakt"
+msgstr ""
+
+#: template-parts/contact.php:22
+msgid "Masz pytanie dotyczące opon, felg lub oferty? Napisz do nas lub odwiedź nas osobiście — chętnie pomożemy dobrać najlepsze rozwiązanie."
+msgstr ""
+
+#: template-parts/contact.php:27
+msgid "Mapa — lokalizacja firmy"
+msgstr ""
+
+#: template-parts/contact.php:34
+msgid "Skontaktuj się z nami"
+msgstr ""
+
+#: template-parts/contact.php:35
+msgid "Zapraszamy do kontaktu telefonicznego, mailowego lub osobistej wizyty w naszej siedzibie."
+msgstr ""
+
+#: template-parts/contact.php:51
+msgid "Biuro / Magazyn"
+msgstr ""
+
+#: template-parts/contact.php:112
+msgid "Wyślij"
+msgstr ""
+
+#: template-parts/split-list.php:27
+msgid "Zobacz ofertę"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:18 inc/cpt-slajd-hero.php:25
+msgid "Slajdy hero"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:19
+msgid "Slajd hero"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:20
+msgid "Dodaj nowy slajd"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:21
+msgid "Edytuj slajd"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:22
+msgid "Slajdy hero (Strona główna)"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:23
+msgid "Szukaj slajdów"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:24
+msgid "Nie znaleziono slajdów"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:26
+msgid "Kolejność slajdu"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:63
+msgid "Zdjęcie slajdu ustaw jako „Obrazek wyróżniający” (panel po prawej). Zalecany rozmiar: 1400 × 1000 px (proporcja ok. 1,4:1) — zdjęcie o innych proporcjach zostanie przycięte przez CSS, żeby wypełnić kadr."
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:64
+msgid "Kolejność slajdów w karuzeli ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = slajd pokazuje się wcześniej)."
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:77
+msgid "Zdjęcie"
+msgstr ""
+
+#: inc/cpt-slajd-hero.php:80 inc/cpt-pytanie-faq.php:70
+msgid "Kolejność"
+msgstr ""
+
+#: inc/ustawienia.php:28
+msgid "Ustawienia motywu (nie usuwaj)"
+msgstr ""
+
+#: inc/cechy-opony.php:26
+msgid "Dodatkowe parametry (z rejestru „Cechy opon”)"
+msgstr ""
+
+#: inc/cechy-opony.php:43
+msgid "Rejestr parametrów jest jeszcze pusty. Najpierw dodaj parametr w %s."
+msgstr ""
+
+#: inc/cechy-opony.php:44
+msgid "Opony → Cechy opon"
+msgstr ""
+
+#: inc/cechy-opony.php:56
+msgid "ikona"
+msgstr ""
+
+#: inc/cechy-opony.php:56
+msgid "tekst"
+msgstr ""
+
+#: inc/cechy-opony.php:67
+msgid "Puste pole = ten parametr nie pojawi się w tabeli na stronie produktu dla tego wariantu."
+msgstr ""
+
+#: inc/nav-walker.php:62
+msgid "Główna"
+msgstr ""
+
+#: inc/nav-walker.php:63
+msgid "Opony / Marki"
+msgstr ""
+
+#: inc/nav-walker.php:64
+msgid "O TyrePol"
+msgstr ""
+
+#: inc/helpers.php:149
+msgid "Dziękujemy."
+msgstr ""
+
+#: inc/helpers.php:158
+msgid "Podaj poprawny adres e-mail."
+msgstr ""
+
+#: inc/helpers.php:167
+msgid "Nowe zapytanie o wycenę — TyrePol"
+msgstr ""
+
+#: inc/helpers.php:168
+msgid "Rozmiar:"
+msgstr ""
+
+#: inc/helpers.php:169
+msgid "Ilość:"
+msgstr ""
+
+#: inc/helpers.php:171
+msgid "Nowa wiadomość z formularza kontaktowego — TyrePol"
+msgstr ""
+
+#: inc/helpers.php:174
+msgid "E-mail:"
+msgstr ""
+
+#: inc/helpers.php:175
+msgid "Telefon:"
+msgstr ""
+
+#: inc/helpers.php:182
+msgid "Wiadomość została wysłana. Skontaktujemy się wkrótce."
+msgstr ""
+
+#: inc/helpers.php:185
+msgid "Nie udało się wysłać wiadomości. Spróbuj ponownie lub zadzwoń do nas."
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:19 inc/cpt-pytanie-faq.php:26
+msgid "Pytania FAQ"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:20
+msgid "Pytanie FAQ"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:21
+msgid "Dodaj nowe pytanie"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:22
+msgid "Edytuj pytanie"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:23
+msgid "Pytania FAQ (wspólne dla wszystkich stron)"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:24
+msgid "Szukaj pytań"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:25
+msgid "Nie znaleziono pytań"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:27
+msgid "Kolejność pytania"
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:61
+msgid "Tytuł u góry = treść pytania. Pole poniżej (edytor) = treść odpowiedzi — wpisz zwykły tekst, bez pogrubień/linków (formatowanie i tak nie pokaże się na stronie)."
+msgstr ""
+
+#: inc/cpt-pytanie-faq.php:62
+msgid "Kolejność pytań na stronie ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = pytanie pokazuje się wyżej)."
+msgstr ""
+
+#: inc/cpt-opona.php:14
+msgid "Opony"
+msgstr ""
+
+#: inc/cpt-opona.php:15
+msgid "Opona"
+msgstr ""
+
+#: inc/cpt-opona.php:16
+msgid "Dodaj nową oponę"
+msgstr ""
+
+#: inc/cpt-opona.php:17
+msgid "Edytuj oponę"
+msgstr ""
+
+#: inc/cpt-opona.php:19
+msgid "Szukaj opon"
+msgstr ""
+
+#: inc/cpt-opona.php:20
+msgid "Nie znaleziono opon"
+msgstr ""
+
+#: inc/cpt-opona.php:21
+msgid "Katalog opon"
+msgstr ""
+
+#: inc/cpt-opona.php:38
+msgid "Marki"
+msgstr ""
+
+#: inc/cpt-opona.php:40
+msgid "Saucerman"
+msgstr ""
+
+#: inc/cpt-opona.php:41
+msgid "Falken"
+msgstr ""
+
+#: inc/cpt-opona.php:46
+msgid "Osie montażu"
+msgstr ""
+
+#: inc/cpt-opona.php:48
+msgid "Steer (kierowana)"
+msgstr ""
+
+#: inc/cpt-opona.php:49
+msgid "Drive (napędowa)"
+msgstr ""
+
+#: inc/cpt-opona.php:50
+msgid "Trailer (naczepy)"
+msgstr ""
+
+#: inc/cpt-opona.php:51
+msgid "On/Off (uniwersalna)"
+msgstr ""
+
+#: inc/cpt-opona.php:52
+msgid "Winter (zimowa)"
+msgstr ""
+
+#: inc/cpt-opona.php:53
+msgid "A/P"
+msgstr ""
+
+#: inc/cpt-opona.php:58
+msgid "Sezony"
+msgstr ""
+
+#: inc/cpt-opona.php:60
+msgid "Lato"
+msgstr ""
+
+#: inc/cpt-opona.php:61
+msgid "Zima"
+msgstr ""
+
+#: inc/cpt-opona.php:62
+msgid "Całoroczne"
+msgstr ""
+
+#: inc/cpt-opona.php:67
+msgid "Typy pojazdów"
+msgstr ""
+
+#: inc/cpt-opona.php:69
+msgid "Ciężarowe"
+msgstr ""
+
+#: inc/cpt-opona.php:70
+msgid "Dostawcze"
+msgstr ""
+
+#: inc/cpt-opona.php:101 inc/cpt-opona.php:107
+msgid "Cechy opon"
+msgstr ""
+
+#: inc/cpt-opona.php:102
+msgid "Cecha opony"
+msgstr ""
+
+#: inc/cpt-opona.php:103
+msgid "Dodaj nowy parametr"
+msgstr ""
+
+#: inc/cpt-opona.php:104
+msgid "Edytuj parametr"
+msgstr ""
+
+#: inc/cpt-opona.php:105
+msgid "Szukaj parametrów"
+msgstr ""
+
+#: inc/cpt-opona.php:106
+msgid "Nie znaleziono parametrów"
+msgstr ""
+
+#: inc/cpt-opona.php:164
+msgid "Wzór bieżnika (model)"
+msgstr ""
+
+#: inc/cpt-opona.php:188
+msgid "Jeden wpis = jeden rozmiar. Kilka wpisów z TAKIM SAMYM „Wzorem bieżnika” i TĄ SAMĄ „Marką” (po prawej) automatycznie łączy się w jedną kartę w katalogu i jedną stronę produktu z tabelą wszystkich rozmiarów — nic więcej nie trzeba zaznaczać."
+msgstr ""
+
+#: inc/cpt-opona.php:189
+msgid "Kolejność wierszy w tabeli rozmiarów ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = wyżej)."
+msgstr ""
+
+#: inc/cpt-opona.php:194
+msgid "Wtyczka Polylang nie jest aktywna — wersja angielska NIE utworzy się automatycznie po zapisaniu tej opony. Zainstaluj i aktywuj Polylang (patrz punkt 1 i 8 instrukcji), żeby to zadziałało."
+msgstr ""
+
+#: inc/cpt-opona.php:245
+msgid "Duplikuj"
+msgstr ""
+
+#: inc/cpt-opona.php:252
+msgid "Brak uprawnień do tej operacji."
+msgstr ""
+
+#: inc/cpt-opona.php:258
+msgid "Nie znaleziono opony do duplikowania."
+msgstr ""
+
+#: inc/cpt-opona.php:262
+msgid "(kopia)"
+msgstr ""
+
