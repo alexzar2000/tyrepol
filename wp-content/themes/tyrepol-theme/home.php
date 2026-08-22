@@ -15,8 +15,8 @@ $top = !is_paged();
 
     <?php if ($top) : ?>
     <div class="news__header reveal">
-      <h1 class="news__title"><?php echo esc_html(get_the_title(get_option('page_for_posts')) ?: __('Aktualności', 'tyrepol')); ?></h1>
-      <p class="news__desc"><?php echo esc_html(get_theme_mod('news_intro', __('Najnowsze informacje ze świata TyrePol — premiery, promocje i porady dla kierowców zawodowych.', 'tyrepol'))); ?></p>
+      <h1 class="news__title"><?php echo esc_html(get_the_title(get_option('page_for_posts')) ?: tyrepol_t('Aktualności', 'News')); ?></h1>
+      <p class="news__desc"><?php echo esc_html(get_theme_mod('news_intro', tyrepol_t('Najnowsze informacje ze świata TyrePol — premiery, promocje i porady dla kierowców zawodowych.', 'The latest news from TyrePol — launches, promotions and tips for professional drivers.'))); ?></p>
     </div>
     <?php endif; ?>
 
@@ -40,7 +40,7 @@ $top = !is_paged();
         </a>
         <h3 class="news-card__title"><?php the_title(); ?></h3>
         <p class="news-card__excerpt"><?php the_excerpt(); ?></p>
-        <a class="news-card__link" href="<?php the_permalink(); ?>"><?php esc_html_e('Czytaj więcej', 'tyrepol'); ?></a>
+        <a class="news-card__link" href="<?php the_permalink(); ?>"><?php tyrepol_esc_html_e('Czytaj więcej', 'Read more'); ?></a>
       </article>
       <?php endwhile; ?>
     </div>
@@ -50,12 +50,12 @@ $top = !is_paged();
       global $wp_query;
       $paged = max(1, get_query_var('paged'));
       if ($paged < $wp_query->max_num_pages) : ?>
-        <a class="news__load-more" href="<?php echo esc_url(get_pagenum_link($paged + 1)); ?>"><?php esc_html_e('Załaduj więcej aktualności', 'tyrepol'); ?></a>
+        <a class="news__load-more" href="<?php echo esc_url(get_pagenum_link($paged + 1)); ?>"><?php tyrepol_esc_html_e('Załaduj więcej aktualności', 'Load more news'); ?></a>
       <?php endif; ?>
     </div>
 
     <?php else : ?>
-      <p class="news__empty"><?php esc_html_e('Brak aktualności do wyświetlenia.', 'tyrepol'); ?></p>
+      <p class="news__empty"><?php tyrepol_esc_html_e('Brak aktualności do wyświetlenia.', 'No news to display.'); ?></p>
     <?php endif; ?>
 
   </div>

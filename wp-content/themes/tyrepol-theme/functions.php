@@ -18,6 +18,44 @@ define('TYREPOL_DIR', get_template_directory());
 define('TYREPOL_URI', get_template_directory_uri());
 
 /**
+ * PL/EN teksty motywu — ZAMIAST standardowego WordPressowego __()/_e() + pliku .mo.
+ *
+ * Dlaczego nie .mo: wypróbowaliśmy standardowy mechanizm WordPressa (load_theme_textdomain +
+ * languages/tyrepol-en_US.mo) i mimo poprawnych plików oraz poprawnego wdrożenia na serwer,
+ * teksty motywu (np. „Ostatnia aktualizacja”) uparcie zostawały po polsku na wersji /en/ —
+ * najpewniej przez to, JAK i KIEDY dokładnie ten konkretny hosting/Polylang/PHP ładuje i cache'uje
+ * tłumaczenia (to zależy od wielu czynników poza samym kodem motywu — OPcache, kolejność wtyczek
+ * itd. — i trudno to zdiagnozować bez bezpośredniego dostępu do serwera). Zamiast dalej gonić ten
+ * problem, przechowujemy oba warianty tekstu WPROST w kodzie i wybieramy właściwy w PHP, w
+ * momencie renderowania strony — zero zależności od tego, czy i kiedy WordPress wczyta jakiś plik.
+ *
+ * Każde miejsce w motywie, które wcześniej używało __('Tekst PL', 'tyrepol') / _e(...) /
+ * esc_html__(...) / esc_html_e(...) / esc_attr__(...) / esc_attr_e(...), używa teraz jednego
+ * z poniższych odpowiedników z DWOMA argumentami: (polski tekst, angielski tekst).
+ */
+function tyrepol_current_lang() {
+    return function_exists('pll_current_language') ? (pll_current_language() ?: 'pl') : 'pl';
+}
+function tyrepol_t($pl, $en) {
+    return (tyrepol_current_lang() === 'en') ? $en : $pl;
+}
+function tyrepol_e($pl, $en) {
+    echo tyrepol_t($pl, $en);
+}
+function tyrepol_esc_html($pl, $en) {
+    return esc_html(tyrepol_t($pl, $en));
+}
+function tyrepol_esc_html_e($pl, $en) {
+    echo esc_html(tyrepol_t($pl, $en));
+}
+function tyrepol_esc_attr($pl, $en) {
+    return esc_attr(tyrepol_t($pl, $en));
+}
+function tyrepol_esc_attr_e($pl, $en) {
+    echo esc_attr(tyrepol_t($pl, $en));
+}
+
+/**
  * Podstawowa konfiguracja motywu.
  */
 function tyrepol_setup() {
@@ -33,24 +71,11 @@ function tyrepol_setup() {
     add_theme_support('automatic-feed-links');
 
     register_nav_menus([
-        'primary' => __('Menu główne (nagłówek)', 'tyrepol'),
-        'footer'  => __('Stopka — linki prawne', 'tyrepol'),
+        'primary' => tyrepol_t('Menu główne (nagłówek)', 'Main menu (header)'),
+        'footer'  => tyrepol_t('Stopka — linki prawne', 'Footer — legal links'),
     ]);
 }
 add_action('after_setup_theme', 'tyrepol_setup');
-
-/**
- * Tłumaczenia motywu (languages/tyrepol-*.mo) — UMYŚLNIE na hooku 'init', a NIE wewnątrz
- * tyrepol_setup() / 'after_setup_theme'. Polylang ustala język bieżącego żądania (np. z adresu
- * /en/) dopiero na wczesnym etapie 'init' — jeśli wczytać tłumaczenia wcześniej (na
- * after_setup_theme), get_locale() zwraca jeszcze DOMYŚLNY język strony (polski), WordPress
- * wczytuje (lub próbuje wczytać) złe/nieistniejące tłumaczenie i już go nie podmienia do końca
- * żądania — stąd np. „Ostatnia aktualizacja” zostawało po polsku na wersji /en/, mimo że sam plik
- * tyrepol-en_US.mo istniał i był poprawny.
- */
-add_action('init', function () {
-    load_theme_textdomain('tyrepol', TYREPOL_DIR . '/languages');
-});
 
 /**
  * Style i skrypty.
@@ -79,9 +104,9 @@ function tyrepol_assets() {
     // Teksty używane bezpośrednio w JS (karty katalogu opon / karty aktualności) — tłumaczone przez
     // standardowy mechanizm WordPress (przełącznik Polylang zmienia język strony -> zmienia się i __()).
     wp_localize_script('tyrepol-script', 'tyrepolI18n', [
-        'detailsLink'    => __('Zobacz szczegóły', 'tyrepol'),
-        'readMore'       => __('Czytaj więcej', 'tyrepol'),
-        'sizesAvailable' => __('Dostępne rozmiary', 'tyrepol'),
+        'detailsLink'    => tyrepol_t('Zobacz szczegóły', 'See details'),
+        'readMore'       => tyrepol_t('Czytaj więcej', 'Read more'),
+        'sizesAvailable' => tyrepol_t('Dostępne rozmiary', 'Available sizes'),
     ]);
 }
 add_action('wp_enqueue_scripts', 'tyrepol_assets');

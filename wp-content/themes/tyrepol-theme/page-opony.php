@@ -100,7 +100,7 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
 
   <button class="catalog__filter-jump" id="catalog-filter-jump" type="button">
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 10l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-    <?php esc_html_e('Wróć do filtrów', 'tyrepol'); ?>
+    <?php tyrepol_esc_html_e('Wróć do filtrów', 'Back to filters'); ?>
   </button>
 
   <?php while (have_posts()) : the_post(); ?>
@@ -114,7 +114,7 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
 
         <?php if (!empty($brand_terms_all)) : ?>
         <div class="catalog__brand-carousel">
-          <button class="catalog__brand-nav catalog__brand-nav--prev" type="button" aria-label="<?php esc_attr_e('Poprzednia marka', 'tyrepol'); ?>">
+          <button class="catalog__brand-nav catalog__brand-nav--prev" type="button" aria-label="<?php tyrepol_esc_attr_e('Poprzednia marka', 'Previous brand'); ?>">
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2 4 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </button>
 
@@ -125,7 +125,7 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
               ?>
               <div class="swiper-slide">
                 <button class="catalog__brand-tile" type="button" data-brand="<?php echo esc_attr($term->slug); ?>">
-                  <?php if ($logo) : echo wp_get_attachment_image($logo, 'medium', false, ['class' => 'catalog__brand-tile-logo', 'alt' => sprintf(__('Logo marki %s', 'tyrepol'), $term->name)]);
+                  <?php if ($logo) : echo wp_get_attachment_image($logo, 'medium', false, ['class' => 'catalog__brand-tile-logo', 'alt' => sprintf(tyrepol_t('Logo marki %s', '%s brand logo'), $term->name)]);
                   else : ?><span class="catalog__brand-tile-logo"><?php echo esc_html($term->name); ?></span><?php endif; ?>
                 </button>
               </div>
@@ -133,7 +133,7 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
             </div>
           </div>
 
-          <button class="catalog__brand-nav catalog__brand-nav--next" type="button" aria-label="<?php esc_attr_e('Następna marka', 'tyrepol'); ?>">
+          <button class="catalog__brand-nav catalog__brand-nav--next" type="button" aria-label="<?php tyrepol_esc_attr_e('Następna marka', 'Next brand'); ?>">
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </button>
         </div>
@@ -146,52 +146,52 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
         <form class="catalog__filters" method="get">
 
           <div class="filter__group">
-            <h3 class="filter__title"><?php esc_html_e('Marka', 'tyrepol'); ?></h3>
+            <h3 class="filter__title"><?php tyrepol_esc_html_e('Marka', 'Brand'); ?></h3>
             <?php foreach ($brand_terms_all as $t) : ?>
               <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="brand" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
             <?php endforeach; ?>
           </div>
 
           <div class="filter__group">
-            <h3 class="filter__title"><?php esc_html_e('Typ pojazdu', 'tyrepol'); ?></h3>
-            <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="all" checked> <?php esc_html_e('Wszystkie', 'tyrepol'); ?></label>
+            <h3 class="filter__title"><?php tyrepol_esc_html_e('Typ pojazdu', 'Vehicle type'); ?></h3>
+            <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="all" checked> <?php tyrepol_esc_html_e('Wszystkie', 'All'); ?></label>
             <?php foreach ($vehicle_terms_all as $t) : ?>
               <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
             <?php endforeach; ?>
           </div>
 
           <div class="filter__group">
-            <h3 class="filter__title"><?php esc_html_e('Oś', 'tyrepol'); ?></h3>
+            <h3 class="filter__title"><?php tyrepol_esc_html_e('Oś', 'Axle'); ?></h3>
             <?php foreach ($axle_terms_all as $t) : ?>
               <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="axle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
             <?php endforeach; ?>
           </div>
 
           <div class="filter__group">
-            <h3 class="filter__title"><?php esc_html_e('Sezon', 'tyrepol'); ?></h3>
+            <h3 class="filter__title"><?php tyrepol_esc_html_e('Sezon', 'Season'); ?></h3>
             <?php foreach ($season_terms_all as $t) : ?>
               <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="season" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
             <?php endforeach; ?>
           </div>
 
           <div class="filter__group">
-            <h3 class="filter__title"><?php esc_html_e('Rozmiar', 'tyrepol'); ?></h3>
-            <select class="filter__select" name="size" aria-label="<?php esc_attr_e('Rozmiar opony', 'tyrepol'); ?>">
-              <option value=""><?php esc_html_e('Wszystkie rozmiary', 'tyrepol'); ?></option>
+            <h3 class="filter__title"><?php tyrepol_esc_html_e('Rozmiar', 'Size'); ?></h3>
+            <select class="filter__select" name="size" aria-label="<?php tyrepol_esc_attr_e('Rozmiar opony', 'Tyre size'); ?>">
+              <option value=""><?php tyrepol_esc_html_e('Wszystkie rozmiary', 'All sizes'); ?></option>
               <?php foreach ($all_sizes as $size) : ?>
                 <option value="<?php echo esc_attr($size); ?>"><?php echo esc_html($size); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
 
-          <button class="filter__submit" type="reset"><?php esc_html_e('Wyczyść filtry', 'tyrepol'); ?></button>
+          <button class="filter__submit" type="reset"><?php tyrepol_esc_html_e('Wyczyść filtry', 'Clear filters'); ?></button>
         </form>
 
         <div class="catalog__results">
           <div class="catalog__grid" id="catalog-grid"></div>
-          <p class="catalog__empty" id="catalog-empty" hidden><?php esc_html_e('Brak opon spełniających wybrane kryteria.', 'tyrepol'); ?></p>
+          <p class="catalog__empty" id="catalog-empty" hidden><?php tyrepol_esc_html_e('Brak opon spełniających wybrane kryteria.', 'No tyres match the selected criteria.'); ?></p>
           <div class="catalog__actions">
-            <button class="catalog__load-more" id="catalog-load-more" type="button"><?php esc_html_e('Załaduj więcej opon', 'tyrepol'); ?></button>
+            <button class="catalog__load-more" id="catalog-load-more" type="button"><?php tyrepol_esc_html_e('Załaduj więcej opon', 'Load more tyres'); ?></button>
           </div>
         </div>
 

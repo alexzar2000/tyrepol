@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) exit;
             $logo_id = get_theme_mod('custom_logo');
             echo wp_get_attachment_image($logo_id, 'full', false, ['class' => 'header__logo-img']);
         else : ?>
-          <img class="header__logo-img" src="<?php echo esc_url(TYREPOL_URI . '/assets/images/logo.png'); ?>" alt="<?php esc_attr_e('TyrePol Logo', 'tyrepol'); ?>">
+          <img class="header__logo-img" src="<?php echo esc_url(TYREPOL_URI . '/assets/images/logo.png'); ?>" alt="<?php tyrepol_esc_attr_e('TyrePol Logo', 'TyrePol Logo'); ?>">
         <?php endif; ?>
       </a>
 
@@ -53,12 +53,12 @@ if (!defined('ABSPATH')) exit;
         }
         ?>
         <div class="header__lang-switch" data-lang-pl="<?php echo esc_url($lang_pl_url); ?>" data-lang-en="<?php echo esc_url($lang_en_url); ?>">
-          <input id="lang-toggle" class="header__lang-input" type="checkbox" aria-label="<?php esc_attr_e('Przełącz język PL / EN', 'tyrepol'); ?>" <?php checked($current_lang, 'en'); ?> <?php disabled(!$show_lang_switch || !$lang_en_url || !$lang_pl_url); ?>>
+          <input id="lang-toggle" class="header__lang-input" type="checkbox" aria-label="<?php tyrepol_esc_attr_e('Przełącz język PL / EN', 'Switch language PL / EN'); ?>" <?php checked($current_lang, 'en'); ?> <?php disabled(!$show_lang_switch || !$lang_en_url || !$lang_pl_url); ?>>
           <label for="lang-toggle" class="header__lang-track"></label>
           <span class="header__lang-text header__lang-text--pl">PL</span>
           <span class="header__lang-text header__lang-text--en">EN</span>
         </div>
-        <button id="hamburger" class="header__burger" type="button" aria-label="<?php esc_attr_e('Otwórz menu', 'tyrepol'); ?>" aria-expanded="false" aria-controls="header-nav">
+        <button id="hamburger" class="header__burger" type="button" aria-label="<?php tyrepol_esc_attr_e('Otwórz menu', 'Open menu'); ?>" aria-expanded="false" aria-controls="header-nav">
           <span class="header__burger-line"></span>
           <span class="header__burger-line"></span>
           <span class="header__burger-line"></span>

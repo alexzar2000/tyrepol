@@ -13,8 +13,8 @@ get_header();
 ?>
 <section class="legal legal--top">
   <div class="legal__inner">
-    <h1 class="legal__title"><?php esc_html_e('Ustawienia motywu', 'tyrepol'); ?></h1>
-    <p><?php esc_html_e('Ta strona nie jest przeznaczona do publicznego wyświetlania — służy wyłącznie do przechowywania danych kontaktowych motywu w polach poniżej edytora. Nie usuwaj jej.', 'tyrepol'); ?></p>
+    <h1 class="legal__title"><?php tyrepol_esc_html_e('Ustawienia motywu', 'Theme settings'); ?></h1>
+    <p><?php tyrepol_esc_html_e('Ta strona nie jest przeznaczona do publicznego wyświetlania — służy wyłącznie do przechowywania danych kontaktowych motywu w polach poniżej edytora. Nie usuwaj jej.', 'This page is not meant to be displayed publicly — it only stores the theme\'s contact data in the fields below the editor. Do not delete it.'); ?></p>
   </div>
 </section>
 <?php get_footer(); ?>

@@ -59,10 +59,10 @@ class TyrePol_Nav_Walker extends Walker_Nav_Menu {
 function tyrepol_fallback_menu() {
     $current = tyrepol_current_path();
     $items = [
-        ['label' => __('Główna', 'tyrepol'), 'url' => home_url('/')],
-        ['label' => __('Opony / Marki', 'tyrepol'), 'url' => home_url('/opony/')],
-        ['label' => __('O TyrePol', 'tyrepol'), 'url' => home_url('/o-firmie/')],
-        ['label' => __('Kontakt', 'tyrepol'), 'url' => home_url('/kontakt/')],
+        ['label' => tyrepol_t('Główna', 'Home'), 'url' => home_url('/')],
+        ['label' => tyrepol_t('Opony / Marki', 'Tyres / Brands'), 'url' => home_url('/opony/')],
+        ['label' => tyrepol_t('O TyrePol', 'About TyrePol'), 'url' => home_url('/o-firmie/')],
+        ['label' => tyrepol_t('Kontakt', 'Contact'), 'url' => home_url('/kontakt/')],
     ];
     echo '<ul class="header__list">';
     foreach ($items as $i) {

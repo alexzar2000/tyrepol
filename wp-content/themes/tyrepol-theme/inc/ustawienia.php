@@ -25,7 +25,7 @@ function tyrepol_maybe_create_settings_page() {
     }
 
     $id = wp_insert_post([
-        'post_title'   => __('Ustawienia motywu (nie usuwaj)', 'tyrepol'),
+        'post_title'   => tyrepol_t('Ustawienia motywu (nie usuwaj)', 'Theme settings (do not delete)'),
         'post_name'    => 'ustawienia-motywu',
         'post_type'    => 'page',
         'post_status'  => 'private',
@@ -60,8 +60,8 @@ add_action('admin_menu', function () {
     if (!$id) return;
 
     add_menu_page(
-        __('Ustawienia motywu', 'tyrepol'),
-        __('Ustawienia motywu', 'tyrepol'),
+        tyrepol_t('Ustawienia motywu', 'Theme settings'),
+        tyrepol_t('Ustawienia motywu', 'Theme settings'),
         'edit_theme_options',
         'tyrepol-ustawienia',
         '__return_null',

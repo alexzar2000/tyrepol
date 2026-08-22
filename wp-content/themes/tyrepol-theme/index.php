@@ -19,8 +19,8 @@ get_header();
         <?php the_content(); ?>
       </div>
     <?php endwhile; else : ?>
-      <h1 class="legal__title"><?php esc_html_e('Nie znaleziono treści', 'tyrepol'); ?></h1>
-      <p><?php esc_html_e('Przepraszamy, nie udało się odnaleźć żądanej strony.', 'tyrepol'); ?></p>
+      <h1 class="legal__title"><?php tyrepol_esc_html_e('Nie znaleziono treści', 'Content not found'); ?></h1>
+      <p><?php tyrepol_esc_html_e('Przepraszamy, nie udało się odnaleźć żądanej strony.', 'Sorry, we couldn\'t find the page you requested.'); ?></p>
     <?php endif; ?>
   </div>
 </section>

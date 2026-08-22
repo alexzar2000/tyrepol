@@ -24,7 +24,7 @@ $rows = $args['rows'] ?? [];
         <h2 class="about-split__title"><?php echo esc_html($row['tytul'] ?? ''); ?></h2>
         <?php if (!empty($row['tekst'])) : ?><p class="about-split__text"><?php echo esc_html($row['tekst']); ?></p><?php endif; ?>
         <?php if (!empty($row['link_url'])) : ?>
-        <a class="about-split__link" href="<?php echo esc_url($row['link_url']); ?>"><?php echo esc_html($row['link_tekst'] ?: __('Zobacz ofertę', 'tyrepol')); ?>
+        <a class="about-split__link" href="<?php echo esc_url($row['link_url']); ?>"><?php echo esc_html($row['link_tekst'] ?: tyrepol_t('Zobacz ofertę', 'See offer')); ?>
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </a>
         <?php endif; ?>

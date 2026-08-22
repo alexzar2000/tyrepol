@@ -146,7 +146,7 @@ function tyrepol_handle_form_submit() {
 
     // Honeypot — pole „website” wypełnione = zgłoszenie bota, udajemy sukces i kończymy.
     if (!empty($_POST['website'])) {
-        wp_send_json_success(['message' => __('Dziękujemy.', 'tyrepol')]);
+        wp_send_json_success(['message' => tyrepol_t('Dziękujemy.', 'Thank you.')]);
     }
 
     $type    = sanitize_text_field($_POST['form_type'] ?? 'kontakt');
@@ -155,7 +155,7 @@ function tyrepol_handle_form_submit() {
     $message = sanitize_textarea_field($_POST['message'] ?? '');
 
     if (!is_email($email)) {
-        wp_send_json_error(['message' => __('Podaj poprawny adres e-mail.', 'tyrepol')], 400);
+        wp_send_json_error(['message' => tyrepol_t('Podaj poprawny adres e-mail.', 'Please enter a valid email address.')], 400);
     }
 
     $to = tyrepol_opt('formularz_odbiorca_email', get_option('admin_email'));
@@ -164,25 +164,25 @@ function tyrepol_handle_form_submit() {
     if ($type === 'wycena') {
         $size = sanitize_text_field($_POST['size'] ?? '');
         $qty  = sanitize_text_field($_POST['qty'] ?? '');
-        $subject = __('Nowe zapytanie o wycenę — TyrePol', 'tyrepol');
-        $lines[] = __('Rozmiar:', 'tyrepol') . ' ' . $size;
-        $lines[] = __('Ilość:', 'tyrepol') . ' ' . $qty;
+        $subject = tyrepol_t('Nowe zapytanie o wycenę — TyrePol', 'New quote request — TyrePol');
+        $lines[] = tyrepol_t('Rozmiar:', 'Size:') . ' ' . $size;
+        $lines[] = tyrepol_t('Ilość:', 'Quantity:') . ' ' . $qty;
     } else {
-        $subject = __('Nowa wiadomość z formularza kontaktowego — TyrePol', 'tyrepol');
+        $subject = tyrepol_t('Nowa wiadomość z formularza kontaktowego — TyrePol', 'New message from the contact form — TyrePol');
     }
 
-    $lines[] = __('E-mail:', 'tyrepol') . ' ' . $email;
-    $lines[] = __('Telefon:', 'tyrepol') . ' ' . $phone;
+    $lines[] = tyrepol_t('E-mail:', 'Email:') . ' ' . $email;
+    $lines[] = tyrepol_t('Telefon:', 'Phone:') . ' ' . $phone;
     $lines[] = '';
     $lines[] = $message;
 
     $sent = wp_mail($to, $subject, implode("\n", $lines), ['Reply-To: ' . $email]);
 
     if ($sent) {
-        wp_send_json_success(['message' => __('Wiadomość została wysłana. Skontaktujemy się wkrótce.', 'tyrepol')]);
+        wp_send_json_success(['message' => tyrepol_t('Wiadomość została wysłana. Skontaktujemy się wkrótce.', 'Your message has been sent. We\'ll be in touch soon.')]);
     }
 
-    wp_send_json_error(['message' => __('Nie udało się wysłać wiadomości. Spróbuj ponownie lub zadzwoń do nas.', 'tyrepol')], 500);
+    wp_send_json_error(['message' => tyrepol_t('Nie udało się wysłać wiadomości. Spróbuj ponownie lub zadzwoń do nas.', 'We couldn\'t send the message. Please try again or call us.')], 500);
 }
 add_action('wp_ajax_tyrepol_send_form', 'tyrepol_handle_form_submit');
 add_action('wp_ajax_nopriv_tyrepol_send_form', 'tyrepol_handle_form_submit');

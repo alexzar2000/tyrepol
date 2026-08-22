@@ -43,7 +43,7 @@ get_header();
             <p class="hero__desc" data-swiper-parallax-y="-160" data-swiper-parallax-duration="1400"><?php echo esc_html($opis); ?></p>
             <?php if (!empty($link_url)) : ?>
             <div class="hero__link-wrap" data-swiper-parallax-y="-200" data-swiper-parallax-duration="1500">
-              <a class="hero__link" href="<?php echo esc_url($link_url); ?>"><?php echo esc_html($link_tekst ?: __('Sprawdź ofertę', 'tyrepol')); ?>
+              <a class="hero__link" href="<?php echo esc_url($link_url); ?>"><?php echo esc_html($link_tekst ?: tyrepol_t('Sprawdź ofertę', 'See our offer')); ?>
                 <svg class="hero__link-icon" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
                   <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                     <circle class="hero__link-circle" cx="16" cy="16" r="15.12"></circle>
@@ -60,7 +60,7 @@ get_header();
     </div>
 
     <div class="hero__scroll">
-      <a class="hero__scroll-btn" href="#faq" aria-label="<?php esc_attr_e('Przewiń w dół', 'tyrepol'); ?>">
+      <a class="hero__scroll-btn" href="#faq" aria-label="<?php tyrepol_esc_attr_e('Przewiń w dół', 'Scroll down'); ?>">
         <span class="hero__scroll-fill" aria-hidden="true"></span>
         <svg class="hero__scroll-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </a>
@@ -68,10 +68,10 @@ get_header();
 
     <div class="hero__nav-pag">
       <div class="hero__nav">
-        <button class="hero__nav-btn hero__nav-btn--prev" type="button" aria-label="<?php esc_attr_e('Poprzedni slajd', 'tyrepol'); ?>">
+        <button class="hero__nav-btn hero__nav-btn--prev" type="button" aria-label="<?php tyrepol_esc_attr_e('Poprzedni slajd', 'Previous slide'); ?>">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M8 2L3 7M8 2l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
-        <button class="hero__nav-btn hero__nav-btn--next" type="button" aria-label="<?php esc_attr_e('Następny slajd', 'tyrepol'); ?>">
+        <button class="hero__nav-btn hero__nav-btn--next" type="button" aria-label="<?php tyrepol_esc_attr_e('Następny slajd', 'Next slide'); ?>">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14V2M8 14l-5-5M8 14l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
       </div>
@@ -83,12 +83,12 @@ get_header();
     <div class="brands__inner">
 
       <div class="brands__header reveal">
-        <h2 class="brands__title"><?php echo esc_html(get_field('marki_naglowek') ?: __('Marki w naszej ofercie', 'tyrepol')); ?></h2>
+        <h2 class="brands__title"><?php echo esc_html(get_field('marki_naglowek') ?: tyrepol_t('Marki w naszej ofercie', 'Brands in our offer')); ?></h2>
         <p class="brands__desc"><?php echo esc_html(get_field('marki_opis')); ?></p>
       </div>
 
       <div class="brands__carousel reveal">
-        <button class="brands__nav brands__nav--prev" type="button" aria-label="<?php esc_attr_e('Poprzedni slajd', 'tyrepol'); ?>">
+        <button class="brands__nav brands__nav--prev" type="button" aria-label="<?php tyrepol_esc_attr_e('Poprzedni slajd', 'Previous slide'); ?>">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2 4 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
 
@@ -105,14 +105,14 @@ get_header();
             ?>
             <a class="brands__slide swiper-slide" href="<?php echo esc_url($marka_url); ?>">
               <span class="brands__logo-box">
-                <?php echo wp_get_attachment_image($logo, 'medium', false, ['class' => 'brands__logo', 'alt' => sprintf(__('Logo marki %s', 'tyrepol'), $term->name)]); ?>
+                <?php echo wp_get_attachment_image($logo, 'medium', false, ['class' => 'brands__logo', 'alt' => sprintf(tyrepol_t('Logo marki %s', '%s brand logo'), $term->name)]); ?>
               </span>
             </a>
             <?php endforeach; ?>
           </div>
         </div>
 
-        <button class="brands__nav brands__nav--next" type="button" aria-label="<?php esc_attr_e('Następny slajd', 'tyrepol'); ?>">
+        <button class="brands__nav brands__nav--next" type="button" aria-label="<?php tyrepol_esc_attr_e('Następny slajd', 'Next slide'); ?>">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
       </div>
@@ -122,7 +122,7 @@ get_header();
     </div>
   </section>
 
-  <?php get_template_part('template-parts/section-cta-button', null, ['tekst' => get_field('cta_miedzysekcyjne_tekst') ?: __('Darmowa wycena', 'tyrepol')]); ?>
+  <?php get_template_part('template-parts/section-cta-button', null, ['tekst' => get_field('cta_miedzysekcyjne_tekst') ?: tyrepol_t('Darmowa wycena', 'Free quote')]); ?>
 
   <?php
   // FAQ jest teraz WSPÓLNE dla wszystkich stron — edytuje się raz w Ustawienia motywu → FAQ,

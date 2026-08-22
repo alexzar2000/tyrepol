@@ -15,15 +15,15 @@ if (!defined('ABSPATH')) exit;
 function tyrepol_register_slajd_hero_cpt() {
     register_post_type('slajd_hero', [
         'labels' => [
-            'name'               => __('Slajdy hero', 'tyrepol'),
-            'singular_name'      => __('Slajd hero', 'tyrepol'),
-            'add_new_item'       => __('Dodaj nowy slajd', 'tyrepol'),
-            'edit_item'          => __('Edytuj slajd', 'tyrepol'),
-            'all_items'          => __('Slajdy hero (Strona główna)', 'tyrepol'),
-            'search_items'       => __('Szukaj slajdów', 'tyrepol'),
-            'not_found'          => __('Nie znaleziono slajdów', 'tyrepol'),
-            'menu_name'          => __('Slajdy hero', 'tyrepol'),
-            'attributes'         => __('Kolejność slajdu', 'tyrepol'),
+            'name'               => tyrepol_t('Slajdy hero', 'Hero slides'),
+            'singular_name'      => tyrepol_t('Slajd hero', 'Hero slide'),
+            'add_new_item'       => tyrepol_t('Dodaj nowy slajd', 'Add new slide'),
+            'edit_item'          => tyrepol_t('Edytuj slajd', 'Edit slide'),
+            'all_items'          => tyrepol_t('Slajdy hero (Strona główna)', 'Hero slides (Homepage)'),
+            'search_items'       => tyrepol_t('Szukaj slajdów', 'Search slides'),
+            'not_found'          => tyrepol_t('Nie znaleziono slajdów', 'No slides found'),
+            'menu_name'          => tyrepol_t('Slajdy hero', 'Hero slides'),
+            'attributes'         => tyrepol_t('Kolejność slajdu', 'Slide order'),
         ],
         'public'              => false,
         'publicly_queryable'  => false,
@@ -60,8 +60,8 @@ add_filter('pll_get_post_types', function ($post_types) {
 add_action('edit_form_after_title', function ($post) {
     if (!$post || $post->post_type !== 'slajd_hero') return;
     echo '<div class="notice notice-info inline" style="margin:14px 0 0;padding:10px 14px;">'
-        . '<p>' . esc_html__('Zdjęcie slajdu ustaw jako „Obrazek wyróżniający” (panel po prawej). Zalecany rozmiar: 1400 × 1000 px (proporcja ok. 1,4:1) — zdjęcie o innych proporcjach zostanie przycięte przez CSS, żeby wypełnić kadr.', 'tyrepol') . '</p>'
-        . '<p>' . esc_html__('Kolejność slajdów w karuzeli ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = slajd pokazuje się wcześniej).', 'tyrepol') . '</p>'
+        . '<p>' . tyrepol_esc_html('Zdjęcie slajdu ustaw jako „Obrazek wyróżniający” (panel po prawej). Zalecany rozmiar: 1400 × 1000 px (proporcja ok. 1,4:1) — zdjęcie o innych proporcjach zostanie przycięte przez CSS, żeby wypełnić kadr.', 'Set the slide image as the "Featured image" (panel on the right). Recommended size: 1400 × 1000 px (ratio approx. 1.4:1) — an image with different proportions will be cropped by CSS to fill the frame.') . '</p>'
+        . '<p>' . tyrepol_esc_html('Kolejność slajdów w karuzeli ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = slajd pokazuje się wcześniej).', 'The slide order in the carousel is set by the "Order" field in the "Attributes" panel on the right (a lower number = the slide appears earlier).') . '</p>'
         . '</div>';
 });
 
@@ -74,10 +74,10 @@ add_filter('manage_slajd_hero_posts_columns', function ($columns) {
     foreach ($columns as $key => $label) {
         $new[$key] = $label;
         if ($key === 'title') {
-            $new['tyrepol_miniatura'] = __('Zdjęcie', 'tyrepol');
+            $new['tyrepol_miniatura'] = tyrepol_t('Zdjęcie', 'Image');
         }
     }
-    $new['tyrepol_kolejnosc'] = __('Kolejność', 'tyrepol');
+    $new['tyrepol_kolejnosc'] = tyrepol_t('Kolejność', 'Order');
     return $new;
 });
 add_action('manage_slajd_hero_posts_custom_column', function ($column, $post_id) {

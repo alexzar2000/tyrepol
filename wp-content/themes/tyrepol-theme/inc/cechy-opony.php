@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) exit;
 add_action('add_meta_boxes', function () {
     add_meta_box(
         'tyrepol_cechy_dodatkowe',
-        __('Dodatkowe parametry (z rejestru „Cechy opon”)', 'tyrepol'),
+        tyrepol_t('Dodatkowe parametry (z rejestru „Cechy opon”)', 'Additional parameters (from the "Tyre features" registry)'),
         'tyrepol_render_cechy_meta_box',
         'opona',
         'normal',
@@ -40,8 +40,8 @@ function tyrepol_render_cechy_meta_box($post) {
             '<p>%s</p>',
             sprintf(
                 /* translators: %s: link do ekranu zarządzania rejestrem parametrów */
-                esc_html__('Rejestr parametrów jest jeszcze pusty. Najpierw dodaj parametr w %s.', 'tyrepol'),
-                '<a href="' . esc_url(admin_url('edit-tags.php?taxonomy=cecha-opony&post_type=opona')) . '">' . esc_html__('Opony → Cechy opon', 'tyrepol') . '</a>'
+                tyrepol_esc_html('Rejestr parametrów jest jeszcze pusty. Najpierw dodaj parametr w %s.', 'The parameter registry is still empty. First add a parameter in %s.'),
+                '<a href="' . esc_url(admin_url('edit-tags.php?taxonomy=cecha-opony&post_type=opona')) . '">' . tyrepol_esc_html('Opony → Cechy opon', 'Tyres → Tyre features') . '</a>'
             )
         );
         return;
@@ -53,7 +53,7 @@ function tyrepol_render_cechy_meta_box($post) {
     echo '<table class="form-table" role="presentation"><tbody>';
     foreach ($terms as $term) {
         $typ = function_exists('get_field') ? get_field('sposob_wyswietlania', 'cecha-opony_' . $term->term_id) : 'tekst';
-        $typ_label = ($typ === 'ikona') ? __('ikona', 'tyrepol') : __('tekst', 'tyrepol');
+        $typ_label = ($typ === 'ikona') ? tyrepol_t('ikona', 'icon') : tyrepol_t('tekst', 'text');
         $value = $values[$term->term_id] ?? '';
         printf(
             '<tr><th scope="row" style="font-weight:400;"><label for="tyrepol_cecha_%1$d">%2$s</label><br><span class="description">(%3$s)</span></th><td><input type="text" class="regular-text" id="tyrepol_cecha_%1$d" name="tyrepol_cecha_wartosc[%1$d]" value="%4$s"></td></tr>',
@@ -64,7 +64,7 @@ function tyrepol_render_cechy_meta_box($post) {
         );
     }
     echo '</tbody></table>';
-    echo '<p class="description">' . esc_html__('Puste pole = ten parametr nie pojawi się w tabeli na stronie produktu dla tego wariantu.', 'tyrepol') . '</p>';
+    echo '<p class="description">' . tyrepol_esc_html('Puste pole = ten parametr nie pojawi się w tabeli na stronie produktu dla tego wariantu.', 'An empty field means this parameter won\'t appear in the table on the product page for this variant.') . '</p>';
 }
 
 add_action('save_post_opona', function ($post_id) {

@@ -11,14 +11,14 @@ function tyrepol_register_opona_cpt() {
 
     register_post_type('opona', [
         'labels' => [
-            'name'               => __('Opony', 'tyrepol'),
-            'singular_name'      => __('Opona', 'tyrepol'),
-            'add_new_item'       => __('Dodaj nową oponę', 'tyrepol'),
-            'edit_item'          => __('Edytuj oponę', 'tyrepol'),
-            'all_items'          => __('Wszystkie opony', 'tyrepol'),
-            'search_items'       => __('Szukaj opon', 'tyrepol'),
-            'not_found'          => __('Nie znaleziono opon', 'tyrepol'),
-            'menu_name'          => __('Katalog opon', 'tyrepol'),
+            'name'               => tyrepol_t('Opony', 'Tyres'),
+            'singular_name'      => tyrepol_t('Opona', 'Tyre'),
+            'add_new_item'       => tyrepol_t('Dodaj nową oponę', 'Add new tyre'),
+            'edit_item'          => tyrepol_t('Edytuj oponę', 'Edit tyre'),
+            'all_items'          => tyrepol_t('Wszystkie opony', 'All tyres'),
+            'search_items'       => tyrepol_t('Szukaj opon', 'Search tyres'),
+            'not_found'          => tyrepol_t('Nie znaleziono opon', 'No tyres found'),
+            'menu_name'          => tyrepol_t('Katalog opon', 'Tyre catalogue'),
         ],
         'public'             => true,
         'show_in_rest'       => true,
@@ -34,40 +34,40 @@ function tyrepol_register_opona_cpt() {
 
     $taxonomies = [
         'marka-opony' => [
-            'label'  => __('Marka', 'tyrepol'),
-            'plural' => __('Marki', 'tyrepol'),
+            'label'  => tyrepol_t('Marka', 'Brand'),
+            'plural' => tyrepol_t('Marki', 'Brands'),
             'terms'  => [
-                'saucerman' => __('Saucerman', 'tyrepol'),
-                'falken'    => __('Falken', 'tyrepol'),
+                'saucerman' => tyrepol_t('Saucerman', 'Saucerman'),
+                'falken'    => tyrepol_t('Falken', 'Falken'),
             ],
         ],
         'os-montazu' => [
-            'label'  => __('Oś montażu', 'tyrepol'),
-            'plural' => __('Osie montażu', 'tyrepol'),
+            'label'  => tyrepol_t('Oś montażu', 'Axle position'),
+            'plural' => tyrepol_t('Osie montażu', 'Axle positions'),
             'terms'  => [
-                'steer'   => __('Steer (kierowana)', 'tyrepol'),
-                'drive'   => __('Drive (napędowa)', 'tyrepol'),
-                'trailer' => __('Trailer (naczepy)', 'tyrepol'),
-                'on-off'  => __('On/Off (uniwersalna)', 'tyrepol'),
-                'winter'  => __('Winter (zimowa)', 'tyrepol'),
-                'a-p'     => __('A/P', 'tyrepol'),
+                'steer'   => tyrepol_t('Steer (kierowana)', 'Steer'),
+                'drive'   => tyrepol_t('Drive (napędowa)', 'Drive'),
+                'trailer' => tyrepol_t('Trailer (naczepy)', 'Trailer'),
+                'on-off'  => tyrepol_t('On/Off (uniwersalna)', 'On/Off (universal)'),
+                'winter'  => tyrepol_t('Winter (zimowa)', 'Winter'),
+                'a-p'     => tyrepol_t('A/P', 'A/P'),
             ],
         ],
         'sezon-opony' => [
-            'label'  => __('Sezon', 'tyrepol'),
-            'plural' => __('Sezony', 'tyrepol'),
+            'label'  => tyrepol_t('Sezon', 'Season'),
+            'plural' => tyrepol_t('Sezony', 'Seasons'),
             'terms'  => [
-                'lato'       => __('Lato', 'tyrepol'),
-                'zima'       => __('Zima', 'tyrepol'),
-                'caloroczne' => __('Całoroczne', 'tyrepol'),
+                'lato'       => tyrepol_t('Lato', 'Summer'),
+                'zima'       => tyrepol_t('Zima', 'Winter'),
+                'caloroczne' => tyrepol_t('Całoroczne', 'All-season'),
             ],
         ],
         'typ-pojazdu' => [
-            'label'  => __('Typ pojazdu', 'tyrepol'),
-            'plural' => __('Typy pojazdów', 'tyrepol'),
+            'label'  => tyrepol_t('Typ pojazdu', 'Vehicle type'),
+            'plural' => tyrepol_t('Typy pojazdów', 'Vehicle types'),
             'terms'  => [
-                'ciezarowe' => __('Ciężarowe', 'tyrepol'),
-                'dostawcze' => __('Dostawcze', 'tyrepol'),
+                'ciezarowe' => tyrepol_t('Ciężarowe', 'Trucks'),
+                'dostawcze' => tyrepol_t('Dostawcze', 'Vans'),
             ],
         ],
     ];
@@ -98,13 +98,13 @@ function tyrepol_register_opona_cpt() {
     // opon naraz, zamiast wpisywać je osobno przy każdej sztuce.
     register_taxonomy('cecha-opony', ['opona'], [
         'labels' => [
-            'name'          => __('Cechy opon', 'tyrepol'),
-            'singular_name' => __('Cecha opony', 'tyrepol'),
-            'add_new_item'  => __('Dodaj nowy parametr', 'tyrepol'),
-            'edit_item'     => __('Edytuj parametr', 'tyrepol'),
-            'search_items'  => __('Szukaj parametrów', 'tyrepol'),
-            'not_found'     => __('Nie znaleziono parametrów', 'tyrepol'),
-            'menu_name'     => __('Cechy opon', 'tyrepol'),
+            'name'          => tyrepol_t('Cechy opon', 'Tyre features'),
+            'singular_name' => tyrepol_t('Cecha opony', 'Tyre feature'),
+            'add_new_item'  => tyrepol_t('Dodaj nowy parametr', 'Add new parameter'),
+            'edit_item'     => tyrepol_t('Edytuj parametr', 'Edit parameter'),
+            'search_items'  => tyrepol_t('Szukaj parametrów', 'Search parameters'),
+            'not_found'     => tyrepol_t('Nie znaleziono parametrów', 'No parameters found'),
+            'menu_name'     => tyrepol_t('Cechy opon', 'Tyre features'),
         ],
         'hierarchical'      => false,
         'public'            => false,
@@ -161,8 +161,8 @@ add_action('init', 'tyrepol_maybe_seed_taxonomies', 20);
  * do tego samego modelu, bez otwierania każdego z osobna.
  */
 add_filter('manage_opona_posts_columns', function ($columns) {
-    $columns['wzor_bieznika'] = __('Wzór bieżnika (model)', 'tyrepol');
-    $columns['rozmiar'] = __('Rozmiar', 'tyrepol');
+    $columns['wzor_bieznika'] = tyrepol_t('Wzór bieżnika (model)', 'Tread pattern (model)');
+    $columns['rozmiar'] = tyrepol_t('Rozmiar', 'Size');
     return $columns;
 });
 add_action('manage_opona_posts_custom_column', function ($column, $post_id) {
@@ -185,13 +185,13 @@ add_action('manage_opona_posts_custom_column', function ($column, $post_id) {
 add_action('edit_form_after_title', function ($post) {
     if (!$post || $post->post_type !== 'opona') return;
     echo '<div class="notice notice-info inline" style="margin:14px 0 0;padding:10px 14px;">'
-        . '<p>' . esc_html__('Jeden wpis = jeden rozmiar. Kilka wpisów z TAKIM SAMYM „Wzorem bieżnika” i TĄ SAMĄ „Marką” (po prawej) automatycznie łączy się w jedną kartę w katalogu i jedną stronę produktu z tabelą wszystkich rozmiarów — nic więcej nie trzeba zaznaczać.', 'tyrepol') . '</p>'
-        . '<p>' . esc_html__('Kolejność wierszy w tabeli rozmiarów ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = wyżej).', 'tyrepol') . '</p>'
+        . '<p>' . tyrepol_esc_html('Jeden wpis = jeden rozmiar. Kilka wpisów z TAKIM SAMYM „Wzorem bieżnika” i TĄ SAMĄ „Marką” (po prawej) automatycznie łączy się w jedną kartę w katalogu i jedną stronę produktu z tabelą wszystkich rozmiarów — nic więcej nie trzeba zaznaczać.', 'One entry = one size. Several entries with the SAME "Tread pattern" and the SAME "Brand" (on the right) automatically merge into one catalogue card and one product page with a table of all sizes — nothing else needs to be set.') . '</p>'
+        . '<p>' . tyrepol_esc_html('Kolejność wierszy w tabeli rozmiarów ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = wyżej).', 'The row order in the size table is set by the "Order" field in the "Attributes" panel on the right (a lower number = higher up).') . '</p>'
         . '</div>';
 
     if (!function_exists('pll_get_post_language')) {
         echo '<div class="notice notice-warning inline" style="margin:10px 0 0;padding:10px 14px;">'
-            . '<p>' . esc_html__('Wtyczka Polylang nie jest aktywna — wersja angielska NIE utworzy się automatycznie po zapisaniu tej opony. Zainstaluj i aktywuj Polylang (patrz punkt 1 i 8 instrukcji), żeby to zadziałało.', 'tyrepol') . '</p>'
+            . '<p>' . tyrepol_esc_html('Wtyczka Polylang nie jest aktywna — wersja angielska NIE utworzy się automatycznie po zapisaniu tej opony. Zainstaluj i aktywuj Polylang (patrz punkt 1 i 8 instrukcji), żeby to zadziałało.', 'The Polylang plugin is not active — the English version will NOT be created automatically when you save this tyre. Install and activate Polylang (see points 1 and 8 of the instructions) for this to work.') . '</p>'
             . '</div>';
     }
 });
@@ -242,24 +242,24 @@ add_filter('post_row_actions', function ($actions, $post) {
         admin_url('admin.php?action=tyrepol_duplikuj_opone&post=' . $post->ID),
         'tyrepol_duplikuj_opone_' . $post->ID
     );
-    $actions['tyrepol_duplikuj'] = '<a href="' . esc_url($url) . '">' . esc_html__('Duplikuj', 'tyrepol') . '</a>';
+    $actions['tyrepol_duplikuj'] = '<a href="' . esc_url($url) . '">' . tyrepol_esc_html('Duplikuj', 'Duplicate') . '</a>';
     return $actions;
 }, 10, 2);
 
 add_action('admin_action_tyrepol_duplikuj_opone', function () {
     $post_id = isset($_GET['post']) ? (int) $_GET['post'] : 0;
     if (!$post_id || !current_user_can('edit_post', $post_id)) {
-        wp_die(esc_html__('Brak uprawnień do tej operacji.', 'tyrepol'));
+        wp_die(tyrepol_esc_html('Brak uprawnień do tej operacji.', 'You don\'t have permission to perform this action.'));
     }
     check_admin_referer('tyrepol_duplikuj_opone_' . $post_id);
 
     $original = get_post($post_id);
     if (!$original || $original->post_type !== 'opona') {
-        wp_die(esc_html__('Nie znaleziono opony do duplikowania.', 'tyrepol'));
+        wp_die(tyrepol_esc_html('Nie znaleziono opony do duplikowania.', 'Tyre to duplicate not found.'));
     }
 
     $new_id = wp_insert_post([
-        'post_title'   => $original->post_title . ' ' . __('(kopia)', 'tyrepol'),
+        'post_title'   => $original->post_title . ' ' . tyrepol_t('(kopia)', '(copy)'),
         'post_content' => $original->post_content,
         'post_excerpt' => $original->post_excerpt,
         'post_status'  => 'draft',

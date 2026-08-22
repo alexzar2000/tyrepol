@@ -47,10 +47,10 @@ while (have_posts()) : the_post();
     if (empty($variants)) $variants = [get_post()]; // zabezpieczenie — przynajmniej bieżący wpis
 ?>
 
-  <nav class="breadcrumb" aria-label="<?php esc_attr_e('Okruszki nawigacyjne', 'tyrepol'); ?>">
+  <nav class="breadcrumb" aria-label="<?php tyrepol_esc_attr_e('Okruszki nawigacyjne', 'Breadcrumbs'); ?>">
     <div class="breadcrumb__inner">
       <ol class="breadcrumb__list">
-        <li class="breadcrumb__item"><a class="breadcrumb__link" href="<?php echo esc_url($catalog_url); ?>"><?php esc_html_e('Wszystkie opony', 'tyrepol'); ?></a></li>
+        <li class="breadcrumb__item"><a class="breadcrumb__link" href="<?php echo esc_url($catalog_url); ?>"><?php tyrepol_esc_html_e('Wszystkie opony', 'All tyres'); ?></a></li>
         <?php if ($vehicle) : ?>
         <li class="breadcrumb__sep" aria-hidden="true">&rsaquo;</li>
         <li class="breadcrumb__item"><a class="breadcrumb__link" href="<?php echo esc_url(add_query_arg('vehicle', $vehicle->slug, $catalog_url)); ?>"><?php echo esc_html($vehicle->name); ?></a></li>
@@ -97,10 +97,10 @@ while (have_posts()) : the_post();
             };
 
             $fixed_defs = [
-                ['label' => __('Seria', 'tyrepol'), 'get' => fn($id) => get_field('wzor_bieznika', $id) ?: $wzor],
-                ['label' => __('Rozmiar', 'tyrepol'), 'get' => fn($id) => get_field('rozmiar', $id)],
-                ['label' => __('Oś montażu', 'tyrepol'), 'get' => fn($id) => $term_names($id, 'os-montazu')],
-                ['label' => __('Sezon', 'tyrepol'), 'get' => fn($id) => $term_names($id, 'sezon-opony')],
+                ['label' => tyrepol_t('Seria', 'Series'), 'get' => fn($id) => get_field('wzor_bieznika', $id) ?: $wzor],
+                ['label' => tyrepol_t('Rozmiar', 'Size'), 'get' => fn($id) => get_field('rozmiar', $id)],
+                ['label' => tyrepol_t('Oś montażu', 'Axle position'), 'get' => fn($id) => $term_names($id, 'os-montazu')],
+                ['label' => tyrepol_t('Sezon', 'Season'), 'get' => fn($id) => $term_names($id, 'sezon-opony')],
             ];
 
             $variant_ids = wp_list_pluck($variants, 'ID');
@@ -177,7 +177,7 @@ while (have_posts()) : the_post();
           </div>
 
           <div class="tire-detail__cta-wrap">
-            <button class="tire-detail__cta" type="button" data-modal-open="quote-modal"><?php esc_html_e('Darmowa wycena', 'tyrepol'); ?></button>
+            <button class="tire-detail__cta" type="button" data-modal-open="quote-modal"><?php tyrepol_esc_html_e('Darmowa wycena', 'Free quote'); ?></button>
           </div>
         </div>
 

@@ -16,15 +16,15 @@ if (!defined('ABSPATH')) exit;
 function tyrepol_register_pytanie_faq_cpt() {
     register_post_type('pytanie_faq', [
         'labels' => [
-            'name'               => __('Pytania FAQ', 'tyrepol'),
-            'singular_name'      => __('Pytanie FAQ', 'tyrepol'),
-            'add_new_item'       => __('Dodaj nowe pytanie', 'tyrepol'),
-            'edit_item'          => __('Edytuj pytanie', 'tyrepol'),
-            'all_items'          => __('Pytania FAQ (wspólne dla wszystkich stron)', 'tyrepol'),
-            'search_items'       => __('Szukaj pytań', 'tyrepol'),
-            'not_found'          => __('Nie znaleziono pytań', 'tyrepol'),
-            'menu_name'          => __('Pytania FAQ', 'tyrepol'),
-            'attributes'         => __('Kolejność pytania', 'tyrepol'),
+            'name'               => tyrepol_t('Pytania FAQ', 'FAQ questions'),
+            'singular_name'      => tyrepol_t('Pytanie FAQ', 'FAQ question'),
+            'add_new_item'       => tyrepol_t('Dodaj nowe pytanie', 'Add new question'),
+            'edit_item'          => tyrepol_t('Edytuj pytanie', 'Edit question'),
+            'all_items'          => tyrepol_t('Pytania FAQ (wspólne dla wszystkich stron)', 'FAQ questions (shared across all pages)'),
+            'search_items'       => tyrepol_t('Szukaj pytań', 'Search questions'),
+            'not_found'          => tyrepol_t('Nie znaleziono pytań', 'No questions found'),
+            'menu_name'          => tyrepol_t('Pytania FAQ', 'FAQ questions'),
+            'attributes'         => tyrepol_t('Kolejność pytania', 'Question order'),
         ],
         'public'              => false,
         'publicly_queryable'  => false,
@@ -58,8 +58,8 @@ add_filter('pll_get_post_types', function ($post_types) {
 add_action('edit_form_after_title', function ($post) {
     if (!$post || $post->post_type !== 'pytanie_faq') return;
     echo '<div class="notice notice-info inline" style="margin:14px 0 0;padding:10px 14px;">'
-        . '<p>' . esc_html__('Tytuł u góry = treść pytania. Pole poniżej (edytor) = treść odpowiedzi — wpisz zwykły tekst, bez pogrubień/linków (formatowanie i tak nie pokaże się na stronie).', 'tyrepol') . '</p>'
-        . '<p>' . esc_html__('Kolejność pytań na stronie ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = pytanie pokazuje się wyżej).', 'tyrepol') . '</p>'
+        . '<p>' . tyrepol_esc_html('Tytuł u góry = treść pytania. Pole poniżej (edytor) = treść odpowiedzi — wpisz zwykły tekst, bez pogrubień/linków (formatowanie i tak nie pokaże się na stronie).', 'The title above = the question text. The field below (editor) = the answer text — enter plain text, without bold/links (formatting won\'t show on the page anyway).') . '</p>'
+        . '<p>' . tyrepol_esc_html('Kolejność pytań na stronie ustawia pole „Kolejność” w panelu „Atrybuty” po prawej (mniejsza liczba = pytanie pokazuje się wyżej).', 'The question order on the page is set by the "Order" field in the "Attributes" panel on the right (a lower number = the question appears higher).') . '</p>'
         . '</div>';
 });
 
@@ -67,7 +67,7 @@ add_action('edit_form_after_title', function ($post) {
  * Kolumna z kolejnością na liście admina.
  */
 add_filter('manage_pytanie_faq_posts_columns', function ($columns) {
-    $columns['tyrepol_kolejnosc'] = __('Kolejność', 'tyrepol');
+    $columns['tyrepol_kolejnosc'] = tyrepol_t('Kolejność', 'Order');
     return $columns;
 });
 add_action('manage_pytanie_faq_posts_custom_column', function ($column, $post_id) {

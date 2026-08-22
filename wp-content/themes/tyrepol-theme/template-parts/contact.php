@@ -18,21 +18,21 @@ $socials = [
   <div class="contact__inner">
 
     <div class="contact__header reveal">
-      <h2 class="contact__title"><?php echo esc_html(tyrepol_opt('kontakt_naglowek', __('Kontakt', 'tyrepol'))); ?></h2>
-      <p class="contact__desc"><?php echo esc_html(tyrepol_opt('kontakt_opis', __('Masz pytanie dotyczące opon, felg lub oferty? Napisz do nas lub odwiedź nas osobiście — chętnie pomożemy dobrać najlepsze rozwiązanie.', 'tyrepol'))); ?></p>
+      <h2 class="contact__title"><?php echo esc_html(tyrepol_opt('kontakt_naglowek', tyrepol_t('Kontakt', 'Contact'))); ?></h2>
+      <p class="contact__desc"><?php echo esc_html(tyrepol_opt('kontakt_opis', tyrepol_t('Masz pytanie dotyczące opon, felg lub oferty? Napisz do nas lub odwiedź nas osobiście — chętnie pomożemy dobrać najlepsze rozwiązanie.', 'Have a question about tyres, rims or our offer? Write to us or visit us in person — we\'ll be happy to help you choose the best solution.'))); ?></p>
     </div>
 
     <?php if ($map = tyrepol_opt('mapa_embed_url')) : ?>
     <div class="contact__map reveal">
-      <iframe src="<?php echo esc_url($map); ?>" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="<?php esc_attr_e('Mapa — lokalizacja firmy', 'tyrepol'); ?>"></iframe>
+      <iframe src="<?php echo esc_url($map); ?>" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="<?php tyrepol_esc_attr_e('Mapa — lokalizacja firmy', 'Map — company location'); ?>"></iframe>
     </div>
     <?php endif; ?>
 
     <div class="contact__grid">
 
       <div class="contact__info reveal">
-        <h2 class="contact__info-heading"><?php esc_html_e('Skontaktuj się z nami', 'tyrepol'); ?></h2>
-        <p class="contact__info-lead"><?php echo esc_html(tyrepol_opt('kontakt_lead', __('Zapraszamy do kontaktu telefonicznego, mailowego lub osobistej wizyty w naszej siedzibie.', 'tyrepol'))); ?></p>
+        <h2 class="contact__info-heading"><?php tyrepol_esc_html_e('Skontaktuj się z nami', 'Get in touch'); ?></h2>
+        <p class="contact__info-lead"><?php echo esc_html(tyrepol_opt('kontakt_lead', tyrepol_t('Zapraszamy do kontaktu telefonicznego, mailowego lub osobistej wizyty w naszej siedzibie.', 'Feel free to contact us by phone, email, or visit our office in person.'))); ?></p>
 
         <div class="contact__info-block">
           <h3 class="contact__info-title"><?php echo esc_html(tyrepol_opt('firma_nazwa', 'TyrePol')); ?></h3>
@@ -48,7 +48,7 @@ $socials = [
         for ($i = 1; $i <= 3; $i++) { $l = tyrepol_opt('biuro_adres_linia_' . $i); if ($l) $biuro_linie[] = $l; }
         if (tyrepol_opt('biuro_naglowek') || $biuro_linie) : ?>
         <div class="contact__info-block">
-          <h3 class="contact__info-title"><?php echo esc_html(tyrepol_opt('biuro_naglowek', __('Biuro / Magazyn', 'tyrepol'))); ?></h3>
+          <h3 class="contact__info-title"><?php echo esc_html(tyrepol_opt('biuro_naglowek', tyrepol_t('Biuro / Magazyn', 'Office / Warehouse'))); ?></h3>
           <ul class="contact__info-list">
             <?php foreach ($biuro_linie as $linia) : ?>
               <li class="contact__info-item"><?php echo esc_html($linia); ?></li>
@@ -83,33 +83,33 @@ $socials = [
       <form class="contact__form reveal" id="contact-form" method="post">
         <input type="hidden" name="form_type" value="kontakt">
         <div class="form__honeypot" aria-hidden="true">
-          <label for="contact-website"><?php esc_html_e('Strona internetowa', 'tyrepol'); ?></label>
+          <label for="contact-website"><?php tyrepol_esc_html_e('Strona internetowa', 'Website'); ?></label>
           <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off">
         </div>
 
         <div class="form__group">
-          <label class="form__label" for="contact-email"><?php esc_html_e('E-mail', 'tyrepol'); ?> *</label>
+          <label class="form__label" for="contact-email"><?php tyrepol_esc_html_e('E-mail', 'Email'); ?> *</label>
           <input class="form__input" type="email" id="contact-email" name="email" required>
         </div>
 
         <div class="form__group">
-          <label class="form__label" for="contact-phone"><?php esc_html_e('Telefon', 'tyrepol'); ?></label>
+          <label class="form__label" for="contact-phone"><?php tyrepol_esc_html_e('Telefon', 'Phone'); ?></label>
           <input class="form__input" type="tel" id="contact-phone" name="phone">
         </div>
 
         <div class="form__group">
-          <label class="form__label" for="contact-message"><?php esc_html_e('Wiadomość', 'tyrepol'); ?></label>
+          <label class="form__label" for="contact-message"><?php tyrepol_esc_html_e('Wiadomość', 'Message'); ?></label>
           <textarea class="form__textarea" id="contact-message" name="message" rows="5"></textarea>
         </div>
 
         <div class="form__group form__group--checkbox">
           <input class="form__checkbox" type="checkbox" id="contact-rodo" name="rodo" required>
-          <label class="form__checkbox-label" for="contact-rodo"><?php echo wp_kses_post(tyrepol_strip_wrapping_p(tyrepol_opt('tekst_zgody_rodo', __('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'tyrepol')))); ?> *</label>
+          <label class="form__checkbox-label" for="contact-rodo"><?php echo wp_kses_post(tyrepol_strip_wrapping_p(tyrepol_opt('tekst_zgody_rodo', tyrepol_t('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'I agree to the processing of my personal data in order to receive a reply to my enquiry, in accordance with the Privacy Policy.')))); ?> *</label>
         </div>
 
         <p class="form__status" id="contact-form-status" role="status" aria-live="polite" hidden></p>
 
-        <button class="form__submit" type="submit"><?php esc_html_e('Wyślij', 'tyrepol'); ?></button>
+        <button class="form__submit" type="submit"><?php tyrepol_esc_html_e('Wyślij', 'Send'); ?></button>
       </form>
 
     </div>
