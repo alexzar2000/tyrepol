@@ -3,6 +3,14 @@
     "title": "Cecha opony — ustawienia",
     "fields": [
         {
+            "key": "field_cecha_nazwa_en",
+            "label": "Nazwa parametru (EN)",
+            "name": "nazwa_en",
+            "type": "text",
+            "instructions": "Nagłówek kolumny na angielskiej wersji strony produktu. Puste = pokaże się zwykła polska nazwa tego parametru (nic się nie zepsuje).",
+            "placeholder": ""
+        },
+        {
             "key": "field_cecha_sposob",
             "label": "Sposób wyświetlania w tabeli",
             "name": "sposob_wyswietlania",
@@ -31,6 +39,51 @@
                         "field": "field_cecha_sposob",
                         "operator": "==",
                         "value": "ikona"
+                    }
+                ]
+            ]
+        },
+        {
+            "key": "field_cecha_typ_wartosci",
+            "label": "Sposób wprowadzania wartości (na edycji opony)",
+            "name": "typ_wartosci",
+            "type": "select",
+            "instructions": "„Lista wyboru” pokazuje rozwijaną listę zamiast zwykłego pola tekstowego przy wypełnianiu tego parametru dla konkretnej opony — przydatne dla wartości, które się powtarzają (np. klasy A–G z etykiety UE), żeby uniknąć literówek.",
+            "choices": {
+                "tekst": "Zwykłe pole tekstowe",
+                "lista": "Lista wyboru (rozwijana)"
+            },
+            "default_value": "tekst",
+            "allow_null": 0,
+            "ui": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_cecha_sposob",
+                        "operator": "==",
+                        "value": "tekst"
+                    }
+                ]
+            ]
+        },
+        {
+            "key": "field_cecha_opcje_listy",
+            "label": "Opcje listy (jedna wartość na linię)",
+            "name": "opcje_listy",
+            "type": "textarea",
+            "instructions": "Każda linia = jedna opcja do wyboru, np.:\nA\nB\nC",
+            "rows": 5,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_cecha_sposob",
+                        "operator": "==",
+                        "value": "tekst"
+                    },
+                    {
+                        "field": "field_cecha_typ_wartosci",
+                        "operator": "==",
+                        "value": "lista"
                     }
                 ]
             ]

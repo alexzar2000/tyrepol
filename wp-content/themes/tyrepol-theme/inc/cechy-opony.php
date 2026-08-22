@@ -55,13 +55,32 @@ function tyrepol_render_cechy_meta_box($post) {
         $typ = function_exists('get_field') ? get_field('sposob_wyswietlania', 'cecha-opony_' . $term->term_id) : 'tekst';
         $typ_label = ($typ === 'ikona') ? tyrepol_t('ikona', 'icon') : tyrepol_t('tekst', 'text');
         $value = $values[$term->term_id] ?? '';
+
+        // „Lista wyboru” (patrz acf-json/group_cecha_opony.json) — rozwijana lista zamiast pola
+        // tekstowego, dla wartości które się powtarzają (np. klasy A–G z etykiety UE opony).
+        $typ_wartosci = function_exists('get_field') ? get_field('typ_wartosci', 'cecha-opony_' . $term->term_id) : 'tekst';
+        $opcje_raw = ($typ_wartosci === 'lista' && function_exists('get_field')) ? get_field('opcje_listy', 'cecha-opony_' . $term->term_id) : '';
+        $opcje = $opcje_raw ? array_filter(array_map('trim', explode("\n", $opcje_raw))) : [];
+
         printf(
-            '<tr><th scope="row" style="font-weight:400;"><label for="tyrepol_cecha_%1$d">%2$s</label><br><span class="description">(%3$s)</span></th><td><input type="text" class="regular-text" id="tyrepol_cecha_%1$d" name="tyrepol_cecha_wartosc[%1$d]" value="%4$s"></td></tr>',
+            '<tr><th scope="row" style="font-weight:400;"><label for="tyrepol_cecha_%1$d">%2$s</label><br><span class="description">(%3$s)</span></th><td>',
             $term->term_id,
             esc_html($term->name),
-            esc_html($typ_label),
-            esc_attr($value)
+            esc_html($typ_label)
         );
+
+        if (!empty($opcje)) {
+            printf('<select id="tyrepol_cecha_%1$d" name="tyrepol_cecha_wartosc[%1$d]">', $term->term_id);
+            printf('<option value="">%s</option>', tyrepol_esc_html('— nie wybrano —', '— not selected —'));
+            foreach ($opcje as $opcja) {
+                printf('<option value="%1$s"%2$s>%1$s</option>', esc_attr($opcja), selected($value, $opcja, false));
+            }
+            echo '</select>';
+        } else {
+            printf('<input type="text" class="regular-text" id="tyrepol_cecha_%1$d" name="tyrepol_cecha_wartosc[%1$d]" value="%2$s">', $term->term_id, esc_attr($value));
+        }
+
+        echo '</td></tr>';
     }
     echo '</tbody></table>';
     echo '<p class="description">' . tyrepol_esc_html('Puste pole = ten parametr nie pojawi się w tabeli na stronie produktu dla tego wariantu.', 'An empty field means this parameter won\'t appear in the table on the product page for this variant.') . '</p>';
@@ -110,8 +129,16 @@ function tyrepol_get_opona_cechy_kolumny($variant_ids) {
         $typ = function_exists('get_field') ? get_field('sposob_wyswietlania', 'cecha-opony_' . $term->term_id) : 'tekst';
         $icon_id = ($typ === 'ikona' && function_exists('get_field')) ? get_field('ikona', 'cecha-opony_' . $term->term_id) : null;
 
+        // Angielska nazwa parametru (pole „Nazwa parametru (EN)” na terminie) — jeśli wypełniona
+        // i strona jest po angielsku, ma pierwszeństwo jako nagłówek kolumny; inaczej zwykła nazwa.
+        $label = $term->name;
+        if (tyrepol_current_lang() === 'en' && function_exists('get_field')) {
+            $nazwa_en = get_field('nazwa_en', 'cecha-opony_' . $term->term_id);
+            if ($nazwa_en) $label = $nazwa_en;
+        }
+
         $columns[] = [
-            'label'   => $term->name,
+            'label'   => $label,
             'type'    => ($typ === 'ikona' && $icon_id) ? 'icon' : 'text',
             'icon_id' => $icon_id,
             'values'  => $values,
@@ -119,3 +146,53 @@ function tyrepol_get_opona_cechy_kolumny($variant_ids) {
     }
     return $columns;
 }
+
+/**
+ * Domyślny zestaw parametrów z etykiety UE opony — dodawany RAZ automatycznie (jeśli danego
+ * parametru jeszcze nie ma w rejestrze — nazwa musi być identyczna), żeby nie trzeba było
+ * ręcznie wpisywać tych samych, powtarzających się parametrów dla każdej marki od zera. Można je
+ * potem dowolnie edytować/usuwać w Opony → Cechy opon — to tylko punkt startowy.
+ *
+ * Klasy A–G (efektywność paliwowa, przyczepność na mokrym) i A–C (opory toczenia) dostają od razu
+ * listę wyboru (patrz „typ_wartosci”/„opcje_listy” w acf-json/group_cecha_opony.json), żeby uniknąć
+ * literówek — te same litery powtarzają się dla każdej opony. M+S i 3PMSF to typ „ikona” — wystarczy
+ * wgrać ikonę raz w Opony → Cechy opon (edycja parametru), a potem w opony wpisywać dowolną
+ * niepustą wartość (np. „tak”), żeby ikona pojawiła się w tabeli danego wariantu.
+ */
+function tyrepol_maybe_seed_cechy_opon() {
+    if (get_option('tyrepol_cechy_opon_seeded')) return;
+
+    $klasy_a_g = "A\nB\nC\nD\nE\nF\nG";
+    $klasy_a_c = "A\nB\nC";
+
+    $domyslne = [
+        ['nazwa' => 'Indeks nośności',            'en' => 'Load index',                    'typ' => 'tekst', 'lista' => ''],
+        ['nazwa' => 'Indeks prędkości',            'en' => 'Speed index',                   'typ' => 'tekst', 'lista' => ''],
+        ['nazwa' => 'Efektywność paliwowa',        'en' => 'Fuel efficiency class',         'typ' => 'tekst', 'lista' => $klasy_a_g],
+        ['nazwa' => 'Przyczepność na mokrym',      'en' => 'Wet grip class',                'typ' => 'tekst', 'lista' => $klasy_a_g],
+        ['nazwa' => 'Opory toczenia',              'en' => 'External rolling noise class',  'typ' => 'tekst', 'lista' => $klasy_a_c],
+        ['nazwa' => 'Hałas (dB)',                  'en' => 'External rolling noise (dB)',   'typ' => 'tekst', 'lista' => ''],
+        ['nazwa' => 'M+S',                         'en' => 'M+S',                           'typ' => 'ikona', 'lista' => ''],
+        ['nazwa' => '3PMSF',                       'en' => '3PMSF',                         'typ' => 'ikona', 'lista' => ''],
+    ];
+
+    foreach ($domyslne as $def) {
+        if (term_exists($def['nazwa'], 'cecha-opony')) continue;
+
+        $result = wp_insert_term($def['nazwa'], 'cecha-opony');
+        if (is_wp_error($result)) continue;
+        $term_id = $result['term_id'];
+
+        if (function_exists('update_field')) {
+            update_field('nazwa_en', $def['en'], 'cecha-opony_' . $term_id);
+            update_field('sposob_wyswietlania', $def['typ'], 'cecha-opony_' . $term_id);
+            if ($def['lista'] !== '') {
+                update_field('typ_wartosci', 'lista', 'cecha-opony_' . $term_id);
+                update_field('opcje_listy', $def['lista'], 'cecha-opony_' . $term_id);
+            }
+        }
+    }
+
+    update_option('tyrepol_cechy_opon_seeded', 1);
+}
+add_action('init', 'tyrepol_maybe_seed_cechy_opon', 21);
