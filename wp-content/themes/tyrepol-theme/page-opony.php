@@ -35,7 +35,11 @@ foreach ($opony as $opona) {
     $brand_slug = $brand_terms && !is_wp_error($brand_terms) ? $brand_terms[0]->slug : '';
     $pattern    = get_field('wzor_bieznika', $opona->ID) ?: get_the_title($opona->ID);
     $size       = get_field('rozmiar', $opona->ID);
-    $key        = $brand_slug . '||' . $pattern;
+    // Klucz grupowania po ZNORMALIZOWANYM wzorze bieżnika (patrz tyrepol_normalizuj_tekst()
+    // w inc/helpers.php) — dosłowne porównanie wykluczało wariant z jednej karty, jeśli miał choćby
+    // spację na końcu w polu „Wzór bieżnika”. Do wyświetlenia nadal używamy oryginalnego $pattern
+    // (pierwszego napotkanego zapisu), nie znormalizowanego.
+    $key        = $brand_slug . '||' . tyrepol_normalizuj_tekst($pattern);
 
     if (!isset($groups[$key])) {
         $groups[$key] = [

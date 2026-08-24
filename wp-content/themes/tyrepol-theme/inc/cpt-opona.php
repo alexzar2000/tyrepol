@@ -222,16 +222,22 @@ function tyrepol_znajdz_duplikaty_kategorii() {
         $terms = get_terms(['taxonomy' => $taxonomy, 'hide_empty' => false]);
         if (is_wp_error($terms) || empty($terms)) continue;
 
-        $by_slug = [];
-        foreach ($terms as $term) $by_slug[$term->slug] = $term;
-
+        // Grupujemy PO ZNORMALIZOWANEJ NAZWIE (nie po slugu z konkretnym sufiksem „-pl”/„-en”,
+        // jak wcześniej) — dzięki temu wykrywamy KAŻDY przypadek dwóch terminów o tej samej
+        // nazwie w tej samej taksonomii, niezależnie od tego, jaki slug akurat dostały przy
+        // tworzeniu (np. „falken” i „falken-2”, nie tylko „…-pl”/„…-en”).
+        $grupy = [];
         foreach ($terms as $term) {
-            foreach (['-pl', '-en'] as $sufiks) {
-                if (substr($term->slug, -strlen($sufiks)) !== $sufiks) continue;
-                $base_slug = substr($term->slug, 0, -strlen($sufiks));
-                if (isset($by_slug[$base_slug]) && $by_slug[$base_slug]->name === $term->name) {
-                    $duplikaty[] = ['taxonomy' => $taxonomy, 'duplikat' => $term, 'oryginal' => $by_slug[$base_slug]];
-                }
+            $klucz = tyrepol_normalizuj_tekst($term->name);
+            $grupy[$klucz][] = $term;
+        }
+
+        foreach ($grupy as $grupa) {
+            if (count($grupa) < 2) continue;
+            usort($grupa, function ($a, $b) { return $a->term_id <=> $b->term_id; });
+            $oryginal = array_shift($grupa); // najstarszy (najmniejsze ID) zostaje, reszta to duplikaty
+            foreach ($grupa as $duplikat) {
+                $duplikaty[] = ['taxonomy' => $taxonomy, 'duplikat' => $duplikat, 'oryginal' => $oryginal];
             }
         }
     }

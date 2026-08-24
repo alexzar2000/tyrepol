@@ -20,29 +20,39 @@ while (have_posts()) : the_post();
 
     $catalog_url = tyrepol_catalog_url();
     $wzor = get_field('wzor_bieznika') ?: get_the_title();
+    $wzor_norm = tyrepol_normalizuj_tekst($wzor);
 
     // Wszystkie wpisy tego samego modelu (ten sam wzór bieżnika + ta sama marka) — to one
     // tworzą razem wiersze tabeli poniżej. Jeśli marka nie jest ustawiona, dopasowanie idzie
     // tylko po wzorze bieżnika (rzadki przypadek, ale nie chcemy przez to ukryć żadnego wiersza).
-    $variant_query_args = [
+    //
+    // Zarówno „Wzór bieżnika”, JAK I markę porównujemy PO STRONIE PHP przez znormalizowaną NAZWĘ
+    // (tyrepol_normalizuj_tekst()) — a NIE id kategorii (dawne rozwiązanie z tax_query po term_id).
+    // Powód: jeśli kiedykolwiek powstały dwa OSOBNE terminy o tej samej nazwie w taksonomii „Marka”
+    // (np. resztka po starym błędzie z Polylang — patrz tyrepol_znajdz_duplikaty_kategorii() niżej),
+    // to dwa warianty tego samego modelu mogły mieć przypisane RÓŻNE id tej „samej” marki — dopasowanie
+    // po id wtedy po cichu gubiło część wariantów, mimo że na oko wszystko wyglądało identycznie
+    // (ta sama nazwa marki, ten sam wzór bieżnika). Dopasowanie po nazwie działa poprawnie niezależnie
+    // od tego, czy w tle są dwa różne id tej samej marki.
+    $kandydaci = get_posts([
         'post_type'      => 'opona',
         'post_status'    => 'publish',
         'posts_per_page' => -1,
         'orderby'        => 'menu_order title',
         'order'          => 'ASC',
-        'meta_query'     => [
-            ['key' => 'wzor_bieznika', 'value' => $wzor, 'compare' => '='],
-        ],
         // Opony są WSPÓLNE dla obu wersji językowych (patrz komentarz w inc/cpt-opona.php) —
         // bez filtrowania po 'lang': tabela rozmiarów pokazuje te same warianty niezależnie
         // od tego, czy strona jest oglądana po polsku czy po angielsku.
-    ];
-    if ($brand) {
-        $variant_query_args['tax_query'] = [
-            ['taxonomy' => 'marka-opony', 'field' => 'term_id', 'terms' => $brand->term_id],
-        ];
-    }
-    $variants = get_posts($variant_query_args);
+    ]);
+    $brand_norm = $brand ? tyrepol_normalizuj_tekst($brand->name) : null;
+    $variants = array_values(array_filter($kandydaci, function ($p) use ($wzor_norm, $brand_norm) {
+        if (tyrepol_normalizuj_tekst(get_field('wzor_bieznika', $p->ID)) !== $wzor_norm) return false;
+        if ($brand_norm === null) return true;
+        $p_brand_terms = get_the_terms($p->ID, 'marka-opony');
+        $p_brand_name  = ($p_brand_terms && !is_wp_error($p_brand_terms) && !empty($p_brand_terms))
+            ? tyrepol_normalizuj_tekst($p_brand_terms[0]->name) : '';
+        return $p_brand_name === $brand_norm;
+    }));
     if (empty($variants)) $variants = [get_post()]; // zabezpieczenie — przynajmniej bieżący wpis
 ?>
 

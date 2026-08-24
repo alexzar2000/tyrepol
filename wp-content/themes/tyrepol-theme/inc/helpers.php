@@ -9,6 +9,22 @@
 if (!defined('ABSPATH')) exit;
 
 /**
+ * Normalizacja tekstu do PORÓWNYWANIA (nie do wyświetlania!) — używana przy grupowaniu wariantów
+ * opon tego samego modelu po polu „Wzór bieżnika” (patrz page-opony.php i single-opona.php).
+ * Wcześniej porównanie było dosłowne (dokładnie ten sam ciąg znaków), więc np. spacja na końcu,
+ * podwójna spacja w środku albo inna wielkość liter w JEDNYM z wariantów po cichu „wypadały” z
+ * grupy — bez żadnego błędu, po prostu ten rozmiar nie pokazywał się w tabeli na stronie produktu
+ * ani nie łączył się w jedną kartę w katalogu. Normalizacja: przycina spacje na brzegach, zamienia
+ * wielokrotne spacje/tabulatory na jedną spację i ignoruje wielkość liter — więc „LINAM VAN01 ”,
+ * „LINAM  VAN01” i „linam van01” trafiają teraz do tej samej grupy.
+ */
+function tyrepol_normalizuj_tekst($tekst) {
+    $tekst = trim((string) $tekst);
+    $tekst = preg_replace('/\s+/u', ' ', $tekst);
+    return function_exists('mb_strtolower') ? mb_strtolower($tekst, 'UTF-8') : strtolower($tekst);
+}
+
+/**
  * Bezpieczne pobranie pola ze strony „Ustawienia motywu” (zwykła strona WP, nie ACF Options —
  * patrz inc/ustawienia.php, ACF Free nie ma Options Page).
  *
