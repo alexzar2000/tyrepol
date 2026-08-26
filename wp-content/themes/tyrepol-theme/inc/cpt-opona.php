@@ -481,28 +481,34 @@ function tyrepol_opona_warianty_modelu($post_id, $post_status = 'publish') {
  * Synchronizacja pola „Opis modelu” (PL i EN, niezależnie) między WSZYSTKIMI rozmiarami tego
  * samego modelu — na życzenie klienta: edycja w KTÓRYMKOLWIEK rozmiarze ma sama nadpisać ten sam
  * tekst u WSZYSTKICH pozostałych rozmiarów, żeby nie trzeba było szukać, który konkretnie wpis
- * „jest właścicielem”.
+ * „jest właścicielem”. Dotyczy to RÓWNIEŻ wyczyszczenia pola do pustego — to też jest „edycja”,
+ * więc ma się rozejść po całej grupie tak samo jak wpisanie nowego tekstu.
  *
- * Wartość źródłowa: JEŚLI podano $zrodlo_id (czyli wpis, który WŁAŚNIE ktoś zapisał w panelu) i ma
- * on niepuste pole — TO WŁAŚNIE jego tekst wygrywa i idzie do reszty grupy. To jest kluczowe: bez
- * priorytetu dla $zrodlo_id funkcja brałaby „pierwszy niepusty tekst w kolejności $ids” (kolejność
- * wg tytułu/menu_order) — czyli gdyby ktoś wpisał NOWY tekst na wariancie, który akurat NIE jest
- * pierwszy w tej kolejności, to zapis natychmiast nadpisywałby świeżo wpisany tekst z powrotem
- * STARYM tekstem z wariantu, który jest pierwszy. Dopiero gdy $zrodlo_id nie podano (np. przy
- * ręcznej synchronizacji „Sync now” dla całej strony, gdzie nie ma jednego konkretnego „źródła”)
- * albo gdy $zrodlo_id ma puste pole (czyli ktoś zapisał inny rozmiar, nie dotykając opisu), bierzemy
- * pierwszy niepusty tekst z grupy — to „podciąga” już istniejący opis do pustego pola zamiast go
- * czyścić. Rozmyślnie NIE nadpisujemy niczego, jeśli WSZYSTKIE warianty grupy mają puste pole.
+ * Skąd wiemy, czy dany zapis to ŚWIADOMA zmiana (także na pusto), a nie po prostu zapisanie INNEGO
+ * pola (np. ceny) w rozmiarze, który od zawsze miał puste pole opisu? Porównujemy wartość PRZED
+ * zapisem (złapaną hakiem niżej, priorytet 5 — zanim ACF w ogóle zapisze cokolwiek) z wartością PO
+ * zapisie (priorytet 20 — gdy ACF już zapisał). Jeśli się różnią — w TYM zapisie ktoś naprawdę
+ * dotknął pola opisu (wpisał nowy tekst ALBO celowo wyczyścił) — i to jest teraz źródło prawdy dla
+ * całej grupy, nawet jeśli nowa wartość jest pusta. Jeśli się NIE różnią (pole było i jest puste,
+ * bo admin edytował coś zupełnie innego) — nic nie „psujemy”, tylko grzecznie podciągamy już
+ * istniejący tekst z innego wariantu grupy do tego pustego pola (żeby nie wyglądało mylnie na puste).
  */
-function tyrepol_opona_synchronizuj_opis_grupy($ids, $zrodlo_id = null) {
+function tyrepol_opona_synchronizuj_opis_grupy($ids, $zrodlo_id = null, $zrodlo_wartosci_przed = null) {
     if (!function_exists('get_field') || count($ids) < 2) return;
 
     foreach (['opis_modelu', 'opis_modelu_en'] as $pole) {
         $wartosc = null;
 
         if ($zrodlo_id !== null) {
-            $v = (string) get_field($pole, $zrodlo_id);
-            if (trim($v) !== '') $wartosc = $v;
+            $nowa  = (string) get_field($pole, $zrodlo_id);
+            $stara = (is_array($zrodlo_wartosci_przed) && array_key_exists($pole, $zrodlo_wartosci_przed))
+                ? $zrodlo_wartosci_przed[$pole] : null;
+
+            if ($stara !== null && $stara !== $nowa) {
+                $wartosc = $nowa; // realna zmiana w TYM zapisie — liczy się, nawet jeśli $nowa === ''
+            } elseif (trim($nowa) !== '') {
+                $wartosc = $nowa;
+            }
         }
 
         if ($wartosc === null) {
@@ -512,7 +518,7 @@ function tyrepol_opona_synchronizuj_opis_grupy($ids, $zrodlo_id = null) {
             }
         }
 
-        if ($wartosc === null) continue; // nikt jeszcze nic nie wpisał dla tej grupy — nie ma czego synchronizować
+        if ($wartosc === null) continue; // nikt nic nie wpisał (i nikt świadomie nie wyczyścił) — nie ma czego synchronizować
 
         foreach ($ids as $id) {
             if ((string) get_field($pole, $id) !== $wartosc) {
@@ -522,13 +528,45 @@ function tyrepol_opona_synchronizuj_opis_grupy($ids, $zrodlo_id = null) {
     }
 }
 
+/**
+ * Zapamiętuje wartość pól opisu TUŻ PRZED tym, jak ACF zapisze nowe dane (priorytet 5 — nasz kod
+ * odpala się wcześniej niż domyślny handler ACF, który faktycznie zapisuje pola do bazy, więc
+ * get_field() tutaj zwraca jeszcze STARĄ wartość). Używane przez hak niżej (priorytet 20) do
+ * wykrycia, czy pole opisu naprawdę się zmieniło w TYM konkretnym zapisie.
+ */
+add_action('acf/save_post', 'tyrepol_opona_zapamietaj_opis_przed_zapisem', 5);
+function tyrepol_opona_zapamietaj_opis_przed_zapisem($post_id) {
+    if (!is_admin() || !ctype_digit((string) $post_id) || !function_exists('get_field')) return;
+    $post_id = (int) $post_id;
+    if (get_post_type($post_id) !== 'opona') return;
+
+    tyrepol_opona_cache_opisu_przed_zapisem($post_id, [
+        'opis_modelu'    => (string) get_field('opis_modelu', $post_id),
+        'opis_modelu_en' => (string) get_field('opis_modelu_en', $post_id),
+    ]);
+}
+
+/**
+ * Prosty magazyn wartości „przed zapisem” współdzielony między dwoma hakami wyżej/niżej (bez
+ * używania $GLOBALS) — wywołany z wartością zapisuje, wywołany bez wartości odczytuje.
+ */
+function tyrepol_opona_cache_opisu_przed_zapisem($post_id, $zapisz = null) {
+    static $cache = [];
+    if ($zapisz !== null) {
+        $cache[$post_id] = $zapisz;
+        return null;
+    }
+    return $cache[$post_id] ?? null;
+}
+
 add_action('acf/save_post', 'tyrepol_opona_synchronizuj_opis_po_zapisie', 20);
 function tyrepol_opona_synchronizuj_opis_po_zapisie($post_id) {
     if (!is_admin() || !ctype_digit((string) $post_id)) return;
     $post_id = (int) $post_id;
     if (get_post_type($post_id) !== 'opona') return;
 
-    tyrepol_opona_synchronizuj_opis_grupy(tyrepol_opona_warianty_modelu($post_id, 'any'), $post_id);
+    $przed = tyrepol_opona_cache_opisu_przed_zapisem($post_id);
+    tyrepol_opona_synchronizuj_opis_grupy(tyrepol_opona_warianty_modelu($post_id, 'any'), $post_id, $przed);
 }
 
 /**
