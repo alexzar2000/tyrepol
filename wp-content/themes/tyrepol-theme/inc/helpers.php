@@ -256,7 +256,11 @@ function tyrepol_get_available_sizes() {
     $sizes = [];
     $posts = get_posts(['post_type' => 'opona', 'posts_per_page' => -1, 'fields' => 'ids', 'post_status' => 'publish']);
     foreach ($posts as $post_id) {
-        $size = function_exists('get_field') ? get_field('rozmiar', $post_id) : '';
+        // trim() — niektóre wpisy mają w polu „Rozmiar” doklejony na początku/końcu tabulator albo
+        // inną spację (typowy ślad po wklejeniu z Excela/arkusza) — bez trim() taki znak trafiał
+        // dosłownie do listy podpowiedzi (<datalist>), gdzie przeglądarka pokazuje go jako widoczną
+        // strzałkę zamiast niewidocznej spacji.
+        $size = function_exists('get_field') ? trim((string) get_field('rozmiar', $post_id)) : '';
         if ($size) $sizes[$size] = $size;
     }
     ksort($sizes);

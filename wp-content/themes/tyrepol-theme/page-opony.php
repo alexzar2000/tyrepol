@@ -34,7 +34,10 @@ foreach ($opony as $opona) {
 
     $brand_slug = $brand_terms && !is_wp_error($brand_terms) ? $brand_terms[0]->slug : '';
     $pattern    = get_field('wzor_bieznika', $opona->ID) ?: get_the_title($opona->ID);
-    $size       = get_field('rozmiar', $opona->ID);
+    // trim() — patrz komentarz przy tyrepol_get_available_sizes() w inc/helpers.php: niektóre
+    // wpisy mają doklejony tabulator/spację na początku lub końcu pola „Rozmiar” (ślad po
+    // wklejeniu z arkusza) — bez trim() ten sam znak trafiał do danych karty i filtra rozmiarów.
+    $size       = trim((string) get_field('rozmiar', $opona->ID));
     // Klucz grupowania po ZNORMALIZOWANYM wzorze bieżnika (patrz tyrepol_normalizuj_tekst()
     // w inc/helpers.php) — dosłowne porównanie wykluczało wariant z jednej karty, jeśli miał choćby
     // spację na końcu w polu „Wzór bieżnika”. Do wyświetlenia nadal używamy oryginalnego $pattern
