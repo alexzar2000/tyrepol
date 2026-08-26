@@ -481,25 +481,37 @@ function tyrepol_opona_warianty_modelu($post_id, $post_status = 'publish') {
  * Synchronizacja pola „Opis modelu” (PL i EN, niezależnie) między WSZYSTKIMI rozmiarami tego
  * samego modelu — na życzenie klienta: edycja w KTÓRYMKOLWIEK rozmiarze ma sama nadpisać ten sam
  * tekst u WSZYSTKICH pozostałych rozmiarów, żeby nie trzeba było szukać, który konkretnie wpis
- * „jest właścicielem”. Wartość źródłowa to pierwszy NIEPUSTY tekst znaleziony wśród wariantów grupy
- * (w kolejności $ids) — dzięki temu funkcja działa w obie strony: (1) wpisanie/zmiana tekstu w
- * dowolnym rozmiarze rozsyła go do reszty, (2) zapisanie ZUPEŁNIE INNEGO pola (np. ceny) w
- * rozmiarze, który sam ma puste pole opisu, i tak automatycznie „podciąga” już istniejący tekst
- * z innego rozmiaru — więc pole nigdy nie wygląda mylnie na puste, jeśli model już ma opis.
- * Rozmyślnie NIE nadpisujemy niczego, jeśli WSZYSTKIE warianty grupy mają puste pole (nie ma
- * czego synchronizować) — a jeśli akurat zapisany wpis ma tekst pusty, a inny wariant już go ma,
- * to properly PRZYWRACAMY ten istniejący tekst również do właśnie zapisanego wpisu (żeby ktoś
- * przypadkiem nie wyczyścił opisu całego modelu, po prostu zapisując inny rozmiar z pustym polem).
+ * „jest właścicielem”.
+ *
+ * Wartość źródłowa: JEŚLI podano $zrodlo_id (czyli wpis, który WŁAŚNIE ktoś zapisał w panelu) i ma
+ * on niepuste pole — TO WŁAŚNIE jego tekst wygrywa i idzie do reszty grupy. To jest kluczowe: bez
+ * priorytetu dla $zrodlo_id funkcja brałaby „pierwszy niepusty tekst w kolejności $ids” (kolejność
+ * wg tytułu/menu_order) — czyli gdyby ktoś wpisał NOWY tekst na wariancie, który akurat NIE jest
+ * pierwszy w tej kolejności, to zapis natychmiast nadpisywałby świeżo wpisany tekst z powrotem
+ * STARYM tekstem z wariantu, który jest pierwszy. Dopiero gdy $zrodlo_id nie podano (np. przy
+ * ręcznej synchronizacji „Sync now” dla całej strony, gdzie nie ma jednego konkretnego „źródła”)
+ * albo gdy $zrodlo_id ma puste pole (czyli ktoś zapisał inny rozmiar, nie dotykając opisu), bierzemy
+ * pierwszy niepusty tekst z grupy — to „podciąga” już istniejący opis do pustego pola zamiast go
+ * czyścić. Rozmyślnie NIE nadpisujemy niczego, jeśli WSZYSTKIE warianty grupy mają puste pole.
  */
-function tyrepol_opona_synchronizuj_opis_grupy($ids) {
+function tyrepol_opona_synchronizuj_opis_grupy($ids, $zrodlo_id = null) {
     if (!function_exists('get_field') || count($ids) < 2) return;
 
     foreach (['opis_modelu', 'opis_modelu_en'] as $pole) {
         $wartosc = null;
-        foreach ($ids as $id) {
-            $v = (string) get_field($pole, $id);
-            if (trim($v) !== '') { $wartosc = $v; break; }
+
+        if ($zrodlo_id !== null) {
+            $v = (string) get_field($pole, $zrodlo_id);
+            if (trim($v) !== '') $wartosc = $v;
         }
+
+        if ($wartosc === null) {
+            foreach ($ids as $id) {
+                $v = (string) get_field($pole, $id);
+                if (trim($v) !== '') { $wartosc = $v; break; }
+            }
+        }
+
         if ($wartosc === null) continue; // nikt jeszcze nic nie wpisał dla tej grupy — nie ma czego synchronizować
 
         foreach ($ids as $id) {
@@ -516,7 +528,7 @@ function tyrepol_opona_synchronizuj_opis_po_zapisie($post_id) {
     $post_id = (int) $post_id;
     if (get_post_type($post_id) !== 'opona') return;
 
-    tyrepol_opona_synchronizuj_opis_grupy(tyrepol_opona_warianty_modelu($post_id, 'any'));
+    tyrepol_opona_synchronizuj_opis_grupy(tyrepol_opona_warianty_modelu($post_id, 'any'), $post_id);
 }
 
 /**
