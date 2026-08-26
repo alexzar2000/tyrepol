@@ -60,7 +60,7 @@ while (have_posts()) : the_post();
     // tyrepol_opona_opis_modelu() / tyrepol_opona_galeria() w inc/cpt-opona.php): admin wypełnia
     // je raz, w dowolnym rozmiarze, a pokazują się przy WSZYSTKICH rozmiarach tego modelu.
     $opis_modelu = function_exists('tyrepol_opona_opis_modelu') ? tyrepol_opona_opis_modelu($variant_ids) : '';
-    $galeria_ids = function_exists('tyrepol_opona_galeria') ? tyrepol_opona_galeria($variant_ids) : [];
+    $galeria_ids = function_exists('tyrepol_opona_galeria') ? tyrepol_opona_galeria($variant_ids, get_the_ID()) : [];
 ?>
 
   <nav class="breadcrumb" aria-label="<?php tyrepol_esc_attr_e('Okruszki nawigacyjne', 'Breadcrumbs'); ?>">

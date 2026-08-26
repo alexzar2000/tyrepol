@@ -24,7 +24,7 @@
             "name": "opis_modelu",
             "type": "textarea",
             "rows": 4,
-            "instructions": "WSPÓLNY opis dla WSZYSTKICH rozmiarów tego samego modelu (ten sam „Wzór bieżnika”) — pokazuje się pod tabelą na stronie produktu. Wypełnij TYLKO W JEDNYM z rozmiarów tego modelu — system sam znajdzie ten tekst i pokaże go przy każdym rozmiarze. Puste pole = nic się nie pokaże."
+            "instructions": "WSPÓLNY opis dla WSZYSTKICH rozmiarów tego samego modelu (ten sam „Wzór bieżnika”) — pokazuje się pod tabelą na stronie produktu. Edytuj to pole w KTÓRYMKOLWIEK rozmiarze tego modelu — po zapisaniu tekst automatycznie pojawi się też u wszystkich pozostałych rozmiarów (nie trzeba niczego szukać ani kopiować ręcznie). Puste pole = nic się nie pokaże."
         },
         {
             "key": "field_opona_opis_modelu_en",
@@ -39,7 +39,7 @@
             "label": "Dodatkowe zdjęcia (galeria)",
             "name": "galeria_naglowek",
             "type": "message",
-            "message": "WSPÓLNA galeria dla WSZYSTKICH rozmiarów tego samego modelu — działa tak samo jak opis wyżej: uzupełnij zdjęcia TYLKO W JEDNYM z rozmiarów, a pokażą się (razem z głównym zdjęciem wyróżniającym) w karuzeli u każdego rozmiaru tego modelu. Zostaw puste, żeby zostawić tylko pojedyncze zdjęcie wyróżniające jak dotychczas."
+            "message": "WSPÓLNA galeria dla WSZYSTKICH rozmiarów tego samego modelu — dodaj zdjęcia na KTÓRYMKOLWIEK rozmiarze (nie trzeba pilnować, gdzie już coś jest — wszystko i tak zbierze się razem). Zdjęcia dodane w różnych rozmiarach tego samego modelu łączą się automatycznie w jedną karuzelę (razem z głównym zdjęciem wyróżniającym), maks. 5 dodatkowych zdjęć łącznie na model. Zostaw puste, żeby zostawić tylko pojedyncze zdjęcie wyróżniające jak dotychczas."
         },
         {
             "key": "field_opona_zdjecie_2",

@@ -374,50 +374,220 @@ function tyrepol_kopiuj_dane_opony($z_id, $do_id) {
  * „opis_modelu_en”, ma ono pierwszeństwo przed polskim tekstem TEGO SAMEGO wariantu (ten sam
  * mechanizm co tyrepol_opt() w inc/helpers.php).
  */
-function tyrepol_opona_opis_modelu($variant_ids) {
-    if (!function_exists('get_field')) return '';
+function tyrepol_opona_wlasciciel_opisu($variant_ids) {
+    if (!function_exists('get_field')) return null;
     foreach ($variant_ids as $id) {
-        $tekst = '';
-        if (tyrepol_current_lang() === 'en') {
-            $tekst = trim((string) get_field('opis_modelu_en', $id));
+        if (trim((string) get_field('opis_modelu', $id)) !== '' || trim((string) get_field('opis_modelu_en', $id)) !== '') {
+            return $id;
         }
-        if ($tekst === '') {
-            $tekst = trim((string) get_field('opis_modelu', $id));
-        }
-        if ($tekst !== '') return $tekst;
     }
-    return '';
+    return null;
+}
+
+function tyrepol_opona_opis_modelu($variant_ids) {
+    $wlasciciel = tyrepol_opona_wlasciciel_opisu($variant_ids);
+    if ($wlasciciel === null) return '';
+
+    $tekst = (tyrepol_current_lang() === 'en') ? trim((string) get_field('opis_modelu_en', $wlasciciel)) : '';
+    if ($tekst === '') $tekst = trim((string) get_field('opis_modelu', $wlasciciel));
+    return $tekst;
 }
 
 /**
- * Galeria dodatkowych zdjęć — TAK SAMO wspólna dla całego modelu jak opis wyżej. Szukamy
- * PIERWSZEGO wariantu (w kolejności $variant_ids), który ma wypełnione choć jedno z pól
- * „zdjecie_2”…„zdjecie_6” — i dla TEGO wariantu budujemy pełny zestaw: jego zdjęcie wyróżniające
- * (jeśli jest) jako pierwsze, plus wszystkie wypełnione dodatkowe zdjęcia w kolejności pól.
- * Rozmyślnie NIE mieszamy zdjęć z różnych wariantów w jedną galerię — całość pochodzi z jednego,
- * żeby kolejność i dobór zdjęć był przewidywalny dla admina. Zwraca tablicę ID załączników
- * (może być pusta, jeśli żaden wariant nie ma uzupełnionej galerii — wtedy strona produktu wraca
- * do dotychczasowego zachowania: pojedyncze zdjęcie wyróżniające BIEŻĄCEGO wariantu).
+ * Galeria dodatkowych zdjęć — TERAZ naprawdę WSPÓLNA: zbieramy zdjęcia „zdjecie_2”…„zdjecie_6”
+ * ze WSZYSTKICH rozmiarów tego samego modelu naraz (nie tylko z jednego „właściciela”), więc admin
+ * może dodać zdjęcie na KTÓRYMKOLWIEK rozmiarze — i tak wyląduje w jednej wspólnej karuzeli u
+ * każdego rozmiaru. Duplikaty (to samo zdjęcie dodane w dwóch miejscach) są pomijane. Limit 5
+ * dodatkowych zdjęć ŁĄCZNIE (zgodnie z ustaleniem z klientem), liczony w kolejności $variant_ids —
+ * nadmiarowe zdjęcia z dalszych rozmiarów po prostu nie wejdą do karuzeli.
+ *
+ * Zdjęcie na PIERWSZYM miejscu w karuzeli to własne zdjęcie wyróżniające przekazanego
+ * $glowny_post_id (czyli wariantu, na którego stronę faktycznie wszedł użytkownik) — jeśli go nie
+ * ma, bierzemy pierwsze znalezione zdjęcie wyróżniające wśród pozostałych rozmiarów.
  */
-function tyrepol_opona_galeria($variant_ids) {
+function tyrepol_opona_galeria($variant_ids, $glowny_post_id = null) {
     if (!function_exists('get_field')) return [];
-    foreach ($variant_ids as $id) {
-        $dodatkowe = [];
-        foreach (['zdjecie_2', 'zdjecie_3', 'zdjecie_4', 'zdjecie_5', 'zdjecie_6'] as $pole) {
-            $img_id = get_field($pole, $id);
-            if ($img_id) $dodatkowe[] = (int) $img_id;
-        }
-        if (empty($dodatkowe)) continue; // ten wariant nie ma galerii — sprawdź kolejny
 
-        $zestaw = [];
-        if (has_post_thumbnail($id)) $zestaw[] = (int) get_post_thumbnail_id($id);
-        foreach ($dodatkowe as $img_id) {
-            if (!in_array($img_id, $zestaw, true)) $zestaw[] = $img_id;
+    $zestaw = [];
+
+    $kolejnosc_glownego = $glowny_post_id
+        ? array_merge([$glowny_post_id], array_diff($variant_ids, [$glowny_post_id]))
+        : $variant_ids;
+    foreach ($kolejnosc_glownego as $id) {
+        if (has_post_thumbnail($id)) {
+            $zestaw[] = (int) get_post_thumbnail_id($id);
+            break;
         }
-        return $zestaw;
     }
-    return [];
+
+    $limit_dodatkowych = 5;
+    $dodatkowe = 0;
+    foreach ($variant_ids as $id) {
+        if ($dodatkowe >= $limit_dodatkowych) break;
+        foreach (['zdjecie_2', 'zdjecie_3', 'zdjecie_4', 'zdjecie_5', 'zdjecie_6'] as $pole) {
+            if ($dodatkowe >= $limit_dodatkowych) break;
+            $img_id = get_field($pole, $id);
+            if ($img_id && !in_array((int) $img_id, $zestaw, true)) {
+                $zestaw[] = (int) $img_id;
+                $dodatkowe++;
+            }
+        }
+    }
+
+    return $zestaw;
 }
+
+/**
+ * Wszystkie warianty (rozmiary) TEGO SAMEGO modelu co dany wpis — ten sam „Wzór bieżnika”
+ * (znormalizowany tekst) i ta sama marka (znormalizowana nazwa, patrz komentarz przy dopasowaniu
+ * w single-opona.php — porównujemy po nazwie, nie po id kategorii, żeby stare duplikaty terminów
+ * nie gubiły wariantów). WSPÓLNA funkcja używana zarówno na stronie produktu (tylko opublikowane
+ * warianty — $post_status='publish'), jak i w panelu admina przy ukrywaniu/podpowiadaniu pól
+ * „Opis modelu” i „Galeria” (wszystkie statusy — $post_status='any', żeby działało też między
+ * dwoma jeszcze niedokończonymi szkicami tego samego modelu).
+ */
+function tyrepol_opona_warianty_modelu($post_id, $post_status = 'publish') {
+    if (!function_exists('get_field')) return [$post_id];
+
+    $wzor = get_field('wzor_bieznika', $post_id) ?: get_the_title($post_id);
+    $wzor_norm = tyrepol_normalizuj_tekst($wzor);
+
+    $brand_terms = get_the_terms($post_id, 'marka-opony');
+    $brand_norm = ($brand_terms && !is_wp_error($brand_terms) && !empty($brand_terms))
+        ? tyrepol_normalizuj_tekst($brand_terms[0]->name) : null;
+
+    $kandydaci = get_posts([
+        'post_type'      => 'opona',
+        'post_status'    => $post_status,
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ]);
+
+    $warianty = array_values(array_filter($kandydaci, function ($p) use ($wzor_norm, $brand_norm) {
+        if (tyrepol_normalizuj_tekst(get_field('wzor_bieznika', $p->ID)) !== $wzor_norm) return false;
+        if ($brand_norm === null) return true;
+        $p_brand_terms = get_the_terms($p->ID, 'marka-opony');
+        $p_brand_name  = ($p_brand_terms && !is_wp_error($p_brand_terms) && !empty($p_brand_terms))
+            ? tyrepol_normalizuj_tekst($p_brand_terms[0]->name) : '';
+        return $p_brand_name === $brand_norm;
+    }));
+
+    $ids = wp_list_pluck($warianty, 'ID');
+    return $ids ?: [$post_id];
+}
+
+/**
+ * Synchronizacja pola „Opis modelu” (PL i EN, niezależnie) między WSZYSTKIMI rozmiarami tego
+ * samego modelu — na życzenie klienta: edycja w KTÓRYMKOLWIEK rozmiarze ma sama nadpisać ten sam
+ * tekst u WSZYSTKICH pozostałych rozmiarów, żeby nie trzeba było szukać, który konkretnie wpis
+ * „jest właścicielem”. Wartość źródłowa to pierwszy NIEPUSTY tekst znaleziony wśród wariantów grupy
+ * (w kolejności $ids) — dzięki temu funkcja działa w obie strony: (1) wpisanie/zmiana tekstu w
+ * dowolnym rozmiarze rozsyła go do reszty, (2) zapisanie ZUPEŁNIE INNEGO pola (np. ceny) w
+ * rozmiarze, który sam ma puste pole opisu, i tak automatycznie „podciąga” już istniejący tekst
+ * z innego rozmiaru — więc pole nigdy nie wygląda mylnie na puste, jeśli model już ma opis.
+ * Rozmyślnie NIE nadpisujemy niczego, jeśli WSZYSTKIE warianty grupy mają puste pole (nie ma
+ * czego synchronizować) — a jeśli akurat zapisany wpis ma tekst pusty, a inny wariant już go ma,
+ * to properly PRZYWRACAMY ten istniejący tekst również do właśnie zapisanego wpisu (żeby ktoś
+ * przypadkiem nie wyczyścił opisu całego modelu, po prostu zapisując inny rozmiar z pustym polem).
+ */
+function tyrepol_opona_synchronizuj_opis_grupy($ids) {
+    if (!function_exists('get_field') || count($ids) < 2) return;
+
+    foreach (['opis_modelu', 'opis_modelu_en'] as $pole) {
+        $wartosc = null;
+        foreach ($ids as $id) {
+            $v = (string) get_field($pole, $id);
+            if (trim($v) !== '') { $wartosc = $v; break; }
+        }
+        if ($wartosc === null) continue; // nikt jeszcze nic nie wpisał dla tej grupy — nie ma czego synchronizować
+
+        foreach ($ids as $id) {
+            if ((string) get_field($pole, $id) !== $wartosc) {
+                update_field($pole, $wartosc, $id);
+            }
+        }
+    }
+}
+
+add_action('acf/save_post', 'tyrepol_opona_synchronizuj_opis_po_zapisie', 20);
+function tyrepol_opona_synchronizuj_opis_po_zapisie($post_id) {
+    if (!is_admin() || !ctype_digit((string) $post_id)) return;
+    $post_id = (int) $post_id;
+    if (get_post_type($post_id) !== 'opona') return;
+
+    tyrepol_opona_synchronizuj_opis_grupy(tyrepol_opona_warianty_modelu($post_id, 'any'));
+}
+
+/**
+ * Ręczna synchronizacja WSZYSTKICH modeli naraz — przydaje się jednorazowo, zaraz po wdrożeniu tej
+ * funkcji, dla modeli, gdzie opis wpisano W JEDNYM rozmiarze jeszcze PRZED włączeniem synchronizacji
+ * (a więc pozostałe rozmiary nigdy nie dostały kopii, bo hak wyżej uruchamia się dopiero przy
+ * kolejnym zapisie). Grupuje wszystkie opony po modelu i puszcza każdą grupę raz przez funkcję
+ * synchronizującą wyżej.
+ */
+function tyrepol_synchronizuj_wszystkie_opisy_opon() {
+    $wszystkie = get_posts([
+        'post_type'      => 'opona',
+        'post_status'    => 'any',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+    ]);
+
+    $przetworzone = [];
+    $liczba_grup = 0;
+    foreach ($wszystkie as $id) {
+        if (in_array($id, $przetworzone, true)) continue;
+        $grupa = tyrepol_opona_warianty_modelu($id, 'any');
+        $przetworzone = array_merge($przetworzone, $grupa);
+        if (count($grupa) > 1) {
+            tyrepol_opona_synchronizuj_opis_grupy($grupa);
+            $liczba_grup++;
+        }
+    }
+    return $liczba_grup;
+}
+
+add_action('admin_notices', function () {
+    if (!current_user_can('edit_posts')) return;
+    $ekran = get_current_screen();
+    if (!$ekran || $ekran->post_type !== 'opona') return;
+    if (get_option('tyrepol_opisy_zsynchronizowane') === '1') return;
+
+    $url = wp_nonce_url(admin_url('admin.php?action=tyrepol_synchronizuj_opisy_teraz'), 'tyrepol_synchronizuj_opisy_teraz');
+    echo '<div class="notice notice-info"><p>'
+        . tyrepol_esc_html(
+            'Nowość: pole „Opis modelu” teraz samo synchronizuje się między wszystkimi rozmiarami tego samego modelu (edytuj w dowolnym rozmiarze). Kliknij raz, żeby od razu rozesłać już wpisane opisy (np. dla modeli, gdzie opis wpisano tylko w jednym rozmiarze przed tą zmianą) do pozostałych rozmiarów.',
+            'New: the "Model description" field now syncs itself across all sizes of the same model (edit it on any size). Click once to immediately spread already-entered descriptions (e.g. for models where the description was only typed on one size before this change) to the remaining sizes.'
+        )
+        . ' <a href="' . esc_url($url) . '" class="button button-primary">'
+        . tyrepol_esc_html('Zsynchronizuj teraz', 'Sync now')
+        . '</a></p></div>';
+});
+
+add_action('admin_action_tyrepol_synchronizuj_opisy_teraz', function () {
+    if (!current_user_can('edit_posts')) {
+        wp_die(tyrepol_esc_html('Brak uprawnień do tej operacji.', 'You don\'t have permission to perform this action.'));
+    }
+    check_admin_referer('tyrepol_synchronizuj_opisy_teraz');
+
+    $liczba_grup = tyrepol_synchronizuj_wszystkie_opisy_opon();
+    update_option('tyrepol_opisy_zsynchronizowane', '1');
+
+    wp_safe_redirect(add_query_arg('tyrepol_opisy_zsynchronizowane_teraz', $liczba_grup, wp_get_referer() ?: admin_url()));
+    exit;
+});
+
+add_action('admin_notices', function () {
+    if (!isset($_GET['tyrepol_opisy_zsynchronizowane_teraz'])) return;
+    printf(
+        '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+        sprintf(
+            tyrepol_esc_html('Zsynchronizowano opisy w %d grupach modeli.', 'Synced descriptions across %d model groups.'),
+            (int) $_GET['tyrepol_opisy_zsynchronizowane_teraz']
+        )
+    );
+});
 
 /**
  * Duplikowanie opony jednym kliknięciem — szybkie tworzenie kolejnego wariantu (np. innego
