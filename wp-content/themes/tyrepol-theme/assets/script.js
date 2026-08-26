@@ -221,6 +221,11 @@ function initCatalog() {
 
   const getChecked = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((el) => el.value);
 
+  // WP: normalizacja tekstu do porównań "wpisz fragment rozmiaru" (pole "Rozmiar" niżej) — ten sam
+  // pomysł co tyrepol_normalizuj_tekst() w inc/helpers.php (przycięcie białych znaków + małe litery),
+  // tylko po stronie JS, bo to pole filtruje na bieżąco w przeglądarce, bez przeładowania strony.
+  const normalizeSize = (value) => (value || '').toString().trim().toLowerCase().replace(/\s+/g, ' ');
+
   // WP: tire.axle / tire.season / tire.vehicle / tire.sizes to teraz TABLICE (unia wszystkich
   // rozmiarów danego modelu — patrz grupowanie w page-opony.php), stąd dopasowanie przez
   // "includes"/"some" zamiast prostego porównania pojedynczej wartości.
@@ -229,7 +234,9 @@ function initCatalog() {
     if (filters.vehicle !== 'all' && !tire.vehicle.includes(filters.vehicle)) return false;
     if (filters.axles.length && !filters.axles.some((a) => tire.axle.includes(a))) return false;
     if (filters.seasons.length && !filters.seasons.some((s) => tire.season.includes(s))) return false;
-    if (filters.size && !tire.sizes.includes(filters.size)) return false;
+    // WP: dopasowanie CZĘŚCIOWE zamiast dokładnego — wpisanie "315/70" pokazuje każdy rozmiar,
+    // który zawiera ten fragment (patrz normalizeSize() wyżej), a nie tylko idealnie równy tekst.
+    if (filters.size && !tire.sizes.some((s) => normalizeSize(s).includes(filters.size))) return false;
     return true;
   };
 
@@ -293,12 +300,13 @@ function initCatalog() {
 
   const computeFiltered = () => {
     const vehicleInput = form.querySelector('input[name="vehicle"]:checked');
+    const sizeInput = form.querySelector('input[name="size"]');
     const filters = {
       brands: getChecked('brand'),
       vehicle: vehicleInput ? vehicleInput.value : 'all',
       axles: getChecked('axle'),
       seasons: getChecked('season'),
-      size: form.querySelector('select[name="size"]').value,
+      size: sizeInput ? normalizeSize(sizeInput.value) : '',
     };
 
     return TIRES.filter((tire) => matchesFilters(tire, filters));
@@ -353,6 +361,19 @@ function initCatalog() {
   };
 
   form.addEventListener('change', renderFiltered);
+
+  // WP: pole "Rozmiar" jest teraz zwykłym polem tekstowym (patrz page-opony.php) — zdarzenie
+  // "change" na inpucie tekstowym odpala się dopiero przy utracie fokusu, a chcemy filtrować NA
+  // BIEŻĄCO, w trakcie pisania. Stąd osobny listener na "input", z małym opóźnieniem (debounce),
+  // żeby nie przerenderowywać całej siatki przy KAŻDYM pojedynczym naciśnięciu klawisza.
+  const sizeInputEl = form.querySelector('input[name="size"]');
+  if (sizeInputEl) {
+    let sizeDebounce;
+    sizeInputEl.addEventListener('input', () => {
+      clearTimeout(sizeDebounce);
+      sizeDebounce = setTimeout(renderFiltered, 150);
+    });
+  }
 
   form.addEventListener('reset', () => {
     setTimeout(renderFiltered, 0);
@@ -426,10 +447,8 @@ function initCatalog() {
 
     const sizeParam = params.get('size');
     if (sizeParam) {
-      const select = form.querySelector('select[name="size"]');
-      if (select && Array.from(select.options).some((o) => o.value === sizeParam)) {
-        select.value = sizeParam;
-      }
+      const sizeInput = form.querySelector('input[name="size"]');
+      if (sizeInput) sizeInput.value = sizeParam;
     }
 
     if (brandTiles) {

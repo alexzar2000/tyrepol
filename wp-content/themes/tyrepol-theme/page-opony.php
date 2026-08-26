@@ -191,12 +191,24 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
 
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Rozmiar', 'Size'); ?></h3>
-            <select class="filter__select" name="size" aria-label="<?php tyrepol_esc_attr_e('Rozmiar opony', 'Tyre size'); ?>">
-              <option value=""><?php tyrepol_esc_html_e('Wszystkie rozmiary', 'All sizes'); ?></option>
+            <!-- WP: wpisywane pole zamiast listy wyboru — wpisany fragment (np. "315/70") od razu
+                 zawęża wyniki do rozmiarów, które go zawierają (patrz initCatalog() w
+                 assets/script.js), zamiast wymuszać wybór DOKŁADNEGO rozmiaru z długiej listy. -->
+            <input
+              class="filter__select filter__size-input"
+              type="text"
+              name="size"
+              inputmode="search"
+              autocomplete="off"
+              placeholder="<?php tyrepol_esc_attr_e('np. 315/70R22.5', 'e.g. 315/70R22.5'); ?>"
+              aria-label="<?php tyrepol_esc_attr_e('Rozmiar opony', 'Tyre size'); ?>"
+              list="tyrepol-size-suggestions"
+            >
+            <datalist id="tyrepol-size-suggestions">
               <?php foreach ($all_sizes as $size) : ?>
-                <option value="<?php echo esc_attr($size); ?>"><?php echo esc_html($size); ?></option>
+                <option value="<?php echo esc_attr($size); ?>"></option>
               <?php endforeach; ?>
-            </select>
+            </datalist>
           </div>
 
           <button class="filter__submit" type="reset"><?php tyrepol_esc_html_e('Wyczyść filtry', 'Clear filters'); ?></button>
