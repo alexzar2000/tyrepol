@@ -1515,13 +1515,16 @@ body.loader-active {
     background: #7f1729;
   }
 
-  /* Odsunięcie innych stałych elementów, żeby nie chowały się pod paskiem wyceny */
+  /* Odsunięcie innych stałych elementów, żeby nie chowały się pod paskiem wyceny — dodajemy też
+     env(safe-area-inset-bottom), bo pasek wyceny robi się WYŻSZY na telefonach z „grzybkiem”/paskiem
+     na dole ekranu (patrz jego "padding-bottom: calc(16px + env(safe-area-inset-bottom))" wyżej) —
+     bez tego samo 88px czasami nie starczało i przycisk chował się częściowo pod paskiem. */
   .scrolltop {
-    bottom: 88px;
+    bottom: calc(88px + env(safe-area-inset-bottom));
   }
 
   .toast {
-    bottom: 88px;
+    bottom: calc(88px + env(safe-area-inset-bottom));
   }
 
   /* Tabela zamienia się w listę kart - łatwiejsza do przewijania i czytania na telefonie */
@@ -1864,7 +1867,8 @@ body.loader-active {
   visibility: hidden;
   transform: translateY(15px);
   transition: opacity 0.2s linear, visibility 0.2s linear, transform 0.2s linear;
-  z-index: 900;
+  z-index: 960; /* wyżej niż .mobile-quote-cta (950) — nawet gdyby odstęp od dołu kiedyś okazał się
+                    za mały, przycisk ma być RYSOWANY NAD paskiem wyceny, a nie częściowo zasłonięty */
 }
 
 /* Stan: widoczny po przewinięciu strony - pojawia się stopniowo */
