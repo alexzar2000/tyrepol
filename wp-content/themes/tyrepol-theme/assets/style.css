@@ -1455,6 +1455,10 @@ body.loader-active {
     flex: 0 0 auto;
     width: 100%;
     max-width: 340px;
+    align-self: center; /* nadpisuje "align-self: flex-start" z wersji desktopowej (przyklejony
+                            sidebar) — bez tego zdjęcie/karuzela trzyma się lewej krawędzi zamiast
+                            wyśrodkować się razem z resztą kolumny (patrz "align-items: center"
+                            wyżej na .tire-detail__layout) */
   }
 
   .tire-detail__panel {

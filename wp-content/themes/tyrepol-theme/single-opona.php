@@ -85,7 +85,11 @@ while (have_posts()) : the_post();
     <div class="tire-detail__inner">
       <div class="tire-detail__layout">
 
-        <div class="tire-detail__media reveal">
+        <!-- WP: bez klasy "reveal" (celowo) — to jest główna treść strony (zdjęcie + tabela
+             rozmiarów), a nie dekoracyjna sekcja marketingowa. Z "reveal" potrafiła się chwilę nie
+             pokazywać (widoczne dopiero po przewinięciu i wejściu w viewport), zostawiając puste
+             miejsce od razu po wejściu na stronę — mylące, szczególnie na telefonie. -->
+        <div class="tire-detail__media">
           <?php if (count($galeria_ids) > 1) : ?>
             <!-- WP: karuzela dodatkowych zdjęć (do 5 + zdjęcie wyróżniające) — patrz pola
                  "zdjecie_2"…"zdjecie_6" w acf-json/group_opona.json i tyrepol_opona_galeria()
@@ -115,7 +119,7 @@ while (have_posts()) : the_post();
           <?php endif; ?>
         </div>
 
-        <div class="tire-detail__panel reveal">
+        <div class="tire-detail__panel">
           <span class="tire-detail__badge"><?php echo esc_html($wzor); ?></span>
 
           <div class="tire-detail__table-wrap">
