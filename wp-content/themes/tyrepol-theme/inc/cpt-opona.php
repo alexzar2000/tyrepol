@@ -365,6 +365,61 @@ function tyrepol_kopiuj_dane_opony($z_id, $do_id) {
 }
 
 /**
+ * Opis modelu/serii — WSPÓLNY dla wszystkich rozmiarów tego samego modelu (patrz pola
+ * „opis_modelu” / „opis_modelu_en” w acf-json/group_opona.json). Zamiast wymagać wpisania go
+ * osobno przy KAŻDYM rozmiarze, przeszukujemy WSZYSTKIE warianty modelu (te same $variant_ids,
+ * co przy tabeli rozmiarów — patrz single-opona.php) i bierzemy pierwszy niepusty tekst, jaki
+ * znajdziemy — więc admin wypełnia go tylko RAZ, w dowolnym z rozmiarów, a pokazuje się przy
+ * wszystkich. Wersja EN: jeśli strona jest po angielsku i dany wariant ma wypełnione
+ * „opis_modelu_en”, ma ono pierwszeństwo przed polskim tekstem TEGO SAMEGO wariantu (ten sam
+ * mechanizm co tyrepol_opt() w inc/helpers.php).
+ */
+function tyrepol_opona_opis_modelu($variant_ids) {
+    if (!function_exists('get_field')) return '';
+    foreach ($variant_ids as $id) {
+        $tekst = '';
+        if (tyrepol_current_lang() === 'en') {
+            $tekst = trim((string) get_field('opis_modelu_en', $id));
+        }
+        if ($tekst === '') {
+            $tekst = trim((string) get_field('opis_modelu', $id));
+        }
+        if ($tekst !== '') return $tekst;
+    }
+    return '';
+}
+
+/**
+ * Galeria dodatkowych zdjęć — TAK SAMO wspólna dla całego modelu jak opis wyżej. Szukamy
+ * PIERWSZEGO wariantu (w kolejności $variant_ids), który ma wypełnione choć jedno z pól
+ * „zdjecie_2”…„zdjecie_6” — i dla TEGO wariantu budujemy pełny zestaw: jego zdjęcie wyróżniające
+ * (jeśli jest) jako pierwsze, plus wszystkie wypełnione dodatkowe zdjęcia w kolejności pól.
+ * Rozmyślnie NIE mieszamy zdjęć z różnych wariantów w jedną galerię — całość pochodzi z jednego,
+ * żeby kolejność i dobór zdjęć był przewidywalny dla admina. Zwraca tablicę ID załączników
+ * (może być pusta, jeśli żaden wariant nie ma uzupełnionej galerii — wtedy strona produktu wraca
+ * do dotychczasowego zachowania: pojedyncze zdjęcie wyróżniające BIEŻĄCEGO wariantu).
+ */
+function tyrepol_opona_galeria($variant_ids) {
+    if (!function_exists('get_field')) return [];
+    foreach ($variant_ids as $id) {
+        $dodatkowe = [];
+        foreach (['zdjecie_2', 'zdjecie_3', 'zdjecie_4', 'zdjecie_5', 'zdjecie_6'] as $pole) {
+            $img_id = get_field($pole, $id);
+            if ($img_id) $dodatkowe[] = (int) $img_id;
+        }
+        if (empty($dodatkowe)) continue; // ten wariant nie ma galerii — sprawdź kolejny
+
+        $zestaw = [];
+        if (has_post_thumbnail($id)) $zestaw[] = (int) get_post_thumbnail_id($id);
+        foreach ($dodatkowe as $img_id) {
+            if (!in_array($img_id, $zestaw, true)) $zestaw[] = $img_id;
+        }
+        return $zestaw;
+    }
+    return [];
+}
+
+/**
  * Duplikowanie opony jednym kliknięciem — szybkie tworzenie kolejnego wariantu (np. innego
  * rozmiaru tego samego modelu). Nowa kopia trafia jako szkic, żeby nic nie opublikowało się
  * przypadkiem bez sprawdzenia.

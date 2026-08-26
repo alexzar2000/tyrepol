@@ -54,6 +54,13 @@ while (have_posts()) : the_post();
         return $p_brand_name === $brand_norm;
     }));
     if (empty($variants)) $variants = [get_post()]; // zabezpieczenie — przynajmniej bieżący wpis
+    $variant_ids = wp_list_pluck($variants, 'ID');
+
+    // Opis modelu i dodatkowa galeria zdjęć — WSPÓLNE dla całego modelu (patrz komentarze przy
+    // tyrepol_opona_opis_modelu() / tyrepol_opona_galeria() w inc/cpt-opona.php): admin wypełnia
+    // je raz, w dowolnym rozmiarze, a pokazują się przy WSZYSTKICH rozmiarach tego modelu.
+    $opis_modelu = function_exists('tyrepol_opona_opis_modelu') ? tyrepol_opona_opis_modelu($variant_ids) : '';
+    $galeria_ids = function_exists('tyrepol_opona_galeria') ? tyrepol_opona_galeria($variant_ids) : [];
 ?>
 
   <nav class="breadcrumb" aria-label="<?php tyrepol_esc_attr_e('Okruszki nawigacyjne', 'Breadcrumbs'); ?>">
@@ -79,7 +86,28 @@ while (have_posts()) : the_post();
       <div class="tire-detail__layout">
 
         <div class="tire-detail__media reveal">
-          <?php if (has_post_thumbnail()) : the_post_thumbnail('large', ['class' => 'tire-detail__img']);
+          <?php if (count($galeria_ids) > 1) : ?>
+            <!-- WP: karuzela dodatkowych zdjęć (do 5 + zdjęcie wyróżniające) — patrz pola
+                 "zdjecie_2"…"zdjecie_6" w acf-json/group_opona.json i tyrepol_opona_galeria()
+                 w inc/cpt-opona.php. Pokazuje się TYLKO gdy admin uzupełnił choć jedno dodatkowe
+                 zdjęcie — inaczej zwykłe pojedyncze zdjęcie jak dotychczas (patrz "else" niżej). -->
+            <div class="tire-detail__gallery swiper" id="tire-gallery">
+              <div class="swiper-wrapper">
+                <?php foreach ($galeria_ids as $img_id) : ?>
+                <div class="swiper-slide">
+                  <?php echo wp_get_attachment_image($img_id, 'large', false, ['class' => 'tire-detail__img']); ?>
+                </div>
+                <?php endforeach; ?>
+              </div>
+              <button class="tire-detail__gallery-nav tire-detail__gallery-nav--prev" type="button" aria-label="<?php tyrepol_esc_attr_e('Poprzednie zdjęcie', 'Previous photo'); ?>">
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2 4 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </button>
+              <button class="tire-detail__gallery-nav tire-detail__gallery-nav--next" type="button" aria-label="<?php tyrepol_esc_attr_e('Następne zdjęcie', 'Next photo'); ?>">
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </button>
+              <div class="tire-detail__gallery-pagination swiper-pagination"></div>
+            </div>
+          <?php elseif (has_post_thumbnail()) : the_post_thumbnail('large', ['class' => 'tire-detail__img']);
           else : ?>
             <div class="tire-card__placeholder" aria-hidden="true">
               <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.5"></circle></svg>
@@ -112,7 +140,8 @@ while (have_posts()) : the_post();
                 ['label' => tyrepol_t('Sezon', 'Season'), 'get' => fn($id) => $term_names($id, 'sezon-opony')],
             ];
 
-            $variant_ids = wp_list_pluck($variants, 'ID');
+            // $variant_ids policzone wcześniej (patrz komentarz przy tyrepol_opona_opis_modelu()
+            // wyżej) — używane też przy opisie modelu i galerii, nie tylko w tej tabeli.
 
             // Kolumna trafia do tabeli tylko wtedy, gdy CHOĆ JEDEN wariant ma w niej wartość —
             // puste u wszystkich = kolumna w ogóle się nie pojawia; jeśli wypełniona choć u
@@ -184,6 +213,16 @@ while (have_posts()) : the_post();
             </ul>
             <?php endif; ?>
           </div>
+
+          <?php if ($opis_modelu !== '') : ?>
+          <!-- WP: opis modelu — WSPÓLNY dla wszystkich rozmiarów (patrz pole "opis_modelu"
+               w acf-json/group_opona.json i tyrepol_opona_opis_modelu() w inc/cpt-opona.php).
+               nl2br(), nie wysyłamy przez wysiwyg — pole jest zwykłym textarea (bez formatowania),
+               tak samo jak reszta opisowych pól w tym projekcie (np. odpowiedzi FAQ). -->
+          <div class="tire-detail__description">
+            <?php echo nl2br(esc_html($opis_modelu)); ?>
+          </div>
+          <?php endif; ?>
 
           <div class="tire-detail__cta-wrap">
             <button class="tire-detail__cta" type="button" data-modal-open="quote-modal"><?php tyrepol_esc_html_e('Darmowa wycena', 'Free quote'); ?></button>

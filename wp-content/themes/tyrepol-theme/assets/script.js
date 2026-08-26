@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBrandsCarousel();
   initCatalog();
   initCatalogFilterJump();
+  initTireGallery();
   initReveal();
   initContactForm();
   initScrollTop();
@@ -181,6 +182,28 @@ function initBrandTilesCarousel(el) {
     on: {
       lock: () => header.classList.add('catalog__header--brand-static'),
       unlock: () => header.classList.remove('catalog__header--brand-static'),
+    },
+  });
+}
+
+// WP: karuzela dodatkowych zdjęć na stronie pojedynczej opony (do 5 dodatkowych + zdjęcie
+// wyróżniające) — pojawia się w DOM tylko gdy admin uzupełnił choć jedno dodatkowe zdjęcie
+// (patrz single-opona.php i tyrepol_opona_galeria() w inc/cpt-opona.php), więc funkcja po prostu
+// nic nie robi, jeśli elementu nie ma na stronie.
+function initTireGallery() {
+  const el = document.getElementById('tire-gallery');
+  if (!el || typeof Swiper === 'undefined') return;
+
+  new Swiper(el, {
+    slidesPerView: 1,
+    loop: true,
+    navigation: {
+      nextEl: '.tire-detail__gallery-nav--next',
+      prevEl: '.tire-detail__gallery-nav--prev',
+    },
+    pagination: {
+      el: '.tire-detail__gallery-pagination',
+      clickable: true,
     },
   });
 }

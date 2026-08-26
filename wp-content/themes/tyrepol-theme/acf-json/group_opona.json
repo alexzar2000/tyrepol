@@ -17,6 +17,74 @@
             "type": "text",
             "instructions": "Np. 315/70R22.5",
             "required": 1
+        },
+        {
+            "key": "field_opona_opis_modelu",
+            "label": "Opis modelu / serii (PL)",
+            "name": "opis_modelu",
+            "type": "textarea",
+            "rows": 4,
+            "instructions": "WSPÓLNY opis dla WSZYSTKICH rozmiarów tego samego modelu (ten sam „Wzór bieżnika”) — pokazuje się pod tabelą na stronie produktu. Wypełnij TYLKO W JEDNYM z rozmiarów tego modelu — system sam znajdzie ten tekst i pokaże go przy każdym rozmiarze. Puste pole = nic się nie pokaże."
+        },
+        {
+            "key": "field_opona_opis_modelu_en",
+            "label": "Opis modelu / serii (EN)",
+            "name": "opis_modelu_en",
+            "type": "textarea",
+            "rows": 4,
+            "instructions": "Angielska wersja opisu wyżej — pokazuje się zamiast polskiej na angielskiej wersji strony. Puste = na angielskiej wersji pokaże się (jeśli jest) polski opis."
+        },
+        {
+            "key": "field_opona_galeria_naglowek",
+            "label": "Dodatkowe zdjęcia (galeria)",
+            "name": "galeria_naglowek",
+            "type": "message",
+            "message": "WSPÓLNA galeria dla WSZYSTKICH rozmiarów tego samego modelu — działa tak samo jak opis wyżej: uzupełnij zdjęcia TYLKO W JEDNYM z rozmiarów, a pokażą się (razem z głównym zdjęciem wyróżniającym) w karuzeli u każdego rozmiaru tego modelu. Zostaw puste, żeby zostawić tylko pojedyncze zdjęcie wyróżniające jak dotychczas."
+        },
+        {
+            "key": "field_opona_zdjecie_2",
+            "label": "Dodatkowe zdjęcie 2",
+            "name": "zdjecie_2",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_opona_zdjecie_3",
+            "label": "Dodatkowe zdjęcie 3",
+            "name": "zdjecie_3",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_opona_zdjecie_4",
+            "label": "Dodatkowe zdjęcie 4",
+            "name": "zdjecie_4",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_opona_zdjecie_5",
+            "label": "Dodatkowe zdjęcie 5",
+            "name": "zdjecie_5",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_opona_zdjecie_6",
+            "label": "Dodatkowe zdjęcie 6",
+            "name": "zdjecie_6",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all"
         }
     ],
     "location": [
