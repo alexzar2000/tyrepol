@@ -419,7 +419,9 @@
                             "key": "field_el_sp1_link_url",
                             "label": "Adres linku",
                             "name": "link_url",
-                            "type": "url"
+                            "type": "text",
+                            "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                            "instructions": ""
                         },
                         {
                             "key": "field_el_sp1_obraz",
@@ -472,7 +474,9 @@
                             "key": "field_el_sp2_link_url",
                             "label": "Adres linku",
                             "name": "link_url",
-                            "type": "url"
+                            "type": "text",
+                            "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                            "instructions": ""
                         },
                         {
                             "key": "field_el_sp2_obraz",
@@ -526,7 +530,9 @@
                             "key": "field_el_sp3_link_url",
                             "label": "Adres linku",
                             "name": "link_url",
-                            "type": "url"
+                            "type": "text",
+                            "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                            "instructions": ""
                         },
                         {
                             "key": "field_el_sp3_obraz",
@@ -579,7 +585,9 @@
                             "key": "field_el_sp4_link_url",
                             "label": "Adres linku",
                             "name": "link_url",
-                            "type": "url"
+                            "type": "text",
+                            "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                            "instructions": ""
                         },
                         {
                             "key": "field_el_sp4_obraz",
@@ -875,7 +883,9 @@
                     "key": "field_el_c_b1_url",
                     "label": "Przycisk 1 — adres",
                     "name": "przycisk_1_url",
-                    "type": "url"
+                    "type": "text",
+                    "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                    "instructions": ""
                 },
                 {
                     "key": "field_el_c_b2_tekst",
@@ -887,7 +897,9 @@
                     "key": "field_el_c_b2_url",
                     "label": "Przycisk 2 — adres",
                     "name": "przycisk_2_url",
-                    "type": "url"
+                    "type": "text",
+                    "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                    "instructions": ""
                 }
             ]
         },

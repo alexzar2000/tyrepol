@@ -1110,6 +1110,68 @@ body.loader-active {
   margin-top: var(--header-height);
 }
 
+/* ===== Blok: baner nad sekcją (obecnie tylko strona Kontakt — patrz template-parts/banner.php) ===== */
+.page-banner {
+  position: relative;
+  margin-top: var(--header-height); /* odstęp od stałego hedera - to ZAWSZE pierwszy blok na stronie */
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+/* Sekcja "Kontakt" ma WŁASNY odstęp od hedera (.contact--top, patrz wyżej) na wypadek gdyby była
+   pierwszym blokiem strony — ale kiedy baner jest włączony, to ON jest pierwszy, więc zdejmujemy
+   ten sam odstęp z sekcji kontakt zaraz pod banerem, żeby nie powstała podwójna, za duża przerwa. */
+.page-banner + .contact--top {
+  margin-top: 0;
+}
+
+.page-banner__img {
+  display: block;
+  width: 100%;
+  height: clamp(180px, 28vw, 420px);
+  object-fit: cover;
+}
+
+.page-banner__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 55%, rgba(0, 0, 0, 0) 100%);
+}
+
+.page-banner__inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.page-banner__title {
+  margin: 0 0 8px;
+  color: var(--color-white);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.page-banner__desc {
+  margin: 0;
+  max-width: 560px;
+  color: var(--color-white);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .page-banner__title {
+    font-size: 22px;
+  }
+
+  .page-banner__desc {
+    font-size: 14px;
+  }
+}
+
 /* ===== Blok: szczegóły produktu (zdjęcie opony + tabela specyfikacji) ===== */
 
 .tire-detail {

@@ -1,0 +1,21 @@
+{
+    "key": "group_tyrepol_kontakt_baner",
+    "title": "Kontakt — baner nad sekcją",
+    "fields": [
+        {"key": "field_kb_pokaz", "label": "Pokaż baner", "name": "kontakt_baner_pokaz", "type": "true_false", "ui": 1, "default_value": 0, "instructions": "Włącz, żeby nad sekcją „Kontakt” pokazać duże zdjęcie (opcjonalnie z nagłówkiem/tekstem na nim)."},
+        {"key": "field_kb_zdjecie", "label": "Zdjęcie banera", "name": "kontakt_baner_zdjecie", "type": "image", "return_format": "id", "instructions": "Zalecane szerokie zdjęcie, min. 1600×500 px."},
+        {"key": "field_kb_naglowek", "label": "Nagłówek na banerze (opcjonalnie)", "name": "kontakt_baner_naglowek", "type": "text"},
+        {"key": "field_kb_tekst", "label": "Tekst na banerze (opcjonalnie)", "name": "kontakt_baner_tekst", "type": "text"}
+    ],
+    "location": [
+        [{"param": "page_template", "operator": "==", "value": "page-kontakt.php"}]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": ["the_content"],
+    "active": true,
+    "description": "Baner pokazuje się na samej górze strony Kontakt, nad sekcją z danymi firmy i formularzem. Strona „Kontakt” jest dwujęzyczna przez Polylang (osobny wpis PL i osobny EN) — na wersji angielskiej wypełnij te same pola na angielskiej wersji tej strony, nie trzeba osobnych pól „(EN)”."
+}

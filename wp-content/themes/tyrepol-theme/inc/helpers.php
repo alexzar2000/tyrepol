@@ -276,3 +276,32 @@ add_action('wp_enqueue_scripts', function () {
         'nonce'   => wp_create_nonce('tyrepol_form'),
     ]);
 }, 20);
+
+/**
+ * Walidacja pól „Adres linku” / „Adres przycisku” (CTA — patrz „Sekcja tekst ze zdjęciem”,
+ * „Naprzemienne bloki” i „CTA końcowe” w acf-json/group_elastyczna.json oraz „Adres przycisku”
+ * w acf-json/group_slajd_hero.json). Te pola były wcześniej wbudowanym typem ACF „URL”, który ma
+ * swoją WŁASNĄ, sztywną walidację akceptującą tylko zwykłe adresy http(s):// — i po cichu odrzucał
+ * „mailto:” oraz „tel:”, mimo że strona (przez esc_url()) obsługuje je poprawnie. Zmieniliśmy typ
+ * pola na zwykły „Text” (bez wbudowanej walidacji) i pilnujemy poprawności SAMI, tutaj — akceptując
+ * dodatkowo „mailto:” i „tel:”, oraz zwykłą ścieżkę względną (np. „/opony/”) jako link wewnętrzny.
+ */
+function tyrepol_waliduj_adres_cta($valid, $value, $field, $input) {
+    if ($valid !== true) return $valid; // inny walidator już to odrzucił — nie dublujemy komunikatu
+    $value = trim((string) $value);
+    if ($value === '') return $valid; // pole jest opcjonalne
+
+    if (!preg_match('#^(https?://|mailto:|tel:|/)#i', $value)) {
+        return tyrepol_t(
+            'Adres musi zaczynać się od „http://”, „https://”, „mailto:”, „tel:” albo od „/” (link do innej strony na tym serwisie).',
+            'The address must start with "http://", "https://", "mailto:", "tel:", or "/" (a link to another page on this site).'
+        );
+    }
+    return $valid;
+}
+foreach ([
+    'field_el_sp1_link_url', 'field_el_sp2_link_url', 'field_el_sp3_link_url', 'field_el_sp4_link_url',
+    'field_el_c_b1_url', 'field_el_c_b2_url', 'field_sh_link_url',
+] as $tyrepol_pole_cta) {
+    add_filter("acf/validate_value/key={$tyrepol_pole_cta}", 'tyrepol_waliduj_adres_cta', 10, 4);
+}

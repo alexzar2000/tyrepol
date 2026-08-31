@@ -4,7 +4,7 @@
     "fields": [
         {"key": "field_sh_opis", "label": "Opis (lead pod tytułem)", "name": "opis", "type": "textarea", "rows": 2},
         {"key": "field_sh_link_tekst", "label": "Tekst przycisku", "name": "link_tekst", "type": "text", "default_value": "Sprawdź ofertę"},
-        {"key": "field_sh_link_url", "label": "Adres przycisku", "name": "link_url", "type": "url"}
+        {"key": "field_sh_link_url", "label": "Adres przycisku", "name": "link_url", "type": "text", "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789"}
     ],
     "location": [
         [{"param": "post_type", "operator": "==", "value": "slajd_hero"}]

@@ -190,6 +190,7 @@ add_filter('excerpt_more', fn() => '…');
  */
 add_image_size('tyrepol-card', 640, 480, true);
 add_image_size('tyrepol-gallery', 900, 700, true);
+add_image_size('tyrepol-banner', 1600, 500, true);
 
 /**
  * Lista „Aktualności” pokazuje 6 wpisów na stronę (tyle samo, ile w wersji statycznej pokazywał
