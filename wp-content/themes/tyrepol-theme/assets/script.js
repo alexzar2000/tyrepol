@@ -229,6 +229,14 @@ function initCatalog() {
   // tylko po stronie JS, bo to pole filtruje na bieżąco w przeglądarce, bez przeładowania strony.
   const normalizeSize = (value) => (value || '').toString().trim().toLowerCase().replace(/\s+/g, ' ');
 
+  // WP: "luźny" klucz porównawczy do dopasowania rozmiaru NIEZALEŻNIE od ukośnika "/" — klienci
+  // często pomijają go przy wpisywaniu rozmiaru z pamięci (np. wpisują "31570R22.5" zamiast
+  // "315/70R22.5"). Usuwamy "/" i wszystkie spacje z OBU stron porównania (i wpisanego fragmentu,
+  // i rozmiaru zapisanego w bazie) — dzięki temu "315/70 R22.5", "31570R22.5" i "315 70R22.5"
+  // trafiają na to samo dopasowanie. Podpowiedzi w <datalist> nadal pokazują pełny, oryginalny
+  // zapis rozmiaru (patrz $all_sizes w page-opony.php) — to dotyczy tylko samego dopasowania.
+  const looseSizeKey = (value) => normalizeSize(value).replace(/[\s/]+/g, '');
+
   // WP: tire.axle / tire.season / tire.vehicle / tire.sizes to teraz TABLICE (unia wszystkich
   // rozmiarów danego modelu — patrz grupowanie w page-opony.php), stąd dopasowanie przez
   // "includes"/"some" zamiast prostego porównania pojedynczej wartości.
@@ -238,8 +246,9 @@ function initCatalog() {
     if (filters.axles.length && !filters.axles.some((a) => tire.axle.includes(a))) return false;
     if (filters.seasons.length && !filters.seasons.some((s) => tire.season.includes(s))) return false;
     // WP: dopasowanie CZĘŚCIOWE zamiast dokładnego — wpisanie "315/70" pokazuje każdy rozmiar,
-    // który zawiera ten fragment (patrz normalizeSize() wyżej), a nie tylko idealnie równy tekst.
-    if (filters.size && !tire.sizes.some((s) => normalizeSize(s).includes(filters.size))) return false;
+    // który zawiera ten fragment, NIEZALEŻNIE od tego, czy klient wpisał ukośnik "/" (patrz
+    // looseSizeKey() wyżej), a nie tylko idealnie równy tekst.
+    if (filters.size && !tire.sizes.some((s) => looseSizeKey(s).includes(filters.size))) return false;
     return true;
   };
 
@@ -309,7 +318,7 @@ function initCatalog() {
       vehicle: vehicleInput ? vehicleInput.value : 'all',
       axles: getChecked('axle'),
       seasons: getChecked('season'),
-      size: sizeInput ? normalizeSize(sizeInput.value) : '',
+      size: sizeInput ? looseSizeKey(sizeInput.value) : '',
     };
 
     return TIRES.filter((tire) => matchesFilters(tire, filters));
