@@ -106,6 +106,20 @@ if (!defined('ABSPATH')) exit;
     </div>
   </div>
 
+  <!-- WP: lightbox ze zdjęciem opony — po kliknięciu na zdjęcie na stronie produktu (patrz
+       .tire-detail__img-trigger w single-opona.php) otwiera się to okno z dużym zdjęciem;
+       zamyka się krzyżykiem, klikiem w tło albo klawiszem Esc — dokładnie tak samo jak popup
+       „Darmowa wycena” wyżej (ten sam mechanizm w initModal(), patrz assets/script.js). -->
+  <div class="modal modal--lightbox" id="image-lightbox" aria-hidden="true">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog modal__dialog--lightbox" role="dialog" aria-modal="true" aria-label="<?php tyrepol_esc_attr_e('Powiększone zdjęcie opony', 'Enlarged tyre photo'); ?>">
+      <button class="modal__close modal__close--lightbox" type="button" data-modal-close aria-label="<?php tyrepol_esc_attr_e('Zamknij okno', 'Close window'); ?>">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <img class="modal__lightbox-img" data-lightbox-img src="" alt="">
+    </div>
+  </div>
+
   <div class="toast" id="inquiry-toast" role="status" aria-live="polite">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
     <span id="inquiry-toast-text"><?php tyrepol_esc_html_e('Zapytanie zostało wysłane. Skontaktujemy się wkrótce.', 'Your enquiry has been sent. We\'ll be in touch soon.'); ?></span>

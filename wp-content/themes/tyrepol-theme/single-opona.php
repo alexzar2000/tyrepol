@@ -97,9 +97,15 @@ while (have_posts()) : the_post();
                  zdjęcie — inaczej zwykłe pojedyncze zdjęcie jak dotychczas (patrz "else" niżej). -->
             <div class="tire-detail__gallery swiper" id="tire-gallery">
               <div class="swiper-wrapper">
-                <?php foreach ($galeria_ids as $img_id) : ?>
+                <?php foreach ($galeria_ids as $img_id) :
+                  // WP: pełny rozmiar do lightboxa (kliknięcie zdjęcia) — osobno od "large" pokazywanego
+                  // od razu na stronie, żeby powiększone zdjęcie było maksymalnie ostre.
+                  $img_full = wp_get_attachment_image_url($img_id, 'full') ?: wp_get_attachment_image_url($img_id, 'large');
+                ?>
                 <div class="swiper-slide">
-                  <?php echo wp_get_attachment_image($img_id, 'large', false, ['class' => 'tire-detail__img']); ?>
+                  <button type="button" class="tire-detail__img-trigger" data-modal-open="image-lightbox" data-lightbox-src="<?php echo esc_url($img_full); ?>" data-lightbox-alt="<?php echo esc_attr($wzor); ?>" aria-label="<?php tyrepol_esc_attr_e('Powiększ zdjęcie', 'Enlarge photo'); ?>">
+                    <?php echo wp_get_attachment_image($img_id, 'large', false, ['class' => 'tire-detail__img']); ?>
+                  </button>
                 </div>
                 <?php endforeach; ?>
               </div>
@@ -111,8 +117,14 @@ while (have_posts()) : the_post();
               </button>
               <div class="tire-detail__gallery-pagination swiper-pagination"></div>
             </div>
-          <?php elseif (has_post_thumbnail()) : the_post_thumbnail('large', ['class' => 'tire-detail__img']);
-          else : ?>
+          <?php elseif (has_post_thumbnail()) :
+            $thumb_id   = get_post_thumbnail_id();
+            $thumb_full = wp_get_attachment_image_url($thumb_id, 'full') ?: wp_get_attachment_image_url($thumb_id, 'large');
+          ?>
+            <button type="button" class="tire-detail__img-trigger" data-modal-open="image-lightbox" data-lightbox-src="<?php echo esc_url($thumb_full); ?>" data-lightbox-alt="<?php echo esc_attr($wzor); ?>" aria-label="<?php tyrepol_esc_attr_e('Powiększ zdjęcie', 'Enlarge photo'); ?>">
+              <?php the_post_thumbnail('large', ['class' => 'tire-detail__img']); ?>
+            </button>
+          <?php else : ?>
             <div class="tire-card__placeholder" aria-hidden="true">
               <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.5"></circle></svg>
             </div>

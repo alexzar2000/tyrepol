@@ -1263,6 +1263,26 @@ body.loader-active {
   height: auto;
 }
 
+/* WP: przycisk-wrapper na zdjęciu opony (patrz .tire-detail__img-trigger w single-opona.php) —
+   klik otwiera duże zdjęcie w oknie (#image-lightbox w footer.php). Reset stylu <button>, żeby
+   wyglądał i zachowywał się dokładnie jak zwykłe zdjęcie (bez ramki/tła), tylko z kursorem
+   „lupka” i widocznym obramowaniem przy nawigacji klawiaturą. */
+.tire-detail__img-trigger {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: zoom-in;
+  font: inherit;
+}
+
+.tire-detail__img-trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .tire-detail__panel {
   flex: 1 1 auto;
   min-width: 0;
@@ -3613,6 +3633,44 @@ body.loader-active {
   gap: 18px;
 }
 
+/* WP: wariant okna — lightbox ze zdjęciem opony (#image-lightbox w footer.php), zamiast
+   białej „karty” z formularzem: przezroczyste tło, zdjęcie wyśrodkowane i dopasowane do ekranu,
+   krzyżyk przyklejony do rogu ekranu (a nie do rogu samego zdjęcia). */
+.modal__dialog--lightbox {
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  display: flex;
+}
+
+.modal__lightbox-img {
+  display: block;
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  background: var(--color-white);
+}
+
+.modal__close--lightbox {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--color-white);
+}
+
+.modal__close--lightbox:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
 @media (max-width: 767px) {
   .modal {
     padding: 0;
@@ -3624,6 +3682,29 @@ body.loader-active {
     max-height: 90vh;
     border-radius: 16px 16px 0 0;
     padding: 32px 20px 24px;
+  }
+
+  /* Lightbox zostaje wyśrodkowany na środku ekranu (nie jako "dolna karta" jak formularz) */
+  .modal--lightbox {
+    padding: 12px;
+    align-items: center;
+  }
+
+  .modal__dialog--lightbox {
+    max-width: 96vw;
+    max-height: 88vh;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .modal__lightbox-img {
+    max-width: 96vw;
+    max-height: 88vh;
+  }
+
+  .modal__close--lightbox {
+    top: 12px;
+    right: 12px;
   }
 }
 

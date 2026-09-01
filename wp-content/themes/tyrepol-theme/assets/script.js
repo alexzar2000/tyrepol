@@ -593,6 +593,10 @@ function initFaq() {
 
 // Popup z formularzem (zapytanie o cenę opony) - otwieranie/zamykanie, ESC, klik w tło,
 // wysyłka AJAX, po sukcesie popup zamyka się i pokazuje toast z komunikatem z serwera.
+// WP: ten sam mechanizm (data-modal-open/data-modal-close, ESC, klik w tło) obsługuje też
+// lightbox ze zdjęciem opony (patrz #image-lightbox w footer.php i .tire-detail__img-trigger
+// w single-opona.php) — jedyna różnica: trigger może dodatkowo nieść adres zdjęcia
+// (data-lightbox-src), które wstawiamy do <img> w oknie PRZED jego otwarciem.
 function initModal() {
   const modals = document.querySelectorAll('.modal');
   if (!modals.length) return;
@@ -605,6 +609,10 @@ function initModal() {
     document.body.classList.add('no-scroll');
     const firstField = modal.querySelector('select, input, textarea');
     if (firstField) firstField.focus();
+    else {
+      const closeBtn = modal.querySelector('[data-modal-close].modal__close');
+      if (closeBtn) closeBtn.focus();
+    }
   };
 
   const closeModal = (modal) => {
@@ -618,6 +626,15 @@ function initModal() {
     trigger.addEventListener('click', () => {
       const modal = document.getElementById(trigger.dataset.modalOpen);
       if (!modal) return;
+
+      if (trigger.dataset.lightboxSrc) {
+        const img = modal.querySelector('[data-lightbox-img]');
+        if (img) {
+          img.src = trigger.dataset.lightboxSrc;
+          img.alt = trigger.dataset.lightboxAlt || '';
+        }
+      }
+
       lastTrigger = trigger;
       openModal(modal);
     });
