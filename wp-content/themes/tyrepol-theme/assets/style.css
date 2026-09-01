@@ -3032,6 +3032,10 @@ body.loader-active {
   color: #333;
 }
 
+.about-hero__cta {
+  margin-top: 12px;
+}
+
 .about-hero__media {
   border-radius: 8px;
   overflow: hidden;
@@ -3782,11 +3786,16 @@ body.loader-active {
   color: var(--color-accent);
 }
 
-/* Katalog opon: przycisk nad filtrami (patrz .catalog__layout w page-opony.php) */
-.catalog__cta {
+/* Katalog opon: kolumna filtrów (przycisk CTA + karta filtrów) — zajmuje tę samą, lewą kolumnę
+   siatki .catalog__layout (280px), co wcześniej sama .catalog__filters. */
+.catalog__filters-col {
   display: flex;
-  justify-content: center;
-  margin: 0 auto 48px;
+  flex-direction: column;
+}
+
+/* Katalog opon: przycisk NAD kartą filtrów, po lewej stronie (nie na całą szerokość strony) */
+.catalog__cta {
+  margin-bottom: 20px;
 }
 
 /* Sekcja „Tekst + zdjęcie” (about): przycisk pod treścią */
@@ -3801,7 +3810,7 @@ body.loader-active {
 
 @media (max-width: 767px) {
   .catalog__cta {
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
 
   .about__cta {

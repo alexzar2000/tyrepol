@@ -164,19 +164,23 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
       </div>
       <?php endif; ?>
 
-      <?php
-      // WP: opcjonalny własny przycisk CTA nad filtrami — tekst i adres wpisuje admin w edytorze
-      // tej strony (patrz acf-json/group_opony_page.json). Adres obsługuje też „mailto:”/„tel:”.
-      get_template_part('template-parts/cta-custom-button', null, [
-          'tekst' => get_field('katalog_cta_pokaz') ? get_field('katalog_cta_tekst') : '',
-          'url'   => get_field('katalog_cta_url'),
-          'class' => 'catalog__cta',
-      ]);
-      ?>
-
       <div class="catalog__layout">
 
-        <form class="catalog__filters" method="get">
+        <!-- WP: kolumna filtrów — przycisk CTA (opcjonalny) siedzi TU, nad kartą filtrów, po lewej
+             stronie siatki, a nie na całą szerokość strony (patrz .catalog__filters-col niżej). -->
+        <div class="catalog__filters-col">
+
+          <?php
+          // WP: opcjonalny własny przycisk CTA nad filtrami — tekst i adres wpisuje admin w edytorze
+          // tej strony (patrz acf-json/group_opony_page.json). Adres obsługuje też „mailto:”/„tel:”.
+          get_template_part('template-parts/cta-custom-button', null, [
+              'tekst' => get_field('katalog_cta_pokaz') ? get_field('katalog_cta_tekst') : '',
+              'url'   => get_field('katalog_cta_url'),
+              'class' => 'catalog__cta',
+          ]);
+          ?>
+
+          <form class="catalog__filters" method="get">
 
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Marka', 'Brand'); ?></h3>
@@ -230,7 +234,9 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
           </div>
 
           <button class="filter__submit" type="reset"><?php tyrepol_esc_html_e('Wyczyść filtry', 'Clear filters'); ?></button>
-        </form>
+          </form>
+
+        </div>
 
         <div class="catalog__results">
           <div class="catalog__grid" id="catalog-grid"></div>

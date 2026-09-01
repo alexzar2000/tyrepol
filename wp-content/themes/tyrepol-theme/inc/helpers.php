@@ -320,7 +320,7 @@ foreach ([
     // WP: te same pola co wyżej, tylko dla trzech nowych, samodzielnych przycisków CTA
     // dodawanych z panelu (nad filtrami w katalogu, pod tekstem w sekcji „Tekst + zdjęcie”,
     // pod danymi kontaktowymi) — patrz template-parts/cta-custom-button.php.
-    'field_op_cta_url', 'field_el_t_cta_url', 'field_opt_kontakt_cta_url', 'field_opt_kontakt_cta_url_en',
+    'field_op_cta_url', 'field_el_t_cta_url', 'field_el_h_cta_url', 'field_opt_kontakt_cta_url', 'field_opt_kontakt_cta_url_en',
 ] as $tyrepol_pole_cta) {
     add_filter("acf/validate_value/key={$tyrepol_pole_cta}", 'tyrepol_waliduj_adres_cta', 10, 4);
 }

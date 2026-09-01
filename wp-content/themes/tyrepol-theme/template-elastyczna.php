@@ -39,6 +39,8 @@ get_header();
         'badges'    => $badges,
         'image'     => $sec['obraz'] ?? null,
         'image_fit' => $sec['dopasowanie_obrazu'] ?: 'cover',
+        'cta_tekst' => !empty($sec['cta_pokaz']) ? ($sec['cta_tekst'] ?? '') : '',
+        'cta_url'   => $sec['cta_url'] ?? '',
     ]);
   endif;
 

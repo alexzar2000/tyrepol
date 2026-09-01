@@ -2,17 +2,20 @@
 /**
  * Cząstka „Baner (about-hero)” — używana jako pierwsza sekcja szablonu „Elastyczna strona”
  * (np. baner marki Saucerman albo baner strony O firmie).
- * $args: eyebrow, title, lead, badges (array tekstów), image (ID załącznika), image_fit (cover|contain|auto)
+ * $args: eyebrow, title, lead, badges (array tekstów), image (ID załącznika), image_fit (cover|contain|auto),
+ *   cta_tekst, cta_url (opcjonalny własny przycisk pod tekstem — patrz template-parts/cta-custom-button.php)
  */
 if (!defined('ABSPATH')) exit;
-$eyebrow  = $args['eyebrow'] ?? '';
-$title    = $args['title'] ?? '';
-$lead     = $args['lead'] ?? '';
-$badges   = $args['badges'] ?? [];
-$image    = $args['image'] ?? null;
-$fit_val  = $args['image_fit'] ?? 'cover';
-$fit      = $fit_val === 'contain' ? ' about-hero__img--contain' : '';
-$media_cl = $fit_val === 'auto' ? ' about-hero__media--auto' : '';
+$eyebrow   = $args['eyebrow'] ?? '';
+$title     = $args['title'] ?? '';
+$lead      = $args['lead'] ?? '';
+$badges    = $args['badges'] ?? [];
+$image     = $args['image'] ?? null;
+$fit_val   = $args['image_fit'] ?? 'cover';
+$fit       = $fit_val === 'contain' ? ' about-hero__img--contain' : '';
+$media_cl  = $fit_val === 'auto' ? ' about-hero__media--auto' : '';
+$cta_tekst = $args['cta_tekst'] ?? '';
+$cta_url   = $args['cta_url'] ?? '';
 ?>
 <section class="about-hero about-hero--top">
   <div class="about-hero__inner">
@@ -27,6 +30,7 @@ $media_cl = $fit_val === 'auto' ? ' about-hero__media--auto' : '';
         <?php endforeach; ?>
       </ul>
       <?php endif; ?>
+      <?php get_template_part('template-parts/cta-custom-button', null, ['tekst' => $cta_tekst, 'url' => $cta_url, 'class' => 'about-hero__cta']); ?>
     </div>
     <?php if ($image) : ?>
     <div class="about-hero__media about-hero__media--product reveal<?php echo $media_cl; ?>">

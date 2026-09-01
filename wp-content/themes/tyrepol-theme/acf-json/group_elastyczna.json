@@ -48,6 +48,29 @@
                     "type": "text"
                 },
                 {
+                    "key": "field_el_h_cta_pokaz",
+                    "label": "Pokaż przycisk pod tekstem banera",
+                    "name": "cta_pokaz",
+                    "type": "true_false",
+                    "ui": 1,
+                    "default_value": 0
+                },
+                {
+                    "key": "field_el_h_cta_tekst",
+                    "label": "Tekst przycisku",
+                    "name": "cta_tekst",
+                    "type": "text",
+                    "conditional_logic": [[{"field": "field_el_h_cta_pokaz", "operator": "==", "value": "1"}]]
+                },
+                {
+                    "key": "field_el_h_cta_url",
+                    "label": "Adres przycisku",
+                    "name": "cta_url",
+                    "type": "text",
+                    "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789",
+                    "conditional_logic": [[{"field": "field_el_h_cta_pokaz", "operator": "==", "value": "1"}]]
+                },
+                {
                     "key": "field_el_h_obraz",
                     "label": "Zdjęcie",
                     "name": "obraz",
