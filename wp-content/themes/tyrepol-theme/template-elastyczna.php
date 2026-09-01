@@ -47,10 +47,12 @@ get_header();
   if (!empty($sec['pokaz']) && !empty($sec['tytul'])) :
     $ma_sekcje = true;
     get_template_part('template-parts/text-block', null, [
-        'eyebrow' => $sec['eyebrow'] ?? '',
-        'title'   => $sec['tytul'] ?? '',
-        'body'    => $sec['tresc'] ?? '',
-        'image'   => $sec['obraz'] ?? null,
+        'eyebrow'   => $sec['eyebrow'] ?? '',
+        'title'     => $sec['tytul'] ?? '',
+        'body'      => $sec['tresc'] ?? '',
+        'image'     => $sec['obraz'] ?? null,
+        'cta_tekst' => !empty($sec['cta_pokaz']) ? ($sec['cta_tekst'] ?? '') : '',
+        'cta_url'   => $sec['cta_url'] ?? '',
     ]);
   endif;
 

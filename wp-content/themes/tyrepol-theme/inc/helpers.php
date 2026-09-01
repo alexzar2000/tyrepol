@@ -65,6 +65,21 @@ function tyrepol_opt($field, $default = '') {
 }
 
 /**
+ * Widoczność przycisku CTA pod danymi kontaktowymi (patrz template-parts/contact.php) —
+ * w odróżnieniu od zwykłych pól odczytywanych przez tyrepol_opt() (gdzie puste PL po prostu
+ * pokazuje domyślny tekst), tu redaktor ma DWA NIEZALEŻNE przełączniki „Pokaż” — osobno dla
+ * wersji polskiej i osobno dla angielskiej — więc można celowo włączyć przycisk tylko na jednej
+ * z dwóch wersji językowych strony.
+ */
+function tyrepol_kontakt_cta_widoczna() {
+    if (!function_exists('get_field')) return false;
+    $page_id = tyrepol_settings_page_id();
+    if (!$page_id) return false;
+    $pole = (tyrepol_current_lang() === 'en') ? 'kontakt_cta_pokaz_en' : 'kontakt_cta_pokaz';
+    return (bool) get_field($pole, $page_id);
+}
+
+/**
  * Zdejmuje pojedynczy, otaczający cały tekst znacznik <p>...</p> — pole WYSIWYG (np.
  * „Tekst zgody RODO”) zawsze zapisuje treść owiniętą w <p>, więc doklejenie czegokolwiek PO
  * takim HTML-u (np. gwiazdki „*” przy checkboxie) ląduje POZA akapitem i łamie się do nowej
@@ -302,6 +317,10 @@ function tyrepol_waliduj_adres_cta($valid, $value, $field, $input) {
 foreach ([
     'field_el_sp1_link_url', 'field_el_sp2_link_url', 'field_el_sp3_link_url', 'field_el_sp4_link_url',
     'field_el_c_b1_url', 'field_el_c_b2_url', 'field_sh_link_url',
+    // WP: te same pola co wyżej, tylko dla trzech nowych, samodzielnych przycisków CTA
+    // dodawanych z panelu (nad filtrami w katalogu, pod tekstem w sekcji „Tekst + zdjęcie”,
+    // pod danymi kontaktowymi) — patrz template-parts/cta-custom-button.php.
+    'field_op_cta_url', 'field_el_t_cta_url', 'field_opt_kontakt_cta_url', 'field_opt_kontakt_cta_url_en',
 ] as $tyrepol_pole_cta) {
     add_filter("acf/validate_value/key={$tyrepol_pole_cta}", 'tyrepol_waliduj_adres_cta', 10, 4);
 }

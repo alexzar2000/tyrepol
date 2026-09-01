@@ -2029,12 +2029,20 @@ body.loader-active {
   color: #333;
 }
 
+/* WP: wrapper kafelków marek — WYDZIELONY z .catalog__header (który zostaje wąski, 640px, dla
+   nagłówka i opisu), żeby logotypy mogły być szersze niż tytuł/opis nad nimi (patrz też
+   .catalog__brand-carousel niżej — dwukrotnie szersza karuzela = dwukrotnie większe logotypy). */
+.catalog__brands {
+  max-width: 1280px;
+  margin: 0 auto 48px;
+}
+
 /* Blok: kafelki marek nad filtrami - klik filtruje siatkę poniżej; ponad 5 marek = karuzela (Swiper.js) */
 .catalog__brand-carousel {
   display: flex;
   align-items: center;
   gap: 16px;
-  max-width: 640px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -3690,6 +3698,7 @@ body.loader-active {
   .faq__header,
   .contact__header,
   .catalog__header,
+  .catalog__brands,
   .news__header,
   .about-values__header,
   .about-gallery__header {
@@ -3745,4 +3754,57 @@ body.loader-active {
 
 .toast--error {
   background: var(--color-accent);
+}
+
+/* WP: własny przycisk CTA dodawany z panelu (tekst + adres) — nad filtrami w katalogu opon,
+   pod tekstem w sekcji „Tekst + zdjęcie” i pod danymi kontaktowymi (patrz
+   template-parts/cta-custom-button.php). Ten sam wygląd co .section-cta__btn, żeby wszystkie
+   „własne” przyciski na stronie wyglądały jednolicie. */
+.cta-custom__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 14px 32px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cta-custom__btn:hover {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+/* Katalog opon: przycisk nad filtrami (patrz .catalog__layout w page-opony.php) */
+.catalog__cta {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 48px;
+}
+
+/* Sekcja „Tekst + zdjęcie” (about): przycisk pod treścią */
+.about__cta {
+  margin-top: 24px;
+}
+
+/* Dane kontaktowe (template-parts/contact.php): przycisk na dole bloku, pod ikonami social media */
+.contact__cta {
+  margin-top: 28px;
+}
+
+@media (max-width: 767px) {
+  .catalog__cta {
+    margin-bottom: 28px;
+  }
+
+  .about__cta {
+    margin-top: 20px;
+  }
 }

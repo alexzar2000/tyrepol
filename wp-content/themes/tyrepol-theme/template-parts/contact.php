@@ -78,6 +78,18 @@ $socials = [
           </li>
           <?php endforeach; ?>
         </ul>
+
+        <?php
+        // WP: opcjonalny własny przycisk CTA na dole danych kontaktowych — niezależny przełącznik
+        // widoczności dla PL/EN (patrz tyrepol_kontakt_cta_widoczna() w inc/helpers.php), bo ta
+        // cząstka jest WSPÓLNA i pokazuje się na kilku stronach naraz (nie jest osobnym wpisem
+        // Polylang na każdy język, jak zwykłe Strony).
+        get_template_part('template-parts/cta-custom-button', null, [
+            'tekst' => tyrepol_kontakt_cta_widoczna() ? tyrepol_opt('kontakt_cta_tekst') : '',
+            'url'   => tyrepol_opt('kontakt_cta_url'),
+            'class' => 'contact__cta',
+        ]);
+        ?>
       </div>
 
       <form class="contact__form reveal" id="contact-form" method="post">

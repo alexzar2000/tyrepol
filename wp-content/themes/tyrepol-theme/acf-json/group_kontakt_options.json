@@ -28,6 +28,9 @@
         {"key": "field_opt_kontakt_naglowek", "label": "Nagłówek", "name": "kontakt_naglowek", "type": "text", "default_value": "Kontakt"},
         {"key": "field_opt_kontakt_opis", "label": "Opis pod nagłówkiem", "name": "kontakt_opis", "type": "textarea", "rows": 2},
         {"key": "field_opt_kontakt_lead", "label": "Tekst nad danymi firmy", "name": "kontakt_lead", "type": "textarea", "rows": 2},
+        {"key": "field_opt_kontakt_cta_pokaz", "label": "Pokaż przycisk pod danymi kontaktowymi (wersja PL)", "name": "kontakt_cta_pokaz", "type": "true_false", "ui": 1, "default_value": 0, "instructions": "Ta sekcja „Kontakt” jest WSPÓLNA i pokazuje się na kilku stronach (Strona główna, Opony, O firmie, Kontakt) — przycisk pojawi się wszędzie tam, gdzie ta sekcja jest widoczna. Wersję angielską włącza się osobno, w zakładce „English (EN)”."},
+        {"key": "field_opt_kontakt_cta_tekst", "label": "Tekst przycisku", "name": "kontakt_cta_tekst", "type": "text", "conditional_logic": [[{"field": "field_opt_kontakt_cta_pokaz", "operator": "==", "value": "1"}]]},
+        {"key": "field_opt_kontakt_cta_url", "label": "Adres przycisku", "name": "kontakt_cta_url", "type": "text", "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789", "conditional_logic": [[{"field": "field_opt_kontakt_cta_pokaz", "operator": "==", "value": "1"}]]},
 
         {"key": "field_opt_tab_faq", "label": "FAQ (wspólne dla wszystkich stron)", "name": "tab_faq_wspolne", "type": "tab"},
         {"key": "field_opt_faq_tytul", "label": "Nagłówek", "name": "faq_tytul", "type": "text", "default_value": "FAQ"},
@@ -41,7 +44,10 @@
         {"key": "field_opt_kontakt_opis_en", "label": "Sekcja „Kontakt” — opis pod nagłówkiem (EN)", "name": "kontakt_opis_en", "type": "textarea", "rows": 2},
         {"key": "field_opt_kontakt_lead_en", "label": "Sekcja „Kontakt” — tekst nad danymi firmy (EN)", "name": "kontakt_lead_en", "type": "textarea", "rows": 2},
         {"key": "field_opt_faq_tytul_en", "label": "FAQ — nagłówek (EN)", "name": "faq_tytul_en", "type": "text", "placeholder": "FAQ"},
-        {"key": "field_opt_faq_opis_en", "label": "FAQ — opis (EN)", "name": "faq_opis_en", "type": "textarea", "rows": 2}
+        {"key": "field_opt_faq_opis_en", "label": "FAQ — opis (EN)", "name": "faq_opis_en", "type": "textarea", "rows": 2},
+        {"key": "field_opt_kontakt_cta_pokaz_en", "label": "Pokaż przycisk pod danymi kontaktowymi (wersja EN)", "name": "kontakt_cta_pokaz_en", "type": "true_false", "ui": 1, "default_value": 0, "instructions": "Niezależny przełącznik od wersji polskiej — można pokazać przycisk tylko po angielsku, tylko po polsku, na obu wersjach albo na żadnej."},
+        {"key": "field_opt_kontakt_cta_tekst_en", "label": "Tekst przycisku (EN)", "name": "kontakt_cta_tekst_en", "type": "text", "conditional_logic": [[{"field": "field_opt_kontakt_cta_pokaz_en", "operator": "==", "value": "1"}]]},
+        {"key": "field_opt_kontakt_cta_url_en", "label": "Adres przycisku (EN)", "name": "kontakt_cta_url_en", "type": "text", "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789", "conditional_logic": [[{"field": "field_opt_kontakt_cta_pokaz_en", "operator": "==", "value": "1"}]]}
     ],
     "location": [
         [{"param": "page_template", "operator": "==", "value": "template-ustawienia.php"}]

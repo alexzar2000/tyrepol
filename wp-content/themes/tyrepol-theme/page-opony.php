@@ -129,8 +129,13 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
       <div class="catalog__header">
         <h1 class="catalog__title"><?php echo esc_html(get_field('katalog_naglowek') ?: get_the_title()); ?></h1>
         <p class="catalog__desc"><?php echo esc_html(get_field('katalog_opis')); ?></p>
+      </div>
 
-        <?php if (!empty($brand_terms_all)) : ?>
+      <?php if (!empty($brand_terms_all)) : ?>
+      <!-- WP: kafelki marek są teraz w OSOBNYM wrapperze .catalog__brands (nie wewnątrz wąskiego
+           .catalog__header, jak wcześniej) — dzięki temu logotypy mogą być szersze niż tytuł/opis
+           nad nimi (patrz .catalog__brand-carousel w assets/style.css: 1280px zamiast 640px). -->
+      <div class="catalog__brands">
         <div class="catalog__brand-carousel">
           <button class="catalog__brand-nav catalog__brand-nav--prev" type="button" aria-label="<?php tyrepol_esc_attr_e('Poprzednia marka', 'Previous brand'); ?>">
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2 4 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -156,8 +161,18 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
           </button>
         </div>
         <div class="catalog__brand-pagination swiper-pagination"></div>
-        <?php endif; ?>
       </div>
+      <?php endif; ?>
+
+      <?php
+      // WP: opcjonalny własny przycisk CTA nad filtrami — tekst i adres wpisuje admin w edytorze
+      // tej strony (patrz acf-json/group_opony_page.json). Adres obsługuje też „mailto:”/„tel:”.
+      get_template_part('template-parts/cta-custom-button', null, [
+          'tekst' => get_field('katalog_cta_pokaz') ? get_field('katalog_cta_tekst') : '',
+          'url'   => get_field('katalog_cta_url'),
+          'class' => 'catalog__cta',
+      ]);
+      ?>
 
       <div class="catalog__layout">
 

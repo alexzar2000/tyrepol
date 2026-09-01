@@ -160,7 +160,10 @@ const SEASON_LABELS = (window.tyrepolCatalog && window.tyrepolCatalog.seasonLabe
 const I18N = window.tyrepolI18n || {};
 
 function initBrandTilesCarousel(el) {
-  const header = el ? el.closest('.catalog__header') : null;
+  // WP: kafelki marek są teraz w osobnym wrapperze .catalog__brands (wydzielonym z .catalog__header,
+  // żeby mogły być szersze niż wąski nagłówek/opis nad nimi) — stąd szukamy najbliższego
+  // .catalog__brands, a nie .catalog__header.
+  const header = el ? el.closest('.catalog__brands') : null;
   if (!el || !header || typeof Swiper === 'undefined') return;
 
   new Swiper(el, {

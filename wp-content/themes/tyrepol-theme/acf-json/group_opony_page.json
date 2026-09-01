@@ -3,7 +3,10 @@
     "title": "Katalog opon — nagłówek",
     "fields": [
         {"key": "field_op_naglowek", "label": "Nagłówek (H1)", "name": "katalog_naglowek", "type": "text", "placeholder": "Marki, które oferujemy"},
-        {"key": "field_op_opis", "label": "Opis", "name": "katalog_opis", "type": "textarea", "rows": 2}
+        {"key": "field_op_opis", "label": "Opis", "name": "katalog_opis", "type": "textarea", "rows": 2},
+        {"key": "field_op_cta_pokaz", "label": "Pokaż przycisk nad filtrami", "name": "katalog_cta_pokaz", "type": "true_false", "ui": 1, "default_value": 0, "instructions": "Ta strona jest dwujęzyczna przez Polylang (osobny wpis PL i osobny EN) — żeby przycisk pokazał się tylko na jednej wersji językowej, po prostu włącz go tylko na TEJ wersji strony."},
+        {"key": "field_op_cta_tekst", "label": "Tekst przycisku", "name": "katalog_cta_tekst", "type": "text", "conditional_logic": [[{"field": "field_op_cta_pokaz", "operator": "==", "value": "1"}]]},
+        {"key": "field_op_cta_url", "label": "Adres przycisku", "name": "katalog_cta_url", "type": "text", "placeholder": "https://... albo mailto:adres@firma.pl albo tel:+48123456789", "conditional_logic": [[{"field": "field_op_cta_pokaz", "operator": "==", "value": "1"}]]}
     ],
     "location": [
         [{"param": "page_template", "operator": "==", "value": "page-opony.php"}]
