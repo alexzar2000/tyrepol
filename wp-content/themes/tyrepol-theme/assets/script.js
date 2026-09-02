@@ -124,7 +124,10 @@ function initBrandsCarousel() {
   if (!section || !el || typeof Swiper === 'undefined') return;
 
   new Swiper(el, {
-    slidesPerView: 3,
+    // WP: na telefonie mniej kafelków na raz (2 zamiast 3) = KAŻDY kafelek/logo wyraźnie większy
+    // (marki są tylko 3, więc i tak wszystkie da się przewinąć/dotknąć) — na szerszych ekranach
+    // (patrz "breakpoints" niżej) wraca do 3, potem do 5.
+    slidesPerView: 2,
     spaceBetween: 12,
     loop: false,
     watchOverflow: true,
@@ -141,6 +144,7 @@ function initBrandsCarousel() {
       clickable: true,
     },
     breakpoints: {
+      576: { slidesPerView: 3, spaceBetween: 16 },
       992: { slidesPerView: 5, spaceBetween: 24 },
     },
     on: {
@@ -289,10 +293,15 @@ function initCatalog() {
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.5"></circle></svg>
         </div>`;
 
+    // WP: badge sezonu ("Całoroczne" itp.) tylko gdy jest CO pokazać — żaden wariant modelu nie
+    // ma przypisanego sezonu = pusty seasonLabel = badge w ogóle się nie renderuje (zamiast
+    // pustej "pigułki" z samym tłem i bez tekstu).
+    const badgeMarkup = seasonLabel ? `<span class="tire-card__badge">${seasonLabel}</span>` : '';
+
     return `
       <article class="tire-card">
         <div class="tire-card__media">
-          <span class="tire-card__badge">${seasonLabel}</span>
+          ${badgeMarkup}
           ${mediaMarkup}
         </div>
         <div class="tire-card__row">

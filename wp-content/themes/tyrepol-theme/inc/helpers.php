@@ -50,6 +50,28 @@ function tyrepol_term_label($term) {
     return $term->name;
 }
 
+/**
+ * Marki opon w USTALONEJ kolejności wyświetlania (nie alfabetycznej: „Falken, Sailun Tire,
+ * Saucerman”, jak domyślnie zwraca get_terms()) — używane wszędzie tam, gdzie pokazują się
+ * logotypy marek: karuzela na Stronie głównej (front-page.php) i karuzela nad filtrami w
+ * katalogu opon, gdzie ta sama tablica zasila też listę filtra „Marka” (page-opony.php) —
+ * dzięki temu kolejność jest spójna w obu miejscach na tej stronie.
+ * Marka spoza tej listy (np. nowo dodana w przyszłości) trafia na koniec, alfabetycznie —
+ * dodanie nowej marki w panelu nigdy jej nie „zgubi” z widoku.
+ */
+function tyrepol_marki_w_kolejnosci($terms) {
+    if (empty($terms) || is_wp_error($terms)) return [];
+    $kolejnosc = ['saucerman' => 0, 'falken' => 1, 'sailuntire' => 2];
+    $terms = array_values($terms);
+    usort($terms, function ($a, $b) use ($kolejnosc) {
+        $pa = $kolejnosc[$a->slug] ?? 999;
+        $pb = $kolejnosc[$b->slug] ?? 999;
+        if ($pa !== $pb) return $pa <=> $pb;
+        return strcasecmp($a->name, $b->name);
+    });
+    return $terms;
+}
+
 function tyrepol_opt($field, $default = '') {
     if (!function_exists('get_field')) return $default;
     $page_id = tyrepol_settings_page_id();

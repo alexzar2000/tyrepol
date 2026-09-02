@@ -93,7 +93,10 @@ $tires_saucerman = array_values(array_filter($tires, fn($t) => $t['brand'] === '
 $tires_pozostale  = array_values(array_filter($tires, fn($t) => $t['brand'] !== 'saucerman'));
 $tires = array_merge($tires_saucerman, $tires_pozostale);
 
-$brand_terms_all   = get_terms(['taxonomy' => 'marka-opony', 'hide_empty' => false]);
+// WP: ustalona kolejność marek (nie alfabetyczna) — patrz tyrepol_marki_w_kolejnosci()
+// w inc/helpers.php. Zasila zarówno karuzelę logotypów nad filtrami, jak i listę checkboxów
+// "Marka" niżej — obie w tej samej, ustalonej kolejności.
+$brand_terms_all   = tyrepol_marki_w_kolejnosci(get_terms(['taxonomy' => 'marka-opony', 'hide_empty' => false]));
 $axle_terms_all    = get_terms(['taxonomy' => 'os-montazu', 'hide_empty' => false]);
 $season_terms_all  = get_terms(['taxonomy' => 'sezon-opony', 'hide_empty' => false]);
 $vehicle_terms_all = get_terms(['taxonomy' => 'typ-pojazdu', 'hide_empty' => false]);

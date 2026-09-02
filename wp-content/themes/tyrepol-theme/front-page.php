@@ -97,7 +97,9 @@ get_header();
             <?php
             // Marki pobierane bezpośrednio z taksonomii „Marka” (Opony → Marki) — logo ustawia się
             // raz, edytując dany termin (pole „Logo marki”), a nie osobno na stronie głównej.
-            $brand_terms = get_terms(['taxonomy' => 'marka-opony', 'hide_empty' => false]);
+            // WP: ustalona kolejność (Saucerman, Falken, Sailun Tire) — patrz
+            // tyrepol_marki_w_kolejnosci() w inc/helpers.php.
+            $brand_terms = tyrepol_marki_w_kolejnosci(get_terms(['taxonomy' => 'marka-opony', 'hide_empty' => false]));
             foreach ($brand_terms as $term) :
               $logo = function_exists('get_field') ? get_field('logo', 'marka-opony_' . $term->term_id) : null;
               if (!$logo) continue;

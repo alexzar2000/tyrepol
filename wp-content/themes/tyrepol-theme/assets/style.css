@@ -4,7 +4,12 @@
   --color-black: #000;
   --color-white: #fff;
   --color-accent: #9f1d35;
-  --header-height: 85px;
+  /* WP: 85px = padding pionowy .header__inner (20+20) + wysokość logo (44px) + 1px obramowania
+     .header (patrz .header__logo-img niżej) — logo powiększone x2 (44px -> 88px), więc ta zmienna
+     rośnie o tyle samo (129px), żeby cała reszta strony (marginesy pod stałym hederem, sticky
+     panel filtrów itd. — patrz użycia var(--header-height) w całym pliku) dalej pasowała
+     dokładnie pod wyższy nagłówek. */
+  --header-height: 129px;
 }
 
 * {
@@ -204,8 +209,32 @@ body.loader-active {
 }
 
 .header__logo-img {
-  height: 44px;
+  height: 88px; /* WP: powiększone x2 (było 44px) — patrz też var(--header-height) w :root wyżej */
   display: block;
+}
+
+/* WP: mobilny wariant — logo powiększone TEŻ na telefonie (nie tylko na desktopie), tylko
+   mniej niż x2 (88px), bo przy szerokim logo x2 na wąskim ekranie nachodziłoby na przełącznik
+   języka i przycisk hamburgera (patrz .header__actions obok) — zmierzone: przy 88px logo nie
+   mieści się już przy szerokościach poniżej ok. 490px, czyli praktycznie na każdym telefonie.
+   58px to największy rozmiar, który bezpiecznie mieści się obok tamtych elementów już od ok.
+   360px szerokości ekranu (typowy dolny próg telefonu) — dodatkowo nieco zmniejszony padding
+   hedera (32px -> 20px w poziomie), żeby zostało jeszcze trochę więcej miejsca. */
+@media (max-width: 767px) {
+  :root {
+    /* Ta sama formuła co w :root wyżej: padding pionowy (20+20) + wysokość logo (58px) +
+       1px obramowania hedera — tylko z mniejszym, mobilnym logo. */
+    --header-height: 99px;
+  }
+
+  .header__inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .header__logo-img {
+    height: 58px;
+  }
 }
 
 /* Element: nawigacja główna */
@@ -834,8 +863,8 @@ body.loader-active {
 }
 
 .brands__logo {
-  max-width: 65%;
-  max-height: 45%;
+  max-width: 85%; /* WP: powiększone (było 65%) - mniej szarego tła, więcej samego logo */
+  max-height: 72%; /* WP: powiększone (było 45%) */
   object-fit: contain;
   opacity: 0.9;
   transition: transform 0.2s ease, opacity 0.2s ease;
