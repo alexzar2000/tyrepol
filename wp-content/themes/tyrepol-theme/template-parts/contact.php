@@ -22,12 +22,6 @@ $socials = [
       <p class="contact__desc"><?php echo esc_html(tyrepol_opt('kontakt_opis', tyrepol_t('Masz pytanie dotyczące opon, felg lub oferty? Napisz do nas lub odwiedź nas osobiście — chętnie pomożemy dobrać najlepsze rozwiązanie.', 'Have a question about tyres, rims or our offer? Write to us or visit us in person — we\'ll be happy to help you choose the best solution.'))); ?></p>
     </div>
 
-    <?php if ($map = tyrepol_opt('mapa_embed_url')) : ?>
-    <div class="contact__map reveal">
-      <iframe src="<?php echo esc_url($map); ?>" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="<?php tyrepol_esc_attr_e('Mapa — lokalizacja firmy', 'Map — company location'); ?>"></iframe>
-    </div>
-    <?php endif; ?>
-
     <div class="contact__grid">
 
       <div class="contact__info reveal">
@@ -125,6 +119,12 @@ $socials = [
       </form>
 
     </div>
+
+    <?php if ($map = tyrepol_opt('mapa_embed_url')) : ?>
+    <div class="contact__map reveal">
+      <iframe src="<?php echo esc_url($map); ?>" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="<?php tyrepol_esc_attr_e('Mapa — lokalizacja firmy', 'Map — company location'); ?>"></iframe>
+    </div>
+    <?php endif; ?>
 
   </div>
 </section>

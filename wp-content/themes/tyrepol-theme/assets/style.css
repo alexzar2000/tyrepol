@@ -1726,12 +1726,12 @@ body.loader-active {
   color: #333;
 }
 
-/* Element: mapa - na całą szerokość ekranu */
+/* Element: mapa - na całą szerokość ekranu (pod danymi kontaktowymi i formularzem) */
 .contact__map {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  margin-bottom: 56px;
+  margin-top: 56px;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
 }
@@ -3820,7 +3820,7 @@ body.loader-active {
   }
 
   .contact__map {
-    margin-bottom: 32px;
+    margin-top: 32px;
   }
 
   .catalog__layout {
