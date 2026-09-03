@@ -216,6 +216,12 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
             <?php endforeach; ?>
           </div>
 
+          <?php
+          // WP: włącznik widoczności w panelu strony (Katalog opon — nagłówek) — klient chciał móc
+          // samodzielnie chować/pokazywać te dwie grupy filtrów bez ingerencji w kod. Gdy ukryte, w
+          // JS (initCatalog) po prostu nie ma pasujących pól w formularzu, więc filtr nie jest
+          // stosowany (bezpieczna wartość domyślna) — nie trzeba nic zmieniać w assets/script.js.
+          if (get_field('katalog_filtr_vehicle_pokaz')) : ?>
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Typ pojazdu', 'Vehicle type'); ?></h3>
             <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="all" checked> <?php tyrepol_esc_html_e('Wszystkie', 'All'); ?></label>
@@ -223,6 +229,7 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
               <label class="filter__option"><input class="filter__radio" type="radio" name="vehicle" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html(tyrepol_term_label($t)); ?></label>
             <?php endforeach; ?>
           </div>
+          <?php endif; ?>
 
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Oś', 'Axle'); ?></h3>
@@ -231,12 +238,14 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
             <?php endforeach; ?>
           </div>
 
+          <?php if (get_field('katalog_filtr_season_pokaz')) : ?>
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Sezon', 'Season'); ?></h3>
             <?php foreach ($season_terms_all as $t) : ?>
               <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="season" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html(tyrepol_term_label($t)); ?></label>
             <?php endforeach; ?>
           </div>
+          <?php endif; ?>
 
           <button class="filter__submit" type="reset"><?php tyrepol_esc_html_e('Wyczyść filtry', 'Clear filters'); ?></button>
           </form>
