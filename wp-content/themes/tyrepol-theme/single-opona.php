@@ -141,12 +141,14 @@ while (have_posts()) : the_post();
               'brand'   => $brand ? $brand->slug : '',
           ]), $catalog_url);
           ?>
-          <a class="tire-detail__back" href="<?php echo esc_url($back_url); ?>">
-            <svg class="tire-detail__back-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2 4 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <?php tyrepol_esc_html_e('Wróć', 'Back'); ?>
-          </a>
+          <div class="tire-detail__top-row">
+            <a class="tire-detail__back" href="<?php echo esc_url($back_url); ?>">
+              <svg class="tire-detail__back-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2 4 8l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <?php tyrepol_esc_html_e('Wróć', 'Back'); ?>
+            </a>
 
-          <span class="tire-detail__badge"><?php echo esc_html($wzor); ?></span>
+            <span class="tire-detail__badge"><?php echo esc_html($wzor); ?></span>
+          </div>
 
           <div class="tire-detail__table-wrap">
             <?php
