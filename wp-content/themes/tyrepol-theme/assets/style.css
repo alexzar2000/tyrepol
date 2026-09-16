@@ -846,12 +846,17 @@ body.loader-active {
   height: auto;
 }
 
-/* Element: kafelek z logo marki - logo w oryginalnych kolorach (obsługuje logotypy kolorowe, białe i czarne) */
+/* Element: kafelek z logo marki - logo w oryginalnych kolorach (obsługuje logotypy kolorowe, białe i czarne).
+   WP: proporcje 4:3 celowo przez klasyczną sztuczkę "padding-bottom" (a nie przez nowsze CSS
+   "aspect-ratio") — na niektórych telefonach (Safari/iOS) "aspect-ratio" na elemencie wewnątrz
+   karuzeli Swiper potrafi się źle przeliczyć i kafelek jednej marki wychodzi wyższy/szerszy niż
+   pozostałe, mimo że w zwykłej przeglądarce na komputerze (nawet ze zmniejszonym oknem) wygląda
+   dobrze. "padding-bottom" daje IDENTYCZNY, przewidywalny kwadrat proporcji na każdym urządzeniu. */
 .brands__logo-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 4 / 3;
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%; /* 4:3 = wysokość równa 75% szerokości kafelka */
   background: #f2f2f2;
   border-radius: 8px;
   transition: background 0.2s ease;
@@ -863,10 +868,14 @@ body.loader-active {
 }
 
 .brands__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   max-width: 85%; /* WP: powiększone (było 65%) - mniej szarego tła, więcej samego logo */
   max-height: 72%; /* WP: powiększone (było 45%) */
   object-fit: contain;
   opacity: 0.9;
+  transform: translate(-50%, -50%);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -880,7 +889,7 @@ body.loader-active {
 
 .brands__slide:hover .brands__logo {
   opacity: 1;
-  transform: scale(1.05);
+  transform: translate(-50%, -50%) scale(1.05);
 }
 
 /* Element: strzałki nawigacji */
