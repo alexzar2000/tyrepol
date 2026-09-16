@@ -204,6 +204,11 @@ function initTireGallery() {
   new Swiper(el, {
     slidesPerView: 1,
     loop: true,
+    // WP: zdjęcia dodatkowe bywają innych proporcji niż zdjęcie główne — bez "autoHeight" Swiper
+    // ustawiał wysokość karuzeli na sztywno wg NAJWYŻSZEGO zdjęcia, więc przy niższym zdjęciu
+    // widać było puste szare tło (.tire-detail__media) dookoła niego. Z "autoHeight" wysokość
+    // karuzeli dopasowuje się za każdym razem do faktycznego zdjęcia na ekranie.
+    autoHeight: true,
     navigation: {
       nextEl: '.tire-detail__gallery-nav--next',
       prevEl: '.tire-detail__gallery-nav--prev',

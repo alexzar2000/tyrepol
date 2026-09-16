@@ -193,6 +193,30 @@ add_image_size('tyrepol-gallery', 900, 700, true);
 add_image_size('tyrepol-banner', 1600, 500, true);
 
 /**
+ * Próba podniesienia limitu wgrywanych plików (domyślnie hosting ustawił tylko 2 MB — za mało na
+ * zdjęcia prosto z telefonu/aparatu, klient dostaje błąd „Plik przekracza maksymalny dopuszczalny
+ * rozmiar plików”). To NIE jest ustawienie WordPressa ani motywu — pochodzi z konfiguracji PHP na
+ * serwerze (upload_max_filesize / post_max_size), więc motyw może to tylko PRÓBOWAĆ zmienić w
+ * locie (działa na części hostingów, na innych te wartości są zablokowane na sztywno i wymagają
+ * zmiany w panelu hostingu / pliku php.ini przez dział hostingu). Nawet gdyby to nie zadziałało,
+ * to jest nieszkodliwa, bezpieczna próba — nic nie psuje, jeśli hosting i tak to zignoruje.
+ *
+ * WAŻNE (do przekazania klientowi): sam limit wgrywania NIE wpływa na szybkość ładowania strony
+ * dla odwiedzających — WordPress i tak sam generuje mniejsze, dopasowane wersje każdego zdjęcia
+ * (patrz add_image_size() wyżej) i to one pokazują się na stronie, a nie oryginalny plik. Ale
+ * zdjęcie 20+ MB to i tak niepotrzebnie duży plik prosto z telefonu (zwykle bez utraty jakości da
+ * się skompresować do kilku MB) — warto pomniejszyć/skompresować zdjęcie PRZED wgraniem (np. przez
+ * dowolny konwerter online albo aplikację na telefonie), żeby panel admina nie zapychał się
+ * ogromnymi oryginałami i żeby wgrywanie było szybsze.
+ */
+add_action('init', function () {
+    if (function_exists('ini_get') && (int) ini_get('upload_max_filesize') < 32) {
+        @ini_set('upload_max_filesize', '32M');
+        @ini_set('post_max_size', '33M');
+    }
+});
+
+/**
  * Lista „Aktualności” pokazuje 6 wpisów na stronę (tyle samo, ile w wersji statycznej pokazywał
  * jeden „doładowany” pakiet kart) — kolejne 6 pod przyciskiem „Załaduj więcej aktualności”.
  */
