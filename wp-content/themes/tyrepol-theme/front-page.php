@@ -107,7 +107,9 @@ get_header();
             ?>
             <a class="brands__slide swiper-slide" href="<?php echo esc_url($marka_url); ?>">
               <span class="brands__logo-box">
-                <?php echo wp_get_attachment_image($logo, 'medium', false, ['class' => 'brands__logo', 'alt' => sprintf(tyrepol_t('Logo marki %s', '%s brand logo'), $term->name)]); ?>
+                <span class="brands__logo-box-inner">
+                  <?php echo wp_get_attachment_image($logo, 'medium', false, ['class' => 'brands__logo', 'alt' => sprintf(tyrepol_t('Logo marki %s', '%s brand logo'), $term->name)]); ?>
+                </span>
               </span>
             </a>
             <?php endforeach; ?>
