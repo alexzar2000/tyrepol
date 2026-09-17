@@ -73,7 +73,7 @@ function tyrepol_register_opona_cpt() {
     ];
 
     foreach ($taxonomies as $slug => $tax) {
-        register_taxonomy($slug, ['opona'], [
+        $args = [
             'labels' => [
                 'name'          => $tax['plural'],
                 'singular_name' => $tax['label'],
@@ -83,7 +83,17 @@ function tyrepol_register_opona_cpt() {
             'show_in_rest'      => true,
             'show_admin_column' => true,
             'rewrite'           => ['slug' => $slug],
-        ]);
+        ];
+
+        // WP: „Typ pojazdu” ma WŁASNY boks checkboxów na ekranie edycji opony (zamiast domyślnego
+        // boksu WordPressa) — pokazuje przy każdej opcji od razu polską I angielską nazwę razem
+        // (np. „Ciężarowe / Trucks”), żeby admin widział obie wersje naraz przy zapisie, bez
+        // przełączania języka panelu. Patrz tyrepol_typ_pojazdu_meta_box() niżej.
+        if ($slug === 'typ-pojazdu') {
+            $args['meta_box_cb'] = 'tyrepol_typ_pojazdu_meta_box';
+        }
+
+        register_taxonomy($slug, ['opona'], $args);
     }
 
     // Zapamiętujemy listę taksonomii + ich domyślne terminy, żeby jednorazowo utworzyć je
@@ -116,6 +126,40 @@ function tyrepol_register_opona_cpt() {
     ]);
 }
 add_action('init', 'tyrepol_register_opona_cpt');
+
+/**
+ * Własny boks „Typ pojazdu” na ekranie edycji opony — zamiast domyślnego boksu WordPressa
+ * (który pokazuje tylko jedną, aktualnie zapisaną nazwę terminu), każda opcja pokazuje RAZEM
+ * polską i angielską nazwę (np. „Ciężarowe / Trucks”) — patrz pole „Nazwa (EN)” na terminie,
+ * acf-json/group_kategorie_en.json. Dzięki temu admin widzi obie wersje jednocześnie przy
+ * zapisie, niezależnie od języka panelu, i nie musi zgadywać angielskiego odpowiednika.
+ * Checkboxy zapisują się jak przy domyślnym boksie WordPressa — przez zwykłe pole
+ * tax_input[typ-pojazdu][], które WordPress sam zapisuje przy zapisywaniu wpisu.
+ */
+function tyrepol_typ_pojazdu_meta_box($post) {
+    $taxonomy = 'typ-pojazdu';
+    $terms = get_terms(['taxonomy' => $taxonomy, 'hide_empty' => false]);
+    $selected = wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
+    if (is_wp_error($selected)) $selected = [];
+
+    echo '<div id="taxonomy-' . esc_attr($taxonomy) . '" class="categorydiv"><ul class="categorychecklist form-no-clear">';
+    if (!is_wp_error($terms)) {
+        foreach ($terms as $term) {
+            $nazwa_en = function_exists('get_field') ? get_field('nazwa_en', $taxonomy . '_' . $term->term_id) : '';
+            // Obie nazwy naraz (PL / EN) — jeśli „Nazwa (EN)” nie jest jeszcze wypełniona na
+            // terminie, pokazujemy samą polską nazwę zamiast pustego „ / ” na końcu.
+            $label = $nazwa_en ? $term->name . ' / ' . $nazwa_en : $term->name;
+            printf(
+                '<li id="%1$s-%2$d"><label class="selectit"><input value="%2$d" type="checkbox" name="tax_input[%1$s][]" id="in-%1$s-%2$d"%3$s> %4$s</label></li>',
+                esc_attr($taxonomy),
+                (int) $term->term_id,
+                checked(in_array($term->term_id, $selected, true), true, false),
+                esc_html($label)
+            );
+        }
+    }
+    echo '</ul></div>';
+}
 
 /**
  * Polylang — CPT „Opona” CELOWO NIE jest już rejestrowany jako tłumaczalny (podobnie jak

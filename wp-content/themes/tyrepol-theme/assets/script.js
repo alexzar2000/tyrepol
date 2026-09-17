@@ -220,7 +220,7 @@ function initTireGallery() {
   });
 }
 
-// Katalog opon - filtrowanie (marka, typ pojazdu, oś, sezon, rozmiar) + doładowywanie kart po 6 sztuk
+// Katalog opon - filtrowanie (marka, typ pojazdu, oś, sezon, rozmiar) + doładowywanie kart po 15 sztuk
 function initCatalog() {
   const grid = document.getElementById('catalog-grid');
   const form = document.querySelector('.catalog__filters');
@@ -228,7 +228,7 @@ function initCatalog() {
   const emptyState = document.getElementById('catalog-empty');
   if (!grid || !form || !loadMoreBtn) return;
 
-  const PAGE_SIZE = 6;
+  const PAGE_SIZE = 15;
   let visibleCount = PAGE_SIZE;
 
   const getChecked = (name) => Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((el) => el.value);

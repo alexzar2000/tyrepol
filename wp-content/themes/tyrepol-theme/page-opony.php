@@ -185,8 +185,9 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
 
           <form class="catalog__filters" method="get">
 
-          <!-- WP: pole „Rozmiar” celowo PIERWSZE w filtrach (na życzenie) — reszta grup filtrów
-               (Marka, Typ pojazdu, Oś, Sezon) zostaje niżej, bez zmian. -->
+          <!-- WP: pole „Rozmiar” celowo PIERWSZE w filtrach (na życzenie), zaraz po nim „Typ pojazdu”
+               (na życzenie klienta — nad „Marką”) — reszta grup filtrów (Marka, Oś, Sezon) zostaje
+               niżej, w dotychczasowej kolejności. -->
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Rozmiar', 'Size'); ?></h3>
             <!-- WP: wpisywane pole zamiast listy wyboru — wpisany fragment (np. "315/70") od razu
@@ -209,13 +210,6 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
             </datalist>
           </div>
 
-          <div class="filter__group">
-            <h3 class="filter__title"><?php tyrepol_esc_html_e('Marka', 'Brand'); ?></h3>
-            <?php foreach ($brand_terms_all as $t) : ?>
-              <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="brand" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
-            <?php endforeach; ?>
-          </div>
-
           <?php
           // WP: włącznik widoczności w panelu strony (Katalog opon — nagłówek) — klient chciał móc
           // samodzielnie chować/pokazywać te dwie grupy filtrów bez ingerencji w kod. Gdy ukryte, w
@@ -230,6 +224,13 @@ wp_add_inline_script('tyrepol-script', 'window.tyrepolCatalog = ' . wp_json_enco
             <?php endforeach; ?>
           </div>
           <?php endif; ?>
+
+          <div class="filter__group">
+            <h3 class="filter__title"><?php tyrepol_esc_html_e('Marka', 'Brand'); ?></h3>
+            <?php foreach ($brand_terms_all as $t) : ?>
+              <label class="filter__option"><input class="filter__checkbox" type="checkbox" name="brand" value="<?php echo esc_attr($t->slug); ?>"> <?php echo esc_html($t->name); ?></label>
+            <?php endforeach; ?>
+          </div>
 
           <div class="filter__group">
             <h3 class="filter__title"><?php tyrepol_esc_html_e('Oś', 'Axle'); ?></h3>
