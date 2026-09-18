@@ -137,6 +137,14 @@ require TYREPOL_DIR . '/inc/cpt-opona.php';
 require TYREPOL_DIR . '/inc/cechy-opony.php';
 
 /**
+ * Zbiorcza zmiana kategorii (Marka / Oś montażu / Sezon / Typ pojazdu) dla wielu zaznaczonych
+ * opon naraz — dodatkowa pozycja w "Edycja zbiorcza" na liście Opon, z wyborem: dodaj / usuń /
+ * ustaw dokładnie / wyczyść (domyślne "Edycja zbiorcza" WordPressa umie tylko dodawać — patrz
+ * komentarz na górze pliku).
+ */
+require TYREPOL_DIR . '/inc/bulk-edycja-cech.php';
+
+/**
  * Rejestracja CPT „Slajd hero” — nieograniczona liczba slajdów w karuzeli Strony głównej
  * (zamiast stałej liczby pól ACF — patrz komentarz w pliku).
  */

@@ -142,7 +142,14 @@ function tyrepol_typ_pojazdu_meta_box($post) {
     $selected = wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
     if (is_wp_error($selected)) $selected = [];
 
-    echo '<div id="taxonomy-' . esc_attr($taxonomy) . '" class="categorydiv"><ul class="categorychecklist form-no-clear">';
+    echo '<div id="taxonomy-' . esc_attr($taxonomy) . '" class="categorydiv">';
+    // WP: to samo „zerowe” ukryte pole, które WordPress sam dokleja w domyślnym boksie kategorii —
+    // bez niego odznaczenie WSZYSTKICH checkboxów i zapisanie wpisu w ogóle nie wysyła klucza
+    // tax_input[typ-pojazdu] (przeglądarka nie wysyła odznaczonych checkboxów), więc WordPress
+    // zostawiłby stare przypisanie bez zmian zamiast je wyczyścić. „0” to nieistniejące ID terminu,
+    // więc jest ignorowane, jeśli którykolwiek checkbox jest zaznaczony.
+    printf('<input type="hidden" name="tax_input[%s][]" value="0">', esc_attr($taxonomy));
+    echo '<ul class="categorychecklist form-no-clear">';
     if (!is_wp_error($terms)) {
         foreach ($terms as $term) {
             $nazwa_en = function_exists('get_field') ? get_field('nazwa_en', $taxonomy . '_' . $term->term_id) : '';
