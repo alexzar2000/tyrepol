@@ -346,3 +346,43 @@ foreach ([
 ] as $tyrepol_pole_cta) {
     add_filter("acf/validate_value/key={$tyrepol_pole_cta}", 'tyrepol_waliduj_adres_cta', 10, 4);
 }
+
+
+/**
+ * Contact Form 7: wyświetla formularz po TYTULE (bez zaszywania ID w kodzie).
+ * $title — tytuł formularza w bieżącym języku, $fallback — tytuł formularza PL, używany,
+ * gdy wersja EN jeszcze nie istnieje. $class — klasa dodawana do znacznika <form>.
+ */
+function tyrepol_cf7_form($title, $fallback = '', $class = '') {
+    if (!function_exists('wpcf7_get_contact_form_by_title')) return '';
+    $form = wpcf7_get_contact_form_by_title($title);
+    if (!$form && $fallback) $form = wpcf7_get_contact_form_by_title($fallback);
+    if (!$form) return '';
+    return do_shortcode(sprintf('[contact-form-7 id="%d" html_class="%s"]', $form->id(), esc_attr($class)));
+}
+
+/**
+ * Contact Form 7: pole [select tyre-size ...] dostaje automatycznie listę rozmiarów opon z bazy.
+ * Pierwsza opcja z szablonu (first_as_label, np. „Wybierz rozmiar”) zostaje na górze,
+ * pozostałe opcje z szablonu (np. „Inny rozmiar / nie wiem”) trafiają na sam dół listy.
+ * Filtr działa też przy walidacji po stronie serwera, więc wybrany rozmiar przechodzi kontrolę.
+ */
+add_filter('wpcf7_form_tag', function ($tag) {
+    if (empty($tag['name']) || $tag['name'] !== 'tyre-size') return $tag;
+
+    $sizes = array_values(tyrepol_get_available_sizes());
+    if (!$sizes) return $tag;
+
+    $values = (array) $tag['values'];
+    $labels = (array) $tag['labels'];
+    $first_as_label = in_array('first_as_label', (array) $tag['options'], true);
+
+    $head_v = $first_as_label ? array_slice($values, 0, 1) : [];
+    $head_l = $first_as_label ? array_slice($labels, 0, 1) : [];
+    $tail_v = $first_as_label ? array_slice($values, 1) : $values;
+    $tail_l = $first_as_label ? array_slice($labels, 1) : $labels;
+
+    $tag['values'] = array_merge($head_v, $sizes, $tail_v);
+    $tag['labels'] = array_merge($head_l, $sizes, $tail_l);
+    return $tag;
+});

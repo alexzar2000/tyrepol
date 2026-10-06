@@ -58,51 +58,12 @@ if (!defined('ABSPATH')) exit;
       <h2 class="modal__title" id="quote-modal-title"><?php tyrepol_esc_html_e('Darmowa wycena', 'Free quote'); ?></h2>
       <p class="modal__desc"><?php tyrepol_esc_html_e('Podaj kilka informacji, a przygotujemy dla Ciebie bezpłatną wycenę.', 'Give us a few details and we\'ll prepare a free quote for you.'); ?></p>
 
-      <form class="modal__form" id="inquiry-form" method="post">
-        <input type="hidden" name="form_type" value="wycena">
-        <div class="form__honeypot" aria-hidden="true">
-          <label for="inquiry-website"><?php tyrepol_esc_html_e('Strona internetowa', 'Website'); ?></label>
-          <input type="text" id="inquiry-website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="inquiry-size"><?php tyrepol_esc_html_e('Interesujący rozmiar', 'Size you\'re interested in'); ?> *</label>
-          <select class="form__input" id="inquiry-size" name="size" required>
-            <option value="" selected disabled><?php tyrepol_esc_html_e('Wybierz rozmiar', 'Choose a size'); ?></option>
-            <?php foreach (tyrepol_get_available_sizes() as $size) : ?>
-              <option value="<?php echo esc_attr($size); ?>"><?php echo esc_html($size); ?></option>
-            <?php endforeach; ?>
-            <option value="inny"><?php tyrepol_esc_html_e('Inny rozmiar / nie wiem', 'Other size / not sure'); ?></option>
-          </select>
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="inquiry-qty"><?php tyrepol_esc_html_e('Ilość sztuk', 'Quantity'); ?></label>
-          <input class="form__input" type="number" id="inquiry-qty" name="qty" min="1" placeholder="<?php tyrepol_esc_attr_e('np. 4', 'e.g. 4'); ?>">
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="inquiry-email"><?php tyrepol_esc_html_e('E-mail', 'Email'); ?> *</label>
-          <input class="form__input" type="email" id="inquiry-email" name="email" required>
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="inquiry-phone"><?php tyrepol_esc_html_e('Telefon', 'Phone'); ?></label>
-          <input class="form__input" type="tel" id="inquiry-phone" name="phone">
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="inquiry-message"><?php tyrepol_esc_html_e('Wiadomość', 'Message'); ?></label>
-          <textarea class="form__textarea form__textarea--small" id="inquiry-message" name="message" rows="3"></textarea>
-        </div>
-
-        <div class="form__group form__group--checkbox">
-          <input class="form__checkbox" type="checkbox" id="inquiry-rodo" name="rodo" required>
-          <label class="form__checkbox-label" for="inquiry-rodo"><?php echo wp_kses_post(tyrepol_strip_wrapping_p(tyrepol_opt('tekst_zgody_rodo', tyrepol_t('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'I agree to the processing of my personal data in order to receive a reply to my enquiry, in accordance with the Privacy Policy.')))); ?> *</label>
-        </div>
-
-        <button class="form__submit" type="submit"><?php tyrepol_esc_html_e('Wyślij zapytanie', 'Send enquiry'); ?></button>
-      </form>
+      <?php
+      // WP: formularz „Darmowa wycena” z wtyczki Contact Form 7 (szukany po tytule, patrz
+      // tyrepol_cf7_form() w inc/helpers.php). Lista rozmiarów w polu [select* tyre-size]
+      // jest uzupełniana automatycznie z bazy opon (filtr wpcf7_form_tag).
+      echo tyrepol_cf7_form(tyrepol_t('Darmowa wycena', 'Free quote'), 'Darmowa wycena', 'modal__form');
+      ?>
     </div>
   </div>
 

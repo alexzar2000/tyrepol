@@ -666,38 +666,31 @@ function initModal() {
     if (openModalEl) closeModal(openModalEl);
   });
 
-  const inquiryForm = document.getElementById('inquiry-form');
+  // WP: popup „Darmowa wycena” działa na Contact Form 7 — wysyłką i walidacją zajmuje się
+  // wtyczka, a my po udanej wysyłce (zdarzenie wpcf7mailsent) zamykamy okno i pokazujemy toast.
+  // Błędy (walidacja, spam, błąd wysyłki) CF7 wyświetla bezpośrednio w formularzu.
+  const quoteModal = document.getElementById('quote-modal');
   const toast = document.getElementById('inquiry-toast');
   const toastText = document.getElementById('inquiry-toast-text');
 
-  if (inquiryForm) {
-    inquiryForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  if (quoteModal) {
+    quoteModal.addEventListener('wpcf7mailsent', (e) => {
+      closeModal(quoteModal);
 
-      const submitBtn = inquiryForm.querySelector('.form__submit');
-      if (submitBtn) submitBtn.disabled = true;
-
-      const result = await sendTyrepolForm(inquiryForm, 'wycena');
-
-      if (submitBtn) submitBtn.disabled = false;
-
-      if (result.ok) {
-        const modal = inquiryForm.closest('.modal');
-        if (modal) closeModal(modal);
-        inquiryForm.reset();
-
-        if (toast) {
-          if (toastText && result.message) toastText.textContent = result.message;
-          toast.classList.add('toast--visible');
-          clearTimeout(toast._hideTimeout);
-          toast._hideTimeout = setTimeout(() => toast.classList.remove('toast--visible'), 4000);
-        }
-      } else if (toast) {
-        if (toastText) toastText.textContent = result.message || 'Wystąpił błąd. Spróbuj ponownie.';
-        toast.classList.add('toast--visible', 'toast--error');
+      if (toast) {
+        const message = e.detail && e.detail.apiResponse && e.detail.apiResponse.message;
+        if (toastText && message) toastText.textContent = message;
+        toast.classList.remove('toast--error');
+        toast.classList.add('toast--visible');
         clearTimeout(toast._hideTimeout);
-        toast._hideTimeout = setTimeout(() => toast.classList.remove('toast--visible', 'toast--error'), 4000);
+        toast._hideTimeout = setTimeout(() => toast.classList.remove('toast--visible'), 4000);
       }
+
+      // Komunikat „wysłano” w samym formularzu jest zbędny (pokazujemy toast) — czyścimy go,
+      // żeby po ponownym otwarciu popupu formularz był „czysty”.
+      setTimeout(() => {
+        quoteModal.querySelectorAll('.wpcf7-response-output').forEach((el) => { el.textContent = ''; });
+      }, 0);
     });
   }
 }

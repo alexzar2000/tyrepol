@@ -1,31 +1,31 @@
-/* ===== Contact Form 7: dopasowanie do wyglądu formularza motywu (strona Kontakt) ===== */
+/* ===== Contact Form 7: dopasowanie do wyglądu formularzy motywu (Kontakt + popup „Darmowa wycena”) ===== */
 .contact__form-wrap .wpcf7 {
   width: 100%;
 }
 
-.contact__form .wpcf7-form-control-wrap {
+.wpcf7-form .wpcf7-form-control-wrap {
   display: block;
 }
 
-.contact__form .form__input,
-.contact__form .form__textarea {
+.wpcf7-form .form__input,
+.wpcf7-form .form__textarea {
   width: 100%;
   box-sizing: border-box;
 }
 
 /* Zgoda RODO (pole acceptance) */
-.contact__form .wpcf7-acceptance .wpcf7-list-item {
+.wpcf7-form .wpcf7-acceptance .wpcf7-list-item {
   margin: 0;
 }
 
-.contact__form .wpcf7-acceptance label {
+.wpcf7-form .wpcf7-acceptance label {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   cursor: pointer;
 }
 
-.contact__form .wpcf7-acceptance input[type="checkbox"] {
+.wpcf7-form .wpcf7-acceptance input[type="checkbox"] {
   margin-top: 4px;
   width: 16px;
   height: 16px;
@@ -34,28 +34,28 @@
   cursor: pointer;
 }
 
-.contact__form .wpcf7-list-item-label {
+.wpcf7-form .wpcf7-list-item-label {
   font-size: 13px;
   line-height: 1.5;
   color: #333;
 }
 
-.contact__form .wpcf7-list-item-label a {
+.wpcf7-form .wpcf7-list-item-label a {
   color: var(--color-black);
   text-decoration: underline;
 }
 
-.contact__form .wpcf7-list-item-label a:hover {
+.wpcf7-form .wpcf7-list-item-label a:hover {
   color: var(--color-accent);
 }
 
 /* Cloudflare Turnstile: nad przyciskiem, a nie na górze formularza */
-.contact__form .wpcf7-turnstile {
+.wpcf7-form .wpcf7-turnstile {
   order: 1;
 }
 
 /* Przycisk wysyłki + kręciołek ładowania */
-.contact__form .form__actions {
+.wpcf7-form .form__actions {
   order: 2;
   display: flex;
   align-items: center;
@@ -67,23 +67,23 @@
   cursor: not-allowed;
 }
 
-.contact__form .wpcf7-spinner {
+.wpcf7-form .wpcf7-spinner {
   margin: 0;
 }
 
 /* Walidacja pól */
-.contact__form .wpcf7-not-valid {
+.wpcf7-form .wpcf7-not-valid {
   border-color: var(--color-accent);
 }
 
-.contact__form .wpcf7-not-valid-tip {
+.wpcf7-form .wpcf7-not-valid-tip {
   margin-top: 6px;
   font-size: 13px;
   color: var(--color-accent);
 }
 
 /* Komunikat po wysyłce (wygląd jak .form__status) */
-.contact__form .wpcf7-response-output {
+.wpcf7-form .wpcf7-response-output {
   order: 3;
   margin: 0 !important;
   padding: 10px 14px !important;
@@ -95,11 +95,20 @@
   color: var(--color-accent);
 }
 
-.contact__form.sent .wpcf7-response-output {
+.wpcf7-form.sent .wpcf7-response-output {
   background: rgba(38, 138, 76, 0.12);
   color: #1e7a43;
 }
 
-.contact__form .wpcf7-response-output:empty {
+.wpcf7-form .wpcf7-response-output:empty {
   display: none;
+}
+
+/* Popup: pole select ze strzałką jak w motywie, liczba bez strzałek przeglądarki */
+.modal__form select.form__input {
+  cursor: pointer;
+}
+
+.modal__form .wpcf7-response-output {
+  margin-top: -4px !important;
 }
