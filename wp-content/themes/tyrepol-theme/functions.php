@@ -106,6 +106,9 @@ function tyrepol_assets() {
     wp_enqueue_style('tyrepol-google-font', 'https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap', [], null);
     wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11');
     wp_enqueue_style('tyrepol-style', TYREPOL_URI . '/assets/style.css', ['swiper'], $style_ver);
+    // Style formularza Contact Form 7 (strona Kontakt)
+    $cf7_path = TYREPOL_DIR . '/assets/cf7.css';
+    wp_enqueue_style('tyrepol-cf7', TYREPOL_URI . '/assets/cf7.css', ['tyrepol-style'], file_exists($cf7_path) ? filemtime($cf7_path) : TYREPOL_VERSION);
 
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);
     wp_enqueue_script('tyrepol-script', TYREPOL_URI . '/assets/script.js', ['swiper'], $script_ver, true);
@@ -240,3 +243,6 @@ add_action('pre_get_posts', function ($query) {
  * Editor” (patrz pliki w /acf-json), więc domyślny edytor Gutenberga nie miesza się z polami.
  * Strony proste (polityka-*) korzystają ze zwykłego edytora WordPress bez zmian.
  */
+
+/* Contact Form 7: wyłączenie automatycznych <p> i <br>, żeby układ formularza był taki sam jak w motywie. */
+add_filter('wpcf7_autop_or_not', '__return_false');

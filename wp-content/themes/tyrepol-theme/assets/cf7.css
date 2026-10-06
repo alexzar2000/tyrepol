@@ -1,0 +1,105 @@
+/* ===== Contact Form 7: dopasowanie do wyglądu formularza motywu (strona Kontakt) ===== */
+.contact__form-wrap .wpcf7 {
+  width: 100%;
+}
+
+.contact__form .wpcf7-form-control-wrap {
+  display: block;
+}
+
+.contact__form .form__input,
+.contact__form .form__textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Zgoda RODO (pole acceptance) */
+.contact__form .wpcf7-acceptance .wpcf7-list-item {
+  margin: 0;
+}
+
+.contact__form .wpcf7-acceptance label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.contact__form .wpcf7-acceptance input[type="checkbox"] {
+  margin-top: 4px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.contact__form .wpcf7-list-item-label {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.contact__form .wpcf7-list-item-label a {
+  color: var(--color-black);
+  text-decoration: underline;
+}
+
+.contact__form .wpcf7-list-item-label a:hover {
+  color: var(--color-accent);
+}
+
+/* Cloudflare Turnstile: nad przyciskiem, a nie na górze formularza */
+.contact__form .wpcf7-turnstile {
+  order: 1;
+}
+
+/* Przycisk wysyłki + kręciołek ładowania */
+.contact__form .form__actions {
+  order: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact__form input.form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact__form .wpcf7-spinner {
+  margin: 0;
+}
+
+/* Walidacja pól */
+.contact__form .wpcf7-not-valid {
+  border-color: var(--color-accent);
+}
+
+.contact__form .wpcf7-not-valid-tip {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-accent);
+}
+
+/* Komunikat po wysyłce (wygląd jak .form__status) */
+.contact__form .wpcf7-response-output {
+  order: 3;
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  border: 0 !important;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(159, 29, 53, 0.1);
+  color: var(--color-accent);
+}
+
+.contact__form.sent .wpcf7-response-output {
+  background: rgba(38, 138, 76, 0.12);
+  color: #1e7a43;
+}
+
+.contact__form .wpcf7-response-output:empty {
+  display: none;
+}

@@ -86,39 +86,15 @@ $socials = [
         ?>
       </div>
 
-      <!-- <?php echo do_shortcode('[contact-form-7 id="d06def1" title="Contact form 1"]'); ?> -->
-
-      <form class="contact__form reveal" id="contact-form" method="post">
-        <input type="hidden" name="form_type" value="kontakt">
-        <div class="form__honeypot" aria-hidden="true">
-          <label for="contact-website"><?php tyrepol_esc_html_e('Strona internetowa', 'Website'); ?></label>
-          <input type="text" id="contact-website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="contact-email"><?php tyrepol_esc_html_e('E-mail', 'Email'); ?> *</label>
-          <input class="form__input" type="email" id="contact-email" name="email" required>
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="contact-phone"><?php tyrepol_esc_html_e('Telefon', 'Phone'); ?></label>
-          <input class="form__input" type="tel" id="contact-phone" name="phone">
-        </div>
-
-        <div class="form__group">
-          <label class="form__label" for="contact-message"><?php tyrepol_esc_html_e('Wiadomość', 'Message'); ?></label>
-          <textarea class="form__textarea" id="contact-message" name="message" rows="5"></textarea>
-        </div>
-
-        <div class="form__group form__group--checkbox">
-          <input class="form__checkbox" type="checkbox" id="contact-rodo" name="rodo" required>
-          <label class="form__checkbox-label" for="contact-rodo"><?php echo wp_kses_post(tyrepol_strip_wrapping_p(tyrepol_opt('tekst_zgody_rodo', tyrepol_t('Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłane zapytanie, zgodnie z Polityką prywatności.', 'I agree to the processing of my personal data in order to receive a reply to my enquiry, in accordance with the Privacy Policy.')))); ?> *</label>
-        </div>
-
-        <p class="form__status" id="contact-form-status" role="status" aria-live="polite" hidden></p>
-
-        <button class="form__submit" type="submit"><?php tyrepol_esc_html_e('Wyślij', 'Send'); ?></button>
-      </form>
+      <?php
+      // WP: formularz z wtyczki Contact Form 7 (osobny formularz dla PL i EN).
+      // Klasy pól (form__input, form__submit itd.) są nadane w szablonie formularza w CF7.
+      // Po utworzeniu angielskiej wersji formularza wpisz jej ID jako drugi argument.
+      $cf7_id = tyrepol_t('d06def1', 'd06def1');
+      ?>
+      <div class="contact__form-wrap reveal">
+        <?php echo do_shortcode('[contact-form-7 id="' . esc_attr($cf7_id) . '" html_class="contact__form"]'); ?>
+      </div>
 
     </div>
 
