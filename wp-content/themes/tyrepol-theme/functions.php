@@ -250,6 +250,7 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 /* Weryfikacja Google Search Console */
 add_action('template_redirect', function () {
     if (trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'googlefbeb77e69c67139e.html') {
+        status_header(200);
         header('Content-Type: text/html; charset=UTF-8');
         echo 'google-site-verification: googlefbeb77e69c67139e.html';
         exit;
