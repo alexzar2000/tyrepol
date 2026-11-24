@@ -246,3 +246,12 @@ add_action('pre_get_posts', function ($query) {
 
 /* Contact Form 7: wyłączenie automatycznych <p> i <br>, żeby układ formularza był taki sam jak w motywie. */
 add_filter('wpcf7_autop_or_not', '__return_false');
+
+/* Weryfikacja Google Search Console */
+add_action('template_redirect', function () {
+    if (trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'googlefbeb77e69c67139e.html') {
+        header('Content-Type: text/html; charset=UTF-8');
+        echo 'google-site-verification: googlefbeb77e69c67139e.html';
+        exit;
+    }
+});
