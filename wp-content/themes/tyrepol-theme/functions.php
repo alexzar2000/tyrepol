@@ -256,3 +256,17 @@ add_action('template_redirect', function () {
         exit;
     }
 });
+
+/* Google Analytics 4 */
+add_action('wp_head', function () {
+    if (is_admin()) return;
+    ?>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1Q9XRKK7SY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1Q9XRKK7SY');
+    </script>
+    <?php
+}, 2);
