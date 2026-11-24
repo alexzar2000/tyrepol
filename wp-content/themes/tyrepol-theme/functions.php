@@ -270,3 +270,19 @@ add_action('wp_head', function () {
     </script>
     <?php
 }, 2);
+
+/* Konwersja GA4: wysłanie formularza CF7 */
+add_action('wp_footer', function () {
+    if (is_admin()) return;
+    ?>
+    <script>
+      document.addEventListener('wpcf7mailsent', function (e) {
+        if (typeof gtag !== 'function') return;
+        gtag('event', 'generate_lead', {
+          form_id: e.detail.contactFormId,
+          page_path: location.pathname
+        });
+      }, false);
+    </script>
+    <?php
+}, 99);
